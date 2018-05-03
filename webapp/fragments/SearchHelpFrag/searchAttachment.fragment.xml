@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<SelectDialog noDataText="No Data" title="{i18n>/titleAttachmentNo}" search="handleSearch" confirm="handleAttchDcoConfirm"
+		cancel="handleHelpClose" items="{docModel>/results}">
+		<StandardListItem title="{docModel>DocumentNumber}"></StandardListItem>
+	</SelectDialog>
+</core:FragmentDefinition>

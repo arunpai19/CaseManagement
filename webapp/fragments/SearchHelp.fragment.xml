@@ -1,0 +1,6 @@
+<core:FragmentDefinition id="SearchFrag" xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="No Data" title="{titleModel>/title}" liveChange="handleSearch" confirm="handleHelpConfirm"
+		cancel="handleHelpClose" items="{ValueHelpModel>/results}">
+		<StandardListItem title="{ValueHelpModel>Value}" description="{ValueHelpModel>Description}"></StandardListItem>
+	</SelectDialog>
+</core:FragmentDefinition>

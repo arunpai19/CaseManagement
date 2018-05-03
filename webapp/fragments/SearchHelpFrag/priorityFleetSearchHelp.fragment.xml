@@ -1,0 +1,9 @@
+<core:FragmentDefinition id="SearchFrag" xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog title="{i18n>titlePriority}" noDataText="No Data" search="wildSearch" confirm="handleHelpConfirm" cancel="handleHelpClose"
+		items="{path : '/SearchHelpSet', filters: [{ path: 'FieldName', operator:'EQ', value1: 'PRIORITY'},{ path: 'Param2', operator:'EQ', value1: 'F'}] }">
+		<StandardListItem title="{Value}" description="{Description}"></StandardListItem>
+		<customData>
+			<core:CustomData key="F" value="PRIORITY"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

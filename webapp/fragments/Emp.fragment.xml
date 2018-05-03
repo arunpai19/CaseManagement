@@ -1,0 +1,269 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns="sap.m" xmlns:u="sap.ui.unified">
+	<VBox>
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<f:content>
+				<Label/>
+				<l:VerticalLayout>
+					<CheckBox enabled="false" id="BaseEmpEmp" selected="{checkBoxModel>/Emp}" text="Naval Base Physical Asset Change - EMP"/>
+					<CheckBox enabled="false" id="baseEmpTaf" text="Naval Base Physical Asset Change - TAF"/>
+				</l:VerticalLayout>
+				<Label text="Sub Type"/>
+				<Text text="{valueModel>/SubType}" width="15rem" id="subTypeText"/>
+				<Label text="Category"/>
+				<Text text="{valueModel>/Category}" width="15rem" id="categoryText"/>
+				<Label text="Asset Number - Func"/>
+				<Text text="{valueModel>/AssetNumber}" id="assetText" width="15rem"/>
+				<Label/>
+				<CheckBox id="empNewProject" text="New Project" visible="false"/>
+				<core:Title></core:Title>
+				<Label></Label>
+				<Text></Text>
+				<Label text="StartDate"/>
+				<DatePicker dateValue="{FieldDataModel>/StartDate}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</DatePicker>
+				<Label text="EndDate"/>
+				<DatePicker dateValue="{FieldDataModel>/EndDate}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</DatePicker>
+				<Label text="Fund. release date "/>
+				<DatePicker dateValue="{FieldDataModel>/FundReleaseDate}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</DatePicker>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<f:content>
+				<Label/>
+				<Text/><Label/>
+				<Text class="sapUiTinyMarginBottom"/>
+				<Label text="Asset n. Equip"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" id="AssetEquiq" valueHelpRequest="handleValueHelpAssetNo">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/AssetEquip}" value="AssetEquiq"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="CR Title"/>
+				<Input value="{FieldDataModel>/CrTitle}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="Description"/>
+				<TextArea value="{FieldDataModel>/Description}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</TextArea>
+				<Label text="Project Manger"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPrjMng" id="projectManager">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/ProjectManager}" value="projectManager"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="EMP Priority"/>
+				<ComboBox change="setNull" selectedKey="{FieldDataModel>/EmpPriority}" items="{path: 'dropDown>/EmpPriority'}">
+					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</ComboBox>
+				<Label text="Funding Stream"/>
+				<ComboBox change="setNull" selectedKey="{FieldDataModel>/FundingStream}" items="{path: 'dropDown>/FundingStream'}">
+					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</ComboBox>
+				<Label text="Legacy Project n"/>
+				<Input value="{FieldDataModel>/LegacyProjectNum}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="Legacy Activity n"/>
+				<Input value="{FieldDataModel>/LegacyActivityNum}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="Approval Template"/>
+				<ComboBox change="setNull" selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
+					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</ComboBox>
+				<core:Title></core:Title>
+				<Label text="Raised By"/>
+				<Input value="{FieldDataModel>/RaisedBy}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="Client"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpClient" id="client">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/Client}" value="Client"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label/>
+				<Text class="sapUiSmallMarginBottom"/>
+				<Label/>
+				<Text class="sapUiTinyMarginBottom"/>
+				<Label text="Program Manager"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpProgMng" id="programManager">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/ProgrammeManager}" value="programManager"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="Planned MOD Yr"/>
+				<DatePicker value="{FieldDataModel>/PlannedModYear}" valueFormat="YYYY" displayFormat="YYYY">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</DatePicker>
+			</f:content>
+		</f:SimpleForm>
+		<Title class=" panelListAlign" text="Costs" titleStyle="H1"/>
+		<Toolbar class=" toolSpacing panelListAlign" width="60rem"></Toolbar>
+		<HBox width="60rem" justifyContent="SpaceBetween" alignItems="Center" class="sapUiLargeMarginTop panelListAlign">
+			<Title class="sapUiSmallMarginTop" text="Costed Proposal" titleStyle="H3"/>
+			<ComboBox change="currencyChange" selectedKey="{FieldDataModel>/Currency}" items="{path: 'dropDown>/Curr'}">
+				<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/></ComboBox>
+		</HBox>
+		<Toolbar height="0.1rem" class="panelListAlign" width="60rem"></Toolbar>
+		<Table class="sapUiLargeMarginBottom panelListAlign" width="60rem">
+			<columns>
+				<Column hAlign="Center">
+					<Text text=""/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Material cost"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Sub. Cons."/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Labour Cost"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Disbursement"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Total"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<Text text="FML"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/MaterialCostsFML}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/SubConsCostsFML}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/LabourCostsFML}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/DisbursementCostsFML}"/>
+					<Input type="Number" editable="false" value="{FieldDataModel>/TotalFML}"/>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text="Costed Proposal"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/MaterialCostsProp}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/SubConsCostsProp}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/LabourCostsProp}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/DisbursementCostsProp}"/>
+					<Input type="Number" editable="false" value="{FieldDataModel>/TotalProp}"/>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text="Live Forecast"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/MaterialCostsLive}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/SubConsCostsLive}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/LabourCostsLive}"/>
+					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/DisbursementCostsLive}"/>
+					<Input type="Number" editable="false" value="{FieldDataModel>/TotalLive}"/>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text=" Variants"/>
+					<Text/>
+					<Text/>
+					<Text/>
+					<Text/>
+					<u:Currency id="variantTotal" useSymbol="true"/>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<FlexBox class="panelListAlign" width="60rem" direction="Column" justifyContent="Center">
+			<Title titleStyle="H1" class="sapUiSmallMarginBottom" text="Links"/>
+			<Toolbar class="toolbaradjust"/>
+			<Panel>
+				<headerToolbar>
+					<Toolbar height="2rem">
+						<Title titleStyle="H3" text="CR. Linked"/>
+						<ToolbarSpacer/>
+						<core:Icon alt="CR" src="sap-icon://add" press="addItemToList"/>
+					</Toolbar>
+				</headerToolbar>
+				<List mode="Delete" delete="deleteListItem" noDataText="Drop list items here" items="{crModel>/}">
+					<items>
+						<CustomListItem>
+							<content>
+								<l:HorizontalLayout>
+									<Text text="{crModel>CrNotification}" width="8rem"/>
+									<ToolbarSpacer width="10rem"/>
+									<Text text="{crModel>Type}" width="7rem"/>
+									<ToolbarSpacer width="16rem"/>
+									<Text text="{crModel>Description}" width="12rem"/>
+									<ToolbarSpacer width="2.4rem"/>
+								</l:HorizontalLayout>
+							</content>
+						</CustomListItem>
+					</items>
+				</List>
+			</Panel>
+			<Panel>
+				<headerToolbar>
+					<Toolbar height="2rem">
+						<Title titleStyle="H3" text="Quotations"/>
+						<ToolbarSpacer/>
+						<core:Icon alt="Quotation" src="sap-icon://add" press="addItemToList"/>
+					</Toolbar>
+				</headerToolbar>
+				<content>
+					<List mode="Delete" delete="deleteListItem" items="{quotationModel>/}" noDataText="Drop list items here">
+						<items>
+							<CustomListItem>
+								<content>
+									<l:HorizontalLayout>
+										<Text text="{quotationModel>Quotation}" width="8rem"/>
+										<ToolbarSpacer width="29rem"/>
+										<Text text="{quotationModel>Description}" width="16rem"/>
+										<ToolbarSpacer width="2.4rem"/>
+									</l:HorizontalLayout>
+								</content>
+							</CustomListItem>
+						</items>
+					</List>
+				</content>
+			</Panel>
+		</FlexBox>
+	</VBox>
+</core:FragmentDefinition>

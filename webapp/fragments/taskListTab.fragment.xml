@@ -1,0 +1,55 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
+	<!--This will be covered in the next phase of development-->
+	<Table 
+		inset="false"
+		>
+		<headerToolbar>
+			<Toolbar>
+				<content>
+					<Title text="Task List" level="H2"/>
+					<ToolbarSpacer />
+					<core:Icon visible = "{= !${detailView>/edit} }"  src="sap-icon://add"/>
+				</content>
+			</Toolbar>
+		</headerToolbar>
+		<columns>
+			<Column
+				width="12em">
+				<Label text="Item No."/>
+			</Column>
+			<Column
+				minScreenWidth="Tablet"
+				demandPopin="true">
+				<Label text="Description"/>
+			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="End">
+				<Label text="Proj. ID"/>
+			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Label text="Class"/>
+			</Column>
+			<Column
+				hAlign="End">
+				<Label text="Planned Cost"/>
+			</Column>
+			<Column
+				hAlign="End">
+				<Label text="Actual Cost"/>
+			</Column>
+			<Column
+				hAlign="End">
+				<Label text="Planned Hours"/>
+			</Column>		
+			<Column
+				hAlign="End">
+			<Label text="Actual Hours"/>
+			</Column>			
+		</columns>
+	</Table>	
+	</core:FragmentDefinition>

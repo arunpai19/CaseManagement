@@ -1,0 +1,114 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
+	<Dialog title="ADD STEP" contentHeight= "300px">
+		<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
+			<items>
+				<IconTabFilter text="{i18n>addCustTxt}" key="customTemplate">
+					<f:SimpleForm id = "formCustomStep" editable="true" layout="ResponsiveGridLayout" singleContainerFullSize="false" columnsXL="3" columnsL="2" columnsM="1" labelSpanXL="2"
+						labelSpanL="2" labelSpanM="4">
+						<core:Title text="{i18n>inpFieldTxt}"/>
+						<Label text="{i18n>stepNameTxt}">
+							<layoutData>
+								<l:GridData span="XL4 L2 M4 S4"/>
+							</layoutData>
+						</Label>
+						<Input id="inpStepNo" value = "{customTempModel>/stepNo}" maxLength = "4" type = "Number">
+							<customData>
+								<core:CustomData key="{customTempModel>/stepNo}" value="stepNo"/>
+							</customData>
+							<layoutData>
+								<l:GridData span="XL3 L4 M6 S6"/>
+							</layoutData>
+						</Input>
+						<Label text="{i18n>descTxt}">
+							<layoutData>
+								<l:GridData span="XL2 L2 M4 S4"/>
+							</layoutData>
+						</Label>
+						<Input id = "inpStepDesc" value = "{customTempModel>/stepDesc}">
+							<layoutData>
+								<l:GridData span="XL3 L4 M6 S6"/>
+							</layoutData>
+						</Input>
+					    <Label text="{i18n>partTypeTxt}">
+							<layoutData>
+								<l:GridData span="XL2 L2 M4 S4"/>
+							</layoutData>
+						</Label>
+						<ComboBox  id="cbPartType" selectedKey="{customTempModel>/partType}" items="{path: 'dropDown>/PartnerType'}">
+						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+							<layoutData>
+								<l:GridData span="XL3 L4 M6 S6"/>
+							</layoutData>
+						</ComboBox>	
+						<Label text="{i18n>grpIdTxt}">
+							<layoutData>
+								<l:GridData span="XL2 L2 M4 S4"/>
+							</layoutData>
+						</Label>
+						<Input id="inpGroupId" value = "{customTempModel>/groupId}" showValueHelp="true" valueHelpRequest="handleValueHelpGroupId">
+							<customData>
+								<core:CustomData key="{customTempModel>/groupId}" value="groupId"/>
+							</customData>
+							<layoutData>
+								<l:GridData span="XL3 L4 M6 S6"/>
+							</layoutData>
+						</Input>
+	
+						<Label text="{i18n>grpDescTxt}">
+							<layoutData>
+								<l:GridData span="XL2 L2 M4 S4"/>
+							</layoutData>
+						</Label>
+						<Input  id = "inpGroupDesc"  value = "{customTempModel>/groupDesc}">
+							<layoutData>
+								<l:GridData span="XL3 L4 M6 S6"/>
+							</layoutData>
+						</Input>
+						<Label text="{i18n>noteTxt}">
+							<layoutData>
+								<l:GridData span="XL2 L2 M4 S4"/>
+							</layoutData>
+						</Label>
+						<TextArea id = "textAreaCustomNotes" rows = "4" value = "{customTempModel>/notes}">
+							<layoutData>
+								<l:GridData span="XL3 L4 M6 S6"/>
+							</layoutData>
+						</TextArea>
+					</f:SimpleForm>
+				</IconTabFilter>
+				<IconTabFilter text="{i18n>addFromTempTxt}" key="stdTemplate">
+					<VBox>
+						<Title text="{i18n>chooseTempTxt}"/>
+						<ComboBox id = "approvalTemplateDropDown" width = "95%" items="{path: 'dropDown>/ApprovalTemplate'}" change = "onChangeApprovalTemplate">
+							<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+						</ComboBox>
+					</VBox>
+				<Table id = "approvalTemplate" mode = "MultiSelect" inset="false" items="{/results}">
+					<columns>
+						<Column width="40%">
+							<Label text="{i18n>StepNoTxt}"/>
+						</Column>
+						<Column width="40%">
+							<Label text="{i18n>actionTxt}"/>
+						</Column >
+						<Column ></Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{Step}"/>
+								<Text text="{Action}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>					
+				</IconTabFilter>
+			</items>
+		</IconTabBar>
+		<buttons>
+			<Button text="{i18n>addBtn}" type="Emphasized" press="addApprovalDialog"/>
+			<Button text="{i18n>clrBtn}" press="clearApprovalDialog"/>
+			<Button text="{i18n>cancelBtn}" press="cancelApprovalDialog"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

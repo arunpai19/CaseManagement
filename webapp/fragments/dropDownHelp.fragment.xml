@@ -1,0 +1,18 @@
+<core:FragmentDefinition id="SearchFrag" xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog>
+		<HBox class = "sapUiSmallMarginBegin sapUiSmallMarginEnd">
+			<Label class="sapUiSmallMarginTop sapUiSmallMarginEnd" id="dropLabel"></Label>
+			<ComboBox id="notifValueData" items="{path: 'dropDown>/addField'}">
+				<core:Item key="{dropDown>Description}" text="{dropDown>Value}"/>
+			</ComboBox>
+		</HBox>
+		<beginButton>
+			<Button text="Ok" id="okButton" press="setValToList">
+				<customData>
+					<core:CustomData value=""/>
+				</customData>
+			</Button>
+		</beginButton>
+		<endButton><Button text="Exit" press="cancelItemDialog"/></endButton>
+	</Dialog>
+</core:FragmentDefinition>

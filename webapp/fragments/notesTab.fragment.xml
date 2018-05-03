@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<VBox id="detail" items="{detailModel>/Notes/results}">
+		<Panel expandable="false">
+			<headerToolbar>
+			<Toolbar height="3rem">
+				<Title text="{detailModel>StepKey}. Notes">
+					<customData>
+						<core:CustomData key="textDecorationNotes" value="{= ${detailModel>textDecoration} === 'true' ? 'true'  : '' }" writeToDom="true"/>
+					</customData>
+				</Title>
+				<ToolbarSpacer/>
+				<OverflowToolbarButton enabled = "{= !${detailView>/edit} }" type="Transparent" icon="sap-icon://add" press="onAddNewNotes"/>
+			</Toolbar>
+		</headerToolbar>
+			<content>
+				<Text text = "{detailModel>NotesText}" />
+			</content>
+		</Panel>
+	</VBox>
+</core:FragmentDefinition>

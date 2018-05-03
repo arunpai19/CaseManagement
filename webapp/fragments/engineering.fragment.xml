@@ -1,0 +1,159 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns="sap.m">
+	<VBox>
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<f:content>
+				<Label/>
+				<CheckBox selected="{checkBoxModel>/Eng}" id="engCheck" text="Engineering"/>
+				<Label text="Sub Type"/>
+				<Text text="{valueModel>/SubType}" wrapping="true" width="15rem" id="subTypeText"/>
+				<Label text="Category"/>
+				<Text text="{valueModel>/Category}" width="15rem" wrapping="true" id="categoryText"/>
+				<Label text="Project ID"/>
+				<Text text="{valueModel>/Project}" width="15rem" wrapping="true" id="projectText"/>
+				<Label/>
+				<CheckBox id="newProject" text="New Project" visible="false"/>
+				<CheckBox id="unknownProject" text="Project Unknown" visible="false"/>
+				<core:Title></core:Title>
+				<Label text="StartDate"/>
+				<DatePicker dateValue="{FieldDataModel>/StartDate}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</DatePicker>
+				<Label text="EndDate"/>
+				<DatePicker dateValue="{FieldDataModel>/EndDate}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</DatePicker>
+				<Label text="Target Finish Date"/>
+				<DatePicker dateValue="{FieldDataModel>/TargetFinishDate}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</DatePicker>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<f:content>
+				<Label></Label>
+				<Text></Text>
+				<Label></Label>
+				<Text></Text>
+				<Label text="Priority"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPriorityE" id="engPriority">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/Priority}" value="engPriority"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="CrTitle"/>
+				<Input value="{FieldDataModel>/CrTitle}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="Description"/>
+				<TextArea value="{FieldDataModel>/CrDescriptionAndJustification}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</TextArea>
+				<Label text="ITAR Control Level"/>
+				<ComboBox change="setNull" selectedKey="{FieldDataModel>/ItarControlLevel}" items="{path: 'dropDown>/Itar'}">
+					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</ComboBox>
+				<Label text="Approval Template"/>
+				<ComboBox change="setNull" selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
+					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</ComboBox>
+				<Label/>
+				<Text text="Work Status"></Text>
+				<Label/>
+				<l:VerticalLayout>
+					<CheckBox id="engNotCheck" text="Not Started"/>
+					<CheckBox id="engStartedCheck" text="Started"/>
+					<CheckBox id="engCompleteCheck" text="Complete"/>
+				</l:VerticalLayout>
+				<core:Title></core:Title>
+				<Label text="Raised By"/>
+				<Input value="{FieldDataModel>/RaisedBy}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="Task Number"/>
+				<Input value="{FieldDataModel>/TaskNumber}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+			</f:content>
+		</f:SimpleForm>
+		<FlexBox class="panelListAlign" width="60rem" direction="Column" justifyContent="Center">
+			<Title titleStyle="H1" class="sapUiSmallMarginBottom" text="Links"/>
+			<Toolbar class="toolbaradjust"/>
+			<Panel>
+				<headerToolbar>
+					<Toolbar height="2rem">
+						<Title titleStyle="H3" text="Attachment"/>
+						<ToolbarSpacer/>
+						<core:Icon alt="Attachment" src="sap-icon://add" press="addEngAttachment"/>
+					</Toolbar>
+				</headerToolbar>
+				<List mode="Delete" delete="deleteListItem" noDataText="Drop list items here" items="{engAttachModel>/}">
+					<items>
+						<CustomListItem>
+							<content>
+								<l:HorizontalLayout>
+									<Text text="{engAttachModel>DocumentType}" width="5rem"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{engAttachModel>DocumentNumber}" width="6rem"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{engAttachModel>DocumentVersion}" width="3rem"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{engAttachModel>DocumentPart}" width="3rem"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{engAttachModel>Description}" width="13.4rem"/>
+									<ToolbarSpacer width="2.4rem"/>
+								</l:HorizontalLayout>
+							</content>
+						</CustomListItem>
+					</items>
+				</List>
+			</Panel>
+			<Panel>
+				<headerToolbar>
+					<Toolbar height="2rem">
+						<Title titleStyle="H3" text="Quotation"/>
+						<ToolbarSpacer/>
+						<core:Icon alt="Quotation" src="sap-icon://add" press="addItemToList"/>
+					</Toolbar>
+				</headerToolbar>
+				<List mode="Delete" delete="deleteListItem" noDataText="Drop list items here" items="{quotationModel>/}">
+					<items>
+						<CustomListItem>
+							<content>
+								<l:HorizontalLayout>
+									<Text text="{quotationModel>Quotation}" width="8rem"/>
+									<ToolbarSpacer width="29rem"/>
+									<Text text="{quotationModel>Description}" width="16rem"/>
+									<ToolbarSpacer width="2.4rem"/>
+								</l:HorizontalLayout>
+							</content>
+						</CustomListItem>
+					</items>
+				</List>
+			</Panel>
+		</FlexBox>
+	</VBox>
+</core:FragmentDefinition>

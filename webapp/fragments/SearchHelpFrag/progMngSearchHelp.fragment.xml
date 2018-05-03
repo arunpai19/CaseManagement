@@ -1,0 +1,9 @@
+<core:FragmentDefinition id="SearchFrag" xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog title="{i18n>titleprogrammanager}" noDataText="No Data"  search="wildSearch" confirm="handleHelpConfirm"
+		cancel="handleHelpClose" items="{path : '/SearchHelpSet', filters: [{ path: 'FieldName', operator:'EQ', value1: 'PROGRAM_MANAGER'}] }">
+		<StandardListItem title="{Value}" description="{Description}"></StandardListItem>
+		<customData>
+			<core:CustomData value="PROGRAM_MANAGER"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

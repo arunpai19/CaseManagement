@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
+	<OverflowToolbar>
+		<Title text = "{i18n>workOrdTxt}"/>
+		<ToolbarSpacer/>
+		<core:Icon alt="WorkOrder" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="addItemToList"/>
+	</OverflowToolbar>
+		<Table inset="false" items="{detailModel>/WorkOrders/results}">
+			<columns>
+				<Column width="32%">
+					<Label text="{i18n>woNTxt}"/>
+				</Column>
+				<Column width="28%">
+					<Label text="{i18n>descTxt}"/>
+				</Column >
+				<Column width="28%">
+					<Label text="{i18n>typeTxt}"/>
+				</Column>
+				<Column visible = "{= !${detailView>/edit} }" >
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{detailModel>WorkOrder}"/>
+						<Text text="{detailModel>Description}"/>
+						<Text text="{detailModel>Type}"/>
+						<Button type="Transparent"  class = "iconDeleteColor" icon = "sap-icon://sys-cancel" press  = "onPressDeleteWorkOrder"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>	
+	</core:FragmentDefinition>

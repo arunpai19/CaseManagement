@@ -1,0 +1,181 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
+	<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
+		<items>
+			<IconTabFilter text="{i18n>crLinkedTxt}">
+				<Toolbar>
+					<Title text="{i18n>crLinkedTxt}"/>
+					<ToolbarSpacer/>
+					<core:Icon alt="CR" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="addItemToList"/>
+				</Toolbar>
+				<Table inset="false" items="{detailModel>/CRLinks/results}">
+					<columns>
+						<Column width="32%">
+							<Label text="{i18n>crLinkedTxt}"/>
+						</Column>
+						<Column width="28%">
+							<Label text="{i18n>prjIdtypeTxt}"/>
+						</Column >
+						<Column width="28%">
+							<Label text="{i18n>descTxt}"/>
+						</Column>
+						<Column visible = "{= !${detailView>/edit} }"></Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{detailModel>CrNotification}"/>
+								<Text text="{detailModel>Type}"/>
+								<Text text="{detailModel>Description}"/>
+								<Button type="Transparent"  class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteCRLinks"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>notifLinkedTxt}">
+				<Toolbar>
+					<Title text="{i18n>notifLinkedTxt}"/>
+					<ToolbarSpacer/>
+					<core:Icon alt="Notification" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="addItemToList"/>
+				</Toolbar>
+				<Table inset="false" items="{detailModel>/NotificationLinks/results}">
+					<columns>
+						<Column width="32%">
+							<Label text="{i18n>notifLinkedTxt}"/>
+						</Column>
+						<Column width="28%">
+							<Label text="{i18n>prjIdtypeTxt}"/>
+						</Column >
+						<Column width="28%">
+							<Label text="{i18n>descTxt}"/>
+						</Column>
+						<Column visible = "{= !${detailView>/edit} }" ></Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{detailModel>Notification}"/>
+								<Text text="{detailModel>Type}"/>
+								<Text text="{detailModel>Description}"/>
+								<Button type="Transparent" class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteNotifLink"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>				
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>pjEleTxt}">
+				<Toolbar>
+					<ComboBox id="drpdwnProjectEle">
+						<core:Item key="WBS" text="{i18n>wbsTxt}"/>
+						<core:Item key="Networks" text="{i18n>networksTxt}"/>
+						<core:Item key="NetworkAct" text="{i18n>netActTxt}"/>
+					</ComboBox>
+					<Text class="sapUiLargeMarginBegin"
+						text="{i18n>pjIdTxt} : {= ${detailModel>/FieldsDesc/ProjectDesc} === '' ? '-' : ${detailModel>/FieldsDesc/ProjectDesc}}"/>
+					<ToolbarSpacer/>
+					<core:Icon alt="projectElements" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="onAddProjectElements"/>
+				</Toolbar>
+				<Table inset="false" class="sapUiSmallMarginTop" items="{path : 'detailModel>/Projects/results', filters: [{ path: 'FieldId', operator: 'EQ', value1: 'ZZ_WBS'}] }">
+					<columns>
+						<Column width="40%">
+							<Label text="{i18n>wbsTxt}"/>
+						</Column>
+						<Column width="40%">
+							<Label text="{i18n>descTxt}"/>
+						</Column >
+						<Column width="20%" visible = "{= !${detailView>/edit} }">
+						</Column>
+						
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+									<Text text="{detailModel>Value}"/>
+								<Text text="{detailModel>Description}"/>
+								<Button type="Transparent" class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteProJElements"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>				
+				<Table inset="false" class="sapUiSmallMarginTop" items="{path : 'detailModel>/Projects/results', filters: [{ path: 'FieldId', operator: 'EQ', value1: 'ZZ_NWHEADER'}] }">
+					<columns>
+						<Column width="40%">
+							<Label text="{i18n>networksTxt}"/>
+						</Column>
+						<Column width="40%">
+							<Label text="{i18n>descTxt}"/>
+						</Column >
+						<Column width="20%" visible = "{= !${detailView>/edit} }">
+						</Column>
+						
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{detailModel>Value}"/>
+								<Text text="{detailModel>Description}"/>
+								<Button type="Transparent" class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteProJElements"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>				
+				<Table inset="false" class="sapUiSmallMarginTop" items="{path : 'detailModel>/Projects/results', filters: [{ path: 'FieldId', operator: 'EQ', value1: 'ZZ_NWA'}] }">
+					<columns>
+						<Column width="35%">
+							<Label text="{i18n>networksTxt}"/>
+						</Column>
+						<Column width="35%">
+							<Label text="{i18n>netActTxt}"/>
+						</Column>						
+						<Column width="40%">
+							<Label text="{i18n>descTxt}"/>
+						</Column >
+						<Column width="25%"  visible = "{= !${detailView>/edit} }" >
+						</Column>
+						
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{detailModel>Network}"/>
+								<Text text="{detailModel>Value}"/>
+								<Text text="{detailModel>Description}"/>
+								<Button type="Transparent" class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteProJElements"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>						
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>quotationTxt}">
+				<Toolbar>
+					<Title text="{i18n>quotationTxt}"/>
+					<Text class="sapUiLargeMarginBegin" text="Project Id : {= ${Project} === '' ? '-' : ${Project}}"/>
+					<ToolbarSpacer/>
+					<core:Icon alt="Quotation"  visible = "{= !${detailView>/edit} }"  src="sap-icon://add" press="addItemToList"/>
+				</Toolbar>
+				<Table inset="false" class="sapUiSmallMarginTop" items="{detailModel>/Quotations/results}">
+					<columns>
+						<Column width="40%">
+							<Label text="{i18n>quotationTxt}"/>
+						</Column>
+						<Column width="40%">
+							<Label text="{i18n>descTxt}"/>
+						</Column>						
+						<Column width="20%">
+						</Column>
+						<Column  visible = "{= !${detailView>/edit} }" ></Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{detailModel>Quotation}"/>
+								<Text text="{detailModel>Description}"/>
+								<Button type="Transparent" class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteQuotation"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>				
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
+</core:FragmentDefinition>

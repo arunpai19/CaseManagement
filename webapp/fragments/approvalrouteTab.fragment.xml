@@ -1,0 +1,86 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
+	<VBox>
+		<Toolbar>
+			<Title text="{i18n>apprRouteTxt}"/>
+			<DatePicker visible="{= !${detailView>/edit} }" class="sapUiMediumMarginBegin" displayFormat="dd.MM.yyyy" width="9rem" id="dpFromDate"
+				valueFormat="yyyy-MM-ddT00:00:00" change="handleAppRteTFromDateChange"/>
+			<DatePicker visible="{= !${detailView>/edit} }" class="sapUiSmallMarginBegin" displayFormat="dd.MM.yyyy" width="9rem" id="dpToDate"
+				valueFormat="yyyy-MM-ddT00:00:00" change="handleAppRteToDateChange"/>
+			<ToolbarSpacer/>
+			<Text/>
+			<Link text="{i18n>addStepTxt}" visible = "{= !${detailView>/edit} }" press="onAddApprovalRoute"/>
+		</Toolbar>
+		<Table id="apprRouteTable" inset="false" items="{detailModel>/ApprovalRoutes/results}" updateFinished="onUpdateFinishedApprovalRoute" >
+			<columns>
+				<Column width="4rem">
+					<Label text="{i18n>stepNoTxt}"/>
+				</Column>
+				<Column width="6rem">
+					<Label text="{i18n>actionTxt}"/>
+				</Column >
+				<Column width="6rem">
+					<Label text="{i18n>groupTxt}"/>
+				</Column>
+				<Column width="5rem">
+					<Label text="{i18n>manRelTxt}"/>
+				</Column>
+				<Column width="6rem">
+					<Label text="{i18n>statusTxt}"/>
+				</Column>
+				<Column width="3rem">
+					<Label text="{i18n>notesTxt}"/>
+				</Column>				
+				<Column width="5rem">
+					<Label text="{i18n>nameTxt}"/>
+				</Column>
+				<Column  width="9rem" visible = "{= ${detailView>/edit} }">
+					<Label text="{i18n>dateTxt}"/>
+				</Column>
+				<Column width="9rem"  visible = "{= !${detailView>/edit} }" hAlign="Center">
+					<Label text="{i18n>dateTxt}"/>
+				</Column>
+				<Column width="3rem"  visible = "{= !${detailView>/edit} }" hAlign="End"></Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{detailModel>Step}" class = "colorGreyed">
+							</Text>
+						<Text text="{detailModel>Action}" class="colorGreyed"/>
+						<Text text="{detailModel>Group}" class = "colorGreyed">
+						</Text>
+						<core:Icon src="sap-icon://action" class="sapUiTinyMarginEnd" visible="{= ${detailModel>RelFlag} === 'X' ? true : false }"
+							press="onPressManualRelease"/>
+						<HBox class="sapUiMediumMarginEnd">
+							<core:Icon src="sap-icon://decline" alt="RJCT" class="sapUiTinyMarginEnd"
+								visible="{path: 'detailModel>UserStatus', formatter: '.formatter.approvalRoutesStatusVisible'}"
+								color="{path: 'detailModel>UserStatus', formatter: '.formatter.approvalRoutesDecline'}" press="onStatusChange">
+							</core:Icon>
+							<core:Icon src="sap-icon://notification" alt="HOLD" class="sapUiTinyMarginEnd"
+								visible="{path: 'detailModel>UserStatus', formatter: '.formatter.approvalRoutesStatusVisible'}"
+								color="{path: 'detailModel>UserStatus', formatter: '.formatter.approvalRoutesNotification'}" press="onStatusChange">
+							</core:Icon>
+							<core:Icon src="sap-icon://accept" alt="APPV" class="sapUiTinyMarginEnd"
+								visible="{path: 'detailModel>UserStatus', formatter: '.formatter.approvalRoutesStatusVisible'}"
+								color="{path: 'detailModel>UserStatus', formatter: '.formatter.approvalRoutesAccept'}" press="onStatusChange">
+							</core:Icon>
+						</HBox>
+						<core:Icon color="{= ${detailModel>Status} === 'APPV' ? '#CCCCCC' : 'black' }"
+							src="{= ${detailModel>Process} === 'N' ? 'sap-icon://add' : 'sap-icon://notes' }"
+							tooltip="{= ${detailModel>Process} === 'N' ? 'Add Notes' : 'Edit Notes' }" press="onPressNotesFromRoutes"
+							class="cursorIcon sapUiTinyMarginEnd"></core:Icon>
+						<Text text="{detailModel>Name}"/>
+						<Text visible = "{= ${detailView>/edit} }" class = "colorGreyed" text=" {path: 'detailModel>Date', formatter: '.formatter.GWtoUIDateObject'}">
+						</Text>
+						<DatePicker visible = "{= !${detailView>/edit} }" enabled="{= ${detailModel>Status} === 'TSCO' ? false : true }"
+							value="{path: 'detailModel>Date', formatter: '.formatter.datepickerFormatter' }" 
+							change="handleApprovalRouteDateChange"></DatePicker>
+						<Button type="Transparent" visible="{= ${detailModel>Status} === 'TSCO' ? false : true }" class="iconDeleteColor"
+							icon="sap-icon://sys-cancel" press="onPressDeleteApproveRoutes"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+
+	</VBox>
+</core:FragmentDefinition>

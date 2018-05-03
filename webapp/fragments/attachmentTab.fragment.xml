@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout"  xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" id="SearchFrag">
+			<Panel>
+				<headerToolbar>
+					<Toolbar height="2rem">
+						<Title titleStyle="H3" text="{i18n>attachTxt}"/>
+						<ToolbarSpacer/>
+						<core:Icon id = "attachmentAddBtn" visible = "{= !${detailView>/edit} }"  alt="Attachment" src="sap-icon://add" press="addAttachment"/>
+					</Toolbar>
+				</headerToolbar>
+				<List id = "attachmentList" mode="None" delete="deleteListItem" noDataText="{i18n>nodataTxt}" items="{detailModel>/Attachments/results}">
+					<items>
+						<CustomListItem>
+							<content>
+								<l:HorizontalLayout>
+									<Link text="{detailModel>DocumentType}" width="3rem" press = "onPressAttachmentLink"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{detailModel>DocumentNumber}" width="6rem"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{detailModel>DocumentVersion}" width="3rem"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{detailModel>DocumentPart}" width="3rem"/>
+									<ToolbarSpacer width="5.4rem"/>
+									<Text text="{detailModel>Description}" width="10rem"/>
+									<ToolbarSpacer width="2rem"/>
+									<Button type="Transparent"  visible = "{= !${detailView>/edit} }" class = "iconDeleteColor" icon = "sap-icon://sys-cancel" press  = "deleteListItem"/>
+								</l:HorizontalLayout>
+							</content>
+						</CustomListItem>
+					</items>
+				</List>
+			</Panel>
+</core:FragmentDefinition>

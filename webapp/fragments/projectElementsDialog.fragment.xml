@@ -1,0 +1,41 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<Dialog title="{/title}" contentWidth = "300px">
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" singleContainerFullSize="false" columnsXL="2" columnsL="2"
+			labelSpanXL="2" labelSpanL="2" labelSpanM="1">
+			<Label text="{/projLinkHelpText}">
+				<layoutData>
+					<l:GridData span="XL2 L2 M3 S5"/>
+				</layoutData>
+			</Label>
+			<Input value = "{/projectElem}" showValueHelp="true" valueHelpRequest="handleValueHelpWBS">
+				<customData>
+					<core:CustomData value="projElementsText"/>
+				</customData>
+				<layoutData>
+					<l:GridData span="XL3 L4 M4 S7"/>
+				</layoutData>
+			</Input>
+			<Label text="Network Activites" visible = "{/networkVisible}">
+				<layoutData>
+					<l:GridData span="XL2 L2 M3 S5"/>
+				</layoutData>
+			</Label>
+			<Input value = "{/networkAct}" visible = "{/networkVisible}" showValueHelp="true" valueHelpRequest="handleValueHelpNetworkAct">
+				<customData>
+					<core:CustomData value="networkActivites"/>
+				</customData>
+				<layoutData>
+					<l:GridData span="XL3 L4 M4 S7"/>
+				</layoutData>
+			</Input>			
+		</f:SimpleForm>
+		<beginButton>
+			<Button text="Ok" press="pressOkProjectElementsDialog">
+				<customData>
+					<core:CustomData value="{/customValue}"/>
+				</customData>
+			</Button>
+		</beginButton>
+		<endButton><Button text="Exit" press="cancelProjectElementsDialog"/></endButton>
+	</Dialog>
+</core:FragmentDefinition>

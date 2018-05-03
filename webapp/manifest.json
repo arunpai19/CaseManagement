@@ -1,0 +1,170 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "zm209_chng_req",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		},
+		"dataSources": {
+			"ZGW_PM_CR_MGMT_SRV": {
+				"uri": "/sap/opu/odata/sap/ZGW_PM_CR_MGMT_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		}
+	},
+
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+
+		]
+	},
+
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "zm209_chng_req.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ushell": {},
+				"sap.collaboration": {},
+				"sap.ui.comp": {},
+				"sap.uxap": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "zm209_chng_req.i18n.i18n"
+				}
+			},
+			"": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultCountMode": "Inline",
+					"refreshAfterChange": "false"
+					
+				},
+				"dataSource": "ZGW_PM_CR_MGMT_SRV"
+			},
+			"NotifType": {
+				"type": "sap.ui.model.json.JSONModel"
+			}			
+		},
+		 "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "zm209_chng_req.view",
+                "controlId": "App",
+                "controlAggregation": "pages",
+                
+                "async": true
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "InitialScreen",
+                    "target": "InitialScreen",
+                    "targetControl": "App",
+                    "greedy": false
+                },
+                {
+                    "pattern": "NotificationHeaderSet-{Type}",
+                    "name": "master",
+                    "target": [
+                        "master"
+                    ],
+                    "targetControl": "idAppControl"
+                },
+                {
+                    "pattern": "NotificationHeaderSet-{Type}/{objectId}",
+                    "name": "object",
+                    "target": [
+                        "master",
+                        "object"
+                    ],
+                    "targetControl": "idAppControl"
+                }                
+            ],
+            "targets": {
+                "InitialScreen": {
+                    "viewName": "initialScreen",
+                    "viewId": "initialScreen",
+                    "targetControl": "App"
+                },
+                "splitApp": {
+                    "viewName": "SplitApp",
+                    "viewId": "SplitApp",
+                    "targetControl": "App"
+                },
+                "master": {
+                    "parent": "splitApp",
+                    "viewName": "Master",
+                    "viewLevel": 1,
+                    "viewId": "master",
+                    "controlAggregation": "masterPages",
+                    "controlId": "idAppControl"
+                },
+                "object": {
+                    "parent": "splitApp",
+                    "viewName": "Detail",
+                    "viewId": "detail",
+                    "viewLevel": 2,
+                    "controlAggregation": "detailPages",
+                    "controlId": "idAppControl"
+                },
+				"detailObjectNotFound": {
+					"parent": "splitApp",
+					"viewName": "DetailObjectNotFound",
+					"viewId": "detailObjectNotFound",
+					"controlAggregation": "detailPages",
+                    "controlId": "idAppControl"
+				}              
+
+            }
+        },
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		}
+	}
+}

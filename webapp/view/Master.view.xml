@@ -1,0 +1,72 @@
+<mvc:View controllerName="zm209_chng_req.controller.Master" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m"
+	xmlns:semantic="sap.m.semantic">
+	<semantic:MasterPage id="page" title="{masterView>/title}" navButtonPress="onNavBack" showNavButton="true">
+		<semantic:subHeader>
+			<Bar id="headerBar">
+				<contentMiddle>
+					<SearchField id="searchField" showRefreshButton="{= !${device>/support/touch} }" tooltip="{i18n>masterSearchTooltip}" width="100%"
+						liveChange="onLiveChange" search="onSearch"></SearchField>
+				</contentMiddle>
+			</Bar>
+		</semantic:subHeader>
+		<semantic:content>
+			<PullToRefresh id="pullToRefresh" visible="{device>/support/touch}" refresh="onRefresh"/>
+			<!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
+			<List id="list" items="{ path: '/NotificationHeaderSet'}" growing="true" growingScrollToLoad="true"
+			    growingThreshold ="50"
+				busy="{masterView>/busy}" busyIndicatorDelay="{masterView>/delay}" noDataText="{masterView>/noDataText}"
+				mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" updateFinished="onUpdateFinished" selectionChange="onSelectionChange">
+				<infoToolbar>
+					<Toolbar active="true" id="filterBar" visible="{masterView>/isFilterBarVisible}" press="onOpenViewSettings">
+						<Title id="filterBarLabel" text="{masterView>/filterBarLabel}"/>
+					</Toolbar>
+				</infoToolbar>
+				<items>
+					<CustomListItem type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}">
+						<VBox class="sapUiSmallMarginBegin">
+							<FlexBox class="sapUiSmallMarginTop sapUiSmallMarginEnd" alignItems="Start" justifyContent="SpaceBetween">
+								<items>
+								<Title level="H4" text="{NotifNumber}"/>
+								<Text class="sapUiSmallMarginBegin StatusFontColor" text="{NotifHeadStatus}"/>
+							</items>
+							</FlexBox>
+							<Text class="sapUiTinyMarginTop" text="{i18n>descText} {CrTitle}"/>
+							<Text class="sapUiTinyMarginTop" text="{i18n>createdByText} {FieldsDesc/RaisedByDesc}"/>
+							<HBox class="sapUiTinyMarginTop">
+								<Text text="{i18n>dateRaisedText}: "/>
+								<Text text="{ path: 'StartDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yy'} }"/>
+							</HBox>
+							<FlexBox class="sapUiSmallMarginTop sapUiTinyMarginBottom" alignItems="Start" justifyContent="SpaceBetween">
+								<items>
+									<Text text="{Task}" width = "12rem"/>
+									<HBox class="sapUiMediumMarginEnd">
+										<core:Icon src="sap-icon://decline" alt="RJCT" class="sapUiTinyMarginEnd cursorIcon"
+											visible="{path: 'Status', formatter: '.formatter.approvalRoutesStatusVisible'}"
+											color="{path: 'Status', formatter: '.formatter.approvalRoutesDecline'}" press="onStatusChange">
+										</core:Icon>
+										<core:Icon src="sap-icon://notification" alt="HOLD" class="sapUiTinyMarginEnd cursorIcon"
+											visible="{path: 'Status', formatter: '.formatter.approvalRoutesStatusVisible'}"
+											color="{path: 'Status', formatter: '.formatter.approvalRoutesNotification'}" press="onStatusChange">
+										</core:Icon>
+										<core:Icon src="sap-icon://accept" alt="APPV" class="sapUiTinyMarginEnd cursorIcon"
+											visible="{path: 'Status', formatter: '.formatter.approvalRoutesStatusVisible'}"
+											color="{path: 'Status', formatter: '.formatter.approvalRoutesAccept'}" press="onStatusChange">
+										</core:Icon>
+									</HBox>
+								</items>
+							</FlexBox>
+						</VBox>
+					</CustomListItem>
+				</items>
+			</List>
+		</semantic:content>
+		<semantic:sort>
+		</semantic:sort>
+		<semantic:filter>
+			<semantic:FilterAction press="onFilterPress"/>
+		</semantic:filter>
+		<semantic:addAction>
+			<semantic:AddAction press="onSemanticAddButtonPress"/>
+		</semantic:addAction>
+	</semantic:MasterPage>
+</mvc:View>

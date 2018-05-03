@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" id="SearchFrag">
+	<Dialog type="Standard">
+		<beginButton>
+			<Button text="Ok" id="okAttachButton" press="setAttachToList"></Button>
+		</beginButton>
+		<endButton><Button text="Exit" press="cancelAttachDialog"/></endButton>
+		<content>
+			<form:SimpleForm editable="true" layout="ResponsiveGridLayout" id="attachForm">
+				<form:content>
+					<Label text="Type" id="attachType"/>
+					<Input  width="100%" id="ipAttachType" showValueHelp="true" valueHelpRequest="handleValueHelpDocTyp">
+						<customData>
+							<core:CustomData key="{oAttachmentModel>/Type}" value="attachType"/>
+						</customData>
+					</Input>
+					<Label text="Number" id="attachNumber"/>
+					<Input value="{oAttachmentModel>/AttachNumber}" width="100%" id="ipAttachNumber" showValueHelp="true" valueHelpRequest="attachDocValueHelp">
+						<customData>
+							<core:CustomData value="attachNumber"/>
+						</customData>
+					</Input>
+					<Label text="Version" id="attachVersion"/>
+					<Input value="{oAttachmentModel>/AttachVersion}" width="100%" enabled="false" id="ipAttachVersion"/>
+					<Label text="Part" id="attachPart"/>
+					<Input value="{oAttachmentModel>/AttachPart}" width="100%" enabled="false" id="ipAttachPart"/>
+					<Label text="Description" id="attachDesciption"/>
+					<TextArea value="{oAttachmentModel>/AttachDesciption}" width="100%" enabled="false" id="txtAttachDesciption"/></form:content>
+			</form:SimpleForm>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

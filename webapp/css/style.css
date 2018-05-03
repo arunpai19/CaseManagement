@@ -1,0 +1,52 @@
+.alignBoxes {
+    margin-left: 16.3rem;
+}
+
+.buttonwidth >li {
+    border-right-width: 1px !important;
+    border-right-style: solid!important;
+    border-right-color: #bfbfbf!important;
+}
+
+.toolbaradjust {
+    margin-top: -3rem;
+}
+
+.panelListAlign {
+    margin-left: 5rem;
+}
+
+.toolSpacing {
+    margin-top: -3rem;
+}
+/*Master - Detail screen*/
+.floatRight{
+	float : right;
+}
+.StatusFontColor{
+color: #F9A429;
+}
+.marginBegin{
+	margin-left: 7rem;
+}
+.fontsize{
+	font-size : 0.85rem;
+}
+.iconDeleteColor>span>span{
+	color: red !important;
+}
+.cursorIcon{
+	cursor : pointer !important;
+}
+.colorGreyed{
+	color: #CCCCCC !important;
+}
+/*Hide Detail Navigation Button on Information Edit FUll Screen Mode*/
+.hideNavigation>div>div>div>div>button>span>span{
+	visibility: hidden;
+}
+
+div[data-textDecorationNotes="true"]{
+	text-decoration: underline;
+	color: red;
+}

@@ -1,0 +1,172 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<VBox>
+	<f:SimpleForm  editable="false" layout="ResponsiveGridLayout" title="CR N." labelSpanXL="4"
+		labelSpanL="4" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+		columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false">
+		<f:content>
+			<CheckBox text="Fleet"  enabled = "false" selected="true">
+				<layoutData>
+					<l:GridData span="XL4 L4 M12 S12" indentM="7"/>
+				</layoutData>
+			</CheckBox>
+			<Label text="{i18n>subTypeText}"/>
+			<Text text="{detailModel>/FieldsDesc/SubtypeDesc}"/>
+			<Label text="{i18n>categoryText}"/>
+			<Text text="{detailModel>/FieldsDesc/CategDesc}"/>
+			<Label text="{i18n>projIdText}"/>
+			<Text text="{detailModel>/FieldsDesc/ProjectDesc}"/>
+			<core:Title text=""/>
+			<Label text="{i18n>startDateText}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text text="{ path: 'detailModel>/StartDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yyyy'}, formatter: '.formatter.handleNull' }"></Text>
+			<Label text="{i18n>endDateText}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text text="{ path: 'detailModel>/EndDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yyyy'}, formatter: '.formatter.handleNull'  }">
+				<layoutData>
+					<l:GridData/>
+				</layoutData>
+			</Text>
+			<Label text=""></Label>
+			<Text text="">
+				<layoutData>
+					<l:GridData linebreak="true"/>
+				</layoutData>
+			</Text>
+		</f:content>
+	</f:SimpleForm>
+	<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="5" labelSpanS="12"
+		adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+		singleContainerFullSize="false">
+		<f:content>
+			<CheckBox text="{i18n>newProjText}" enabled = "false" selected="{= ${detailModel>/NewProject} === 'X' ? 'true' : 'false'}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M12 S12" indentM="7"/>
+				</layoutData>
+			</CheckBox>
+			<Label text="{i18n>facFlocText}"/>
+			<Text text="{detailModel>/FieldsDesc/FlocDesc}"/>
+			<Label text="CR {i18n>crTitleTxt}"/>
+			<Text text="{detailModel>/CrTitle}"/>
+			<core:Title text=""/>
+			<Label text="{i18n>raisedByTxt}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text text="{detailModel>/FieldsDesc/RaisedByDesc}"></Text>
+			<Label text="{i18n>compNameTxt}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text text="{detailModel>/CompartmentName}"/>
+		</f:content>
+	</f:SimpleForm>
+	<HBox width = "100%" height = "100%">
+		<Label text="{i18n>descText}" class="marginBegin"></Label>
+		<TextArea class="sapUiSmallMarginBegin"
+			editable = "false"
+			enabled = "false"
+			value="{detailModel>/Description}" rows = "5"
+			width="35rem"></TextArea>
+	</HBox>
+	<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="5" labelSpanS="12"
+		adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+		singleContainerFullSize="false">
+		<f:content>
+			<core:Title text=""/>
+			<Label text="{i18n>pjtManager}"/>
+			<Text text="{detailModel>/FieldsDesc/ProjManagerDesc}"/>
+			<Label text="{i18n>NotifText}"/>
+			<Text text="{detailModel>/FieldsDesc/PlanNotifDesc}"/>
+			<Label text="{i18n>tafRqd}"/>
+			<Text text="{detailModel>/FieldsDesc/TafReqDesc}"/>
+			<Label text="{i18n>prtyTxt}"/>
+			<Text text="{detailModel>/FieldsDesc/PriorityDesc}"/>
+			<Label text="{i18n>uniqNotxt}"/>
+			<Text text="{detailModel>/TaskNumber}"/>
+			<Label text="{i18n>accLevelTxt}"/>
+			<Text text="{detailModel>/FieldsDesc/AcceptanceDesc}"/>
+			<Label text="{i18n>enhanceFitTxt}"/>
+			<Text text="{detailModel>/FieldsDesc/EnhFitDesc}"/>
+			<Label text="{i18n>spclToolTxt}"/>
+			<Text text="{detailModel>/SpecialistTooling}"/>
+			<Label text="{i18n>tstPressTxt}"/>
+			<Text text="{detailModel>/TestPressures}"/>
+			<Label text="{i18n>apprTempTxt}"/>
+			<Text text="{detailModel>/FieldsDesc/ApprovalTempDesc}"/>
+			<core:Title text=""/>
+			<Label text="{i18n>pgmMangeTxt}">
+			<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" indentL="0" />
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/FieldsDesc/ProgManagerDesc} === '' ? '-' : ${detailModel>/FieldsDesc/ProgManagerDesc}}">
+				<layoutData>
+					<l:GridData span="XL4 L3 M3 S6"/>
+				</layoutData>
+			</Text>
+			<Label text="COM input">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" indentL="0" />
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/FieldsDesc/ComInputDesc} === '' || ${detailModel>/FieldsDesc/ComInputDesc} === undefined ? '-' : ${detailModel>/FieldsDesc/ComInputDesc}}">
+			</Text>
+			<Label text="COM / SS PoC">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/ComSspoc} === '' ? '-' : ${detailModel>/ComSspoc}}"/>
+			<Label text="CTR Number">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/CtrNumber} === '' ? '-' : ${detailModel>/CtrNumber}}"/>
+			<Label text="Store Provider">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/FieldsDesc/StoreProDesc} === '' ? '-' : ${detailModel>/FieldsDesc/StoreProDesc}}"/>
+			<Label text="ITAR control level">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/FieldsDesc/ItarCtlDesc} === '' ? '-' : ${detailModel>/FieldsDesc/ItarCtlDesc}}"/>
+			
+		</f:content>
+	</f:SimpleForm>
+	<l:Grid class = "sapUiMediumMarginTop" vSpacing="1" defaultSpan="L4 M6 S10">
+		<Label text="Health and Safety issues">
+			<layoutData>
+				<l:GridData span="XL10 L10 M12 S12" indentL="2"/>
+			</layoutData>
+		</Label>
+		<CheckBox text="Ship Hazards"  enabled = "false" selected="{= ${detailModel>/ShipHazard} === 'X' ? true : false}">
+			<layoutData>
+				<l:GridData span="XL3 L3 M12 S12" indentL="2"/>
+			</layoutData>
+		</CheckBox>
+		<CheckBox text="Confined Space"  enabled = "false" selected="{= ${detailModel>/ConfinedSpace} === 'X' ? true : false}">
+			<layoutData>
+				<l:GridData span="XL3 L3 M12 S12"/>
+			</layoutData>
+		</CheckBox>
+		<CheckBox text="Asbestos"  enabled = "false" selected="{= ${detailModel>/Asbestos} === 'X' ? true : false}">
+			<layoutData>
+				<l:GridData span="XL3 L3 M12 S12"/>
+			</layoutData>
+		</CheckBox>
+	</l:Grid>
+	</VBox>
+</core:FragmentDefinition>

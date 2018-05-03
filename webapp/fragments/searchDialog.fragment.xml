@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<SelectDialog id="idSearchDialog" noDataText="No Data" title="Personnel Id Search" liveChange="onLivePersonnelIdSearch"
+		confirm="handleClose" cancel="cancelclose" items="{ path: 'searchModel>/results'}">
+		<StandardListItem id="list1" title="{searchModel>Value}" press="onValueHelpItemPress" description="{searchModel>Description}" type="Active"/>
+	</SelectDialog>
+</core:FragmentDefinition>
