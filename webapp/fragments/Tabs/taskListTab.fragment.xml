@@ -1,0 +1,47 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<!--This will be covered in the next phase of development-->
+	<Table 
+		inset="false"
+		>
+		<headerToolbar>
+			<Toolbar>
+				<content>
+					<Title text="{i18n>taskListTitle}" level="H2"/>
+					<ToolbarSpacer />
+					<core:Icon visible = "{= !${detailView>/edit} }"  src="sap-icon://add"/>
+				</content>
+			</Toolbar>
+		</headerToolbar>
+		<columns>
+			<Column
+				width="10rem">
+				<Label text="{i18n>taskListGroup}"/>
+			</Column>
+			<Column width="10rem">
+				<Label text="{i18n>taskListCounter}"/>
+			</Column>
+			<Column width="10rem">
+				<Label text="{i18n>taskListDesc}"/>
+			</Column>
+			<Column width="10rem">
+				<Label text="{i18n>taskListExtIden}"/>
+			</Column>
+			<Column width="10rem">
+				<Label text="{i18n>taskListVersion}"/>
+			</Column>
+			<Column width="3rem"  visible = "{= !${detailView>/edit} }"/>
+		</columns>
+		<items>
+				<ColumnListItem>
+					<cells>
+						<Text text=""/>
+						<Text text=""/>
+						<Text text=""/>
+						<Text text=""/>
+						<Button type="Transparent" class="iconDeleteColor"
+							icon="sap-icon://sys-cancel" press="onPressTaskList"/>
+					</cells>
+				</ColumnListItem>
+			</items>	
+	</Table>	
+	</core:FragmentDefinition>

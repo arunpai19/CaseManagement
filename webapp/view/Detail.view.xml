@@ -79,12 +79,12 @@
 				<items>
 					<IconTabFilter id="iconTabBarInform" key = "infoTab" text="{i18n>informationTabText}" icon="sap-icon://request" tooltip="{i18n>detailIconTabBarInfo}">
 						<content>
-							<core:Fragment fragmentName="zm209_chng_req.fragments.informationTab" id="infoDisplayFragment" type="XML"/>
+							<core:Fragment fragmentName="zm209_chng_req.fragments.Tabs.informationTab" id="infoDisplayFragment" type="XML"/>
 						</content>
 					</IconTabFilter>
 					<IconTabFilter  key = "attachmentTab" text="{i18n>AttachmentsTabText}" icon="sap-icon://attachment" tooltip="{i18n>detailIconTabBarAttachments}">
 					   <content>
-							<core:Fragment fragmentName="zm209_chng_req.fragments.attachmentTab" id="attachmentFragment" type="XML"/>
+							<core:Fragment fragmentName="zm209_chng_req.fragments.Tabs.attachmentTab" id="attachmentFragment" type="XML"/>
 						</content>	
 					</IconTabFilter>
 					<IconTabFilter id="iconTabBarApproval"  key = "approvalTab" text="{i18n>ApprovalText}" icon="sap-icon://document-text" tooltip="{i18n>iconTabBarApproval}">
@@ -94,22 +94,22 @@
 					</IconTabFilter>
 					<IconTabFilter id="iconTabBarNotes"   key = "notesTab" text="{i18n>NotesText}" icon="sap-icon://notes" tooltip="{i18n>NotesText}">
 						<content>
-							<core:Fragment fragmentName="zm209_chng_req.fragments.notesTab" id="notesFragment" type="XML"/>
+							<core:Fragment fragmentName="zm209_chng_req.fragments.Tabs.notesTab" id="notesFragment" type="XML"/>
 						</content>
 					</IconTabFilter>
 					<IconTabFilter  key = "workOrderTab" text="{i18n>WorkOrdersTabText}" icon="sap-icon://eam-work-order" tooltip="{i18n>WorkOrdersTabText}">
 						<content>
-							<core:Fragment fragmentName="zm209_chng_req.fragments.workorderTab" id="workOrderFragment" type="XML"/>
+							<core:Fragment fragmentName="zm209_chng_req.fragments.Tabs.workorderTab" id="workOrderFragment" type="XML"/>
 						</content>
 					</IconTabFilter>
 					<IconTabFilter  key = "taskListTab" text="{i18n>TaskTabText}" icon="sap-icon://task" tooltip="{i18n>TaskTabText}">
 						<content>
-							<core:Fragment fragmentName="zm209_chng_req.fragments.taskListTab" type="XML"/>
+							<core:Fragment fragmentName="zm209_chng_req.fragments.Tabs.taskListTab" type="XML"/>
 						</content>
 				</IconTabFilter>
 				<IconTabFilter text="{i18n>LinksText}"  key = "linksTab" icon="sap-icon://chain-link" tooltip="{i18n>LinksText}">
 					<content>
-						<core:Fragment fragmentName="zm209_chng_req.fragments.linkTab" id="linkFragment" type="XML"/>
+						<core:Fragment fragmentName="zm209_chng_req.fragments.Tabs.linkTab" id="linkFragment" type="XML"/>
 					</content>
 				</IconTabFilter>
 			</items>

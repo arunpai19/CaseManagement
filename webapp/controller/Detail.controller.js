@@ -39,7 +39,7 @@ sap.ui.define([
 			this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
 
 			this.setDetailModels();
-			this.approvalrouteFragment = sap.ui.xmlfragment("approvalrouteFragment", "zm209_chng_req.fragments.approvalrouteTab", this.getView()
+			this.approvalrouteFragment = sap.ui.xmlfragment("approvalrouteFragment", "zm209_chng_req.fragments.Tabs.approvalrouteTab", this.getView()
 				.getController());
 			this.getView().addDependent(this.approvalrouteFragment);
 			this.getView().byId("iconTabBarApproval").insertContent(this.approvalrouteFragment);
@@ -97,26 +97,28 @@ sap.ui.define([
 		 * Cancel button will make the screen in the disply mode by replacing the fragments
 		 */
 		onPressFooterCancel: function() {
-			var sKey = this.getView().byId("iconTabBar").getSelectedKey();
+			var oView = this.getView(),
+			    sKey = oView.byId("iconTabBar").getSelectedKey();
 			switch (sKey) {
 				case "infoTab":
 					this.btnFooterVisibility(true, false, false);
-					this.getView().byId("iconTabBarInform").removeAllContent();
+					oView.byId("iconTabBarInform").removeAllContent();
 					var infoFragment = sap.ui.xmlfragment("infoDisplayFragment",
-						"zm209_chng_req.fragments.informationTab", this.getView().getController());
+						"zm209_chng_req.fragments.Tabs.informationTab", this.getView().getController());
 						this.getView().addDependent(infoFragment);
-					this.getView().byId("iconTabBarInform").insertContent(infoFragment);
+					oView.byId("iconTabBarInform").insertContent(infoFragment);
 					/*}*/
-					this.getView().getModel("FieldDataModel").setData([]);
-					this.getView().getParent().getParent().setMode("ShowHideMode");
+					oView.getModel("FieldDataModel").setData([]);
+					oView.getParent().getParent().setMode("ShowHideMode");
 					this.getModel("detailView").setProperty("/infoEdit", false);
+					this.getModel("detailView").setProperty("/changesToUpdate", false);
 					break;
 				case "approvalTab":
 					this.btnFooterVisibility(true, false, false);
 					break;
 				case "notesTab":
-					this.getView().byId("iconTabBarNotes").removeAllContent();
-					this.getView().byId("iconTabBarNotes").insertContent(this.getView().byId("notesFragment--detail"));
+					oView.byId("iconTabBarNotes").removeAllContent();
+					oView.byId("iconTabBarNotes").insertContent(this.getView().byId("notesFragment--detail"));
 					this.btnFooterVisibility(true, false, false);
 					break;
 			}	
@@ -167,8 +169,6 @@ sap.ui.define([
 					}
 					break;
 				case "attachmentTab":
-
-					//this._enableDisableAttachment(false);
 					this.btnFooterVisibility(true, false, false);
 					this._setSplitScreenMode();
 					break;
@@ -853,6 +853,7 @@ sap.ui.define([
 			this.resetDataModel();
 		},
 		_callDetailSetService: function(sId) {
+			return new Promise(function(resolve, reject) {
 			var oMainModel = this.getView().getModel();
 			var sRequestUri = "/NotificationHeaderSet('" + sId + "')";
 			var oViewModel = this.getModel("detailView");
@@ -869,13 +870,16 @@ sap.ui.define([
 					}
 					this.getOwnerComponent().oListSelector.selectAListItem(sRequestUri);
 					this._searchHelps(oData.Type);
+					resolve();
 					//this.checkForIconTabSelection(this.getView().byId("iconTabBar").getSelectedKey());
 				}.bind(this),
 				error: function(oError) {
 					this.showServiceError(oError);
 					oViewModel.setProperty("/busy", false);
+					reject(oError);
 				}.bind(this)
 			});
+			}.bind(this));
 		},
 		_onMetadataLoaded: function() {
 			// Store original busy indicator delay for the detail view

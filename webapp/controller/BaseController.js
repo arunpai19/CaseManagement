@@ -282,7 +282,7 @@ sap.ui.define([
 		 */
 		showNewNotesTab: function(oItem) {
 			if (!this.newNotes) {
-				this.newNotes = sap.ui.xmlfragment("newNotesFragment", "zm209_chng_req.fragments.newNotes", this);
+				this.newNotes = sap.ui.xmlfragment("newNotesFragment", "zm209_chng_req.fragments.Tabs.newNotes", this);
 				this.getView().addDependent(this.newNotes);
 			}
 			oItem.NotesText = "";
@@ -487,7 +487,7 @@ sap.ui.define([
 					this._callDetailSetService(oData.NotifNumber);
 					this.getView().getModel("FieldDataModel").setData([]);
 					this.getView().byId("iconTabBarInform").removeAllContent();
-					var infoFragment = sap.ui.xmlfragment("infoDisplayFragment","zm209_chng_req.fragments.informationTab", this.getView().getController());
+					var infoFragment = sap.ui.xmlfragment("infoDisplayFragment","zm209_chng_req.fragments.Tabs.informationTab", this.getView().getController());
 						this.getView().addDependent(infoFragment);
 					this.getView().byId("iconTabBarInform").insertContent(infoFragment);
 					this.getView().getParent().getParent().setMode("ShowHideMode");
@@ -816,7 +816,7 @@ sap.ui.define([
 					this.getView().getParent().getParent().setMode("HideMode");
 					
 					if (!this.infoTabEditFrag && !sOnChange) {
-						this.infoTabEditFrag = sap.ui.xmlfragment("infoTabEdit", "zm209_chng_req.fragments.informationTabEditMode", this);
+						this.infoTabEditFrag = sap.ui.xmlfragment("infoTabEdit", "zm209_chng_req.fragments.Tabs.informationTabEditMode", this);
 						this.getView().addDependent(this.infoTabEditFrag, this);
 						oViewModel.setProperty("/changesToUpdate", false);
 					}
