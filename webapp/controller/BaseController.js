@@ -289,7 +289,7 @@ sap.ui.define([
 			var notesData = new JSONModel();
 			notesData.setData(oItem);
 			this.newNotes.setModel(notesData);
-			this.btnFooterVisibility(false, true, false);
+			this.btnFooterVisibility(false, true, true);
 			this.getView().byId("iconTabBarNotes").removeAllContent();
 			this.getView().byId("iconTabBarNotes").insertContent(this.newNotes);
 		},
@@ -373,8 +373,7 @@ sap.ui.define([
 				filters: [
 					new Filter("Date", FilterOperator.GE, sDateFrom),
 					new Filter("Date", FilterOperator.LE, sDateTo)
-				],
-				and: true
+				]
 			});
 			afilter.push(aFilter1);
 
@@ -430,9 +429,7 @@ sap.ui.define([
 			if (newValue !== "") {
 				oEvent.getSource().setValue("");
 				sap.m.MessageBox.error("Please make use of search help");
-			}
-			else{
-				this.getModel("detailView").setProperty("/changesToUpdate", true);
+				//this.getModel("detailView").setProperty("/changesToUpdate", true);
 			}
 		},
 		/**
@@ -490,8 +487,9 @@ sap.ui.define([
 					this._callDetailSetService(oData.NotifNumber);
 					this.getView().getModel("FieldDataModel").setData([]);
 					this.getView().byId("iconTabBarInform").removeAllContent();
-					this.getView().byId("iconTabBarInform").insertContent(sap.ui.xmlfragment("infoDisplayFragment",
-						"zm209_chng_req.fragments.informationTab"));
+					var infoFragment = sap.ui.xmlfragment("infoDisplayFragment","zm209_chng_req.fragments.informationTab", this.getView().getController());
+						this.getView().addDependent(infoFragment);
+					this.getView().byId("iconTabBarInform").insertContent(infoFragment);
 					this.getView().getParent().getParent().setMode("ShowHideMode");
 					oViewModel.setProperty("/busy", false);
 					oViewModel.setProperty("/infoEdit", false);

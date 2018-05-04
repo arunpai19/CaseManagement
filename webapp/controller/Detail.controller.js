@@ -97,14 +97,29 @@ sap.ui.define([
 		 * Cancel button will make the screen in the disply mode by replacing the fragments
 		 */
 		onPressFooterCancel: function() {
-			this.btnFooterVisibility(true, false, false);
-			this.getView().byId("iconTabBarInform").removeAllContent();
-			this.getView().byId("iconTabBarInform").insertContent(sap.ui.xmlfragment("infoDisplayFragment",
-				"zm209_chng_req.fragments.informationTab"));
-			/*}*/
-			this.getView().getModel("FieldDataModel").setData([]);
-			this.getView().getParent().getParent().setMode("ShowHideMode");
-			this.getModel("detailView").setProperty("/infoEdit", false);
+			var sKey = this.getView().byId("iconTabBar").getSelectedKey();
+			switch (sKey) {
+				case "infoTab":
+					this.btnFooterVisibility(true, false, false);
+					this.getView().byId("iconTabBarInform").removeAllContent();
+					var infoFragment = sap.ui.xmlfragment("infoDisplayFragment",
+						"zm209_chng_req.fragments.informationTab", this.getView().getController());
+						this.getView().addDependent(infoFragment);
+					this.getView().byId("iconTabBarInform").insertContent(infoFragment);
+					/*}*/
+					this.getView().getModel("FieldDataModel").setData([]);
+					this.getView().getParent().getParent().setMode("ShowHideMode");
+					this.getModel("detailView").setProperty("/infoEdit", false);
+					break;
+				case "approvalTab":
+					this.btnFooterVisibility(true, false, false);
+					break;
+				case "notesTab":
+					this.getView().byId("iconTabBarNotes").removeAllContent();
+					this.getView().byId("iconTabBarNotes").insertContent(this.getView().byId("notesFragment--detail"));
+					this.btnFooterVisibility(true, false, false);
+					break;
+			}	
 		},
 		/**
 		 * Edit button will make the screen editable depending upon the tab selected.
@@ -119,7 +134,7 @@ sap.ui.define([
 					this.btnFooterVisibility(false, false, false);
 					break;
 				case "approvalTab":
-					this.btnFooterVisibility(false, true, false);
+					this.btnFooterVisibility(false, true, true);
 					break;
 				case "notesTab":
 					this.btnFooterVisibility(false, false, false);
@@ -398,7 +413,8 @@ sap.ui.define([
 				this.dropDialog = sap.ui.xmlfragment(oDropView.getId(), "zm209_chng_req.fragments.dropDownHelp", this);
 			}
 			this.getView().addDependent(this.dropDialog);
-
+			var oViewModel = this.getModel("detailView");
+			oViewModel.setProperty("/busy", true);
 			if (sItem === "CR") {
 				this.dropDialog.setTitle("Select Cr");
 				this.getView().byId("dropLabel").setText("Cr Linked :");
@@ -439,10 +455,11 @@ sap.ui.define([
 					var tempmodel = this.getView().getModel("dropDown");
 					this.dropDialog.setModel(tempmodel, "dropDown");
 					this.getView().byId("notifValueData").setSelectedKey("");
+					oViewModel.setProperty("/busy", false);
 					this.dropDialog.open();
 				}.bind(this))
 				.catch(function(sErrorText) {
-
+					oViewModel.setProperty("/busy", false);
 				});
 
 		},
@@ -486,16 +503,19 @@ sap.ui.define([
 			oPayload.FieldId = sFieldId;
 			oPayload.Value = this.getView().byId("notifValueData").getValue().trim();
 			oPayload.NotifNumber = this.getView().getModel("detailModel").getProperty("/NotifNumber");
-
+			var oViewModel = this.getModel("detailView");
+			oViewModel.setProperty("/busy", true);
 			var sServiceUrl = "/ProjectSet";
 			var mParameters = {
 				success: function(oData, response) {
 					MessageToast.show(sMessage);
 					this.dropDialog.close();
+					oViewModel.setProperty("/busy", false);
 					this._callDetailSetService(this.getView().getModel("detailModel").getProperty("/NotifNumber"));
 				}.bind(this),
 				error: function(oError) {
 					this.showServiceError(oError);
+					oViewModel.setProperty("/busy", false);
 				}.bind(this)
 			};
 			oDefaultoModel.create(sServiceUrl, oPayload, mParameters);
@@ -601,6 +621,7 @@ sap.ui.define([
 			} else {
 				this._showTextDecoration(oItem.StepKey);
 				oIconTabBar.setSelectedKey("notesTab");
+				this.btnFooterVisibility(true, false, false);
 			}
 		},
 		/**
@@ -718,6 +739,7 @@ sap.ui.define([
 			if (!oParameters.valid || dDate === "") {
 				return;
 			}
+			
 			this.handleFilterDates(new Date(oParameters.value), new Date(dDate));
 
 		},
@@ -974,6 +996,10 @@ sap.ui.define([
 				oInput.setValue(sHelpKey);
 			} else {
 				oInput.setValue(sHelpData);
+			}
+			//Updated the below model to identify the change of Input State
+			if(this.getView().byId("iconTabBar").getSelectedKey() === "infoTab"){
+				this.getModel("detailView").setProperty("/changesToUpdate", true);
 			}
 			this.relativeInput = '';
 			this.Dialog.destroy(true);

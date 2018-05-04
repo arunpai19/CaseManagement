@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:t="sap.ui.table">
-	<Dialog title="ADD STEP" contentHeight= "300px">
+	<Dialog title="ADD STEP" contentHeight= "450px">
 		<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
 			<items>
 				<IconTabFilter text="{i18n>addCustTxt}" key="customTemplate">
