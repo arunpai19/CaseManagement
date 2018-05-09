@@ -151,6 +151,7 @@ sap.ui.define([
 			} else {
 				MessageToast.show("Date has been updated");
 				this.getView().getModel("approvalRouteModel").setData([]);
+				this.btnFooterVisibility(true, false, false);
 			}
 		},
 		/**
@@ -703,7 +704,7 @@ sap.ui.define([
 			var oFilter = new Filter({
 				filters: [
 					new Filter({
-						path: "Value",
+						path: "DocumentNumber",
 						operator: FilterOperator.Contains,
 						value1: sValue
 					}),

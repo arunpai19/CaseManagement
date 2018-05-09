@@ -8,7 +8,7 @@
 				<content>
 					<Title text="{i18n>taskListTitle}" level="H2"/>
 					<ToolbarSpacer />
-					<core:Icon visible = "{= !${detailView>/edit} }"  src="sap-icon://add"/>
+					<core:Icon visible = "{= !${detailView>/edit} }"  src="sap-icon://add" press = "onPressAddTaskList"/>
 				</content>
 			</Toolbar>
 		</headerToolbar>

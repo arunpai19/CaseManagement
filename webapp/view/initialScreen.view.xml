@@ -6,8 +6,8 @@
 				<ToolbarSpacer width="17rem"/>
 				<SegmentedButton id="segmentButton" selectionChange="nullSegmentData" selectedKey="extra" select="onSegementButtonClick" class="buttonwidth">
 					<items>
-						<SegmentedButtonItem press="warShipForm" width="52%" text="WarShip Support" key="war"/>
-						<SegmentedButtonItem press="baseForm" width="52%" text="Base Services" key="base"/>
+						<SegmentedButtonItem press="warShipForm" width="52%" text="{i18n>WarShipSupport}" key="war"/>
+						<SegmentedButtonItem press="baseForm" width="52%" text="{i18n>BaseServices}" key="base"/>
 						<SegmentedButtonItem press="ptsForm" width="52%" text="{i18n>PTS}" key="pts"/>
 						<SegmentedButtonItem visible="false" key="extra"/>
 					</items>
@@ -16,10 +16,8 @@
 			<VBox id="baseService" visible="{oVisibleModel>/baseForm}" width="100%" direction="Column">
 				<items>
 					<VBox class="alignBoxes">
-						<CheckBox id="BserviceEmp" select="onNotifTypeChange" selected="{checkBoxModel>/Emp}" name="EMP"
-							text="Naval Base Physical Asset Change - EMP"/>
-						<CheckBox id="BserviceTaf" select="onNotifTypeChange" selected="{checkBoxModel>/Taf}" name="TAF"
-							text="Naval Base Physical Asset Change - TAF"/>
+						<CheckBox id="BserviceEmp" select="onNotifTypeChange" selected="{checkBoxModel>/Emp}" name="EMP" text="{i18n>NavalBaseEMP} "/>
+						<CheckBox id="BserviceTaf" select="onNotifTypeChange" selected="{checkBoxModel>/Taf}" name="TAF" text="{i18n>NavalBaseTAF}"/>
 					</VBox>
 					<f:SimpleForm class="sapUiLargeMarginBegin" editable="true" layout="ResponsiveGridLayout">
 						<f:content>
@@ -31,7 +29,7 @@
 									<l:GridData span="Xl5 L5 M8 S12"/>
 								</layoutData>
 							</ComboBox>
-							<Label required="true" text="Category" class="sapUiLargeMarginBottom"/>
+							<Label required="true" text="{i18n>Category}" class="sapUiLargeMarginBottom"/>
 							<ComboBox showSecondaryValues="true" value="{valueModel>/Category}" change="setNull" id="baseCategory"
 								selectedKey="{FieldDataModel>/Categorisation}" items="{path: 'dropDown>/Categorisation'}">
 								<core:ListItem key="{dropDown>Value}" text="{dropDown>Description}" additionalText='{dropDown>Value}'/>
@@ -39,7 +37,7 @@
 									<l:GridData span="Xl5 L5 M8 S12"/>
 								</layoutData>
 							</ComboBox>
-							<Label text="Program"/>
+							<Label text="{i18n>Program}"/>
 							<ComboBox value="{valueModel>/Program}" change="setNull" id="baseProgram" selectedKey="{FieldDataModel>/ProgramArea}"
 								items="{path: 'dropDown>/ProgramArea'}">
 								<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
@@ -47,7 +45,7 @@
 									<l:GridData span="Xl5 L5 M8 S12"/>
 								</layoutData>
 							</ComboBox>
-							<Label text="Asset Number"/>
+							<Label text="{i18n>AssetNumber}"/>
 							<ComboBox value="{valueModel>/AssetNumber}" change="setNull" id="baseAssetNumber" selectedKey="{FieldDataModel>/AssetNumber}"
 								items="{path: 'dropDown>/AssetNumber'}">
 								<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
@@ -57,7 +55,7 @@
 							</ComboBox>
 						</f:content>
 					</f:SimpleForm>
-					<CheckBox class="alignBoxes" text="New Project"/>
+					<CheckBox class="alignBoxes" text="{i18n>NewProject}"/>
 				</items>
 			</VBox>
 			<VBox id="warShip" visible="{oVisibleModel>/warShipForm}" width="100%" direction="Column">
@@ -67,14 +65,14 @@
 							<CheckBox id="warShipFleet" selected="{checkBoxModel>/Fleet}" class="alignBoxes" name="Fleet" select="onNotifTypeChange" text="Fleet"/>
 							<ToolbarSpacer width="21rem"/>
 							<l:HorizontalLayout>
-								<Label class="sapUiTinyMarginTop" text="Engineering"/>
+								<Label class="sapUiTinyMarginTop" text="{i18n>Engineering}"/>
 								<CheckBox id="warShipEng" selected="{checkBoxModel>/Eng}" name="Engineering" select="onNotifTypeChange"/>
 							</l:HorizontalLayout>
 						</items>
 					</HBox>
 					<f:SimpleForm class="sapUiLargeMarginBegin" editable="true" layout="ResponsiveGridLayout">
 						<f:content>
-							<Label required="true" text="Sub Type"/>
+							<Label required="true" text="{i18n>SubType}"/>
 							<ComboBox showSecondaryValues="true" value="{valueModel>/SubType}" change="setNull" id="warShipSubType"
 								selectedKey="{FieldDataModel>/SubType}" items="{path: 'dropDown>/SubType'}">
 								<core:ListItem key="{dropDown>Value}" text="{dropDown>Description}" additionalText='{dropDown>Value}'/>
@@ -82,7 +80,7 @@
 									<l:GridData span="Xl5 L5 M8 S12"/>
 								</layoutData>
 							</ComboBox>
-							<Label required="true" text="Category"/>
+							<Label required="true" text="{i18n>Category}"/>
 							<ComboBox showSecondaryValues="true" value="{valueModel>/Category}" change="setNull" id="WarShipCategory"
 								selectedKey="{FieldDataModel>/Categorisation}" items="{path: 'dropDown>/Categorisation'}">
 								<core:ListItem key="{dropDown>Value}" text="{dropDown>Description}" additionalText='{dropDown>Value}'/>
@@ -90,9 +88,9 @@
 									<l:GridData span="Xl5 L5 M8 S12"/>
 								</layoutData>
 							</ComboBox>
-							<Label text="Project"/>
-							<Input enabled="false" value="{valueModel>/Project}" change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" id="warShipProject"
-								valueHelpRequest="handleValueHelpProject">
+							<Label text="{i18n>Project}"/>
+							<Input suggest="testingSuggest" showSuggestion="true" enabled="false" value="{valueModel>/Project}" change="onWrongInput"
+								liveChange="onKeyReset" showValueHelp="true" id="warShipProject" valueHelpRequest="handleValueHelpProject">
 								<customData>
 									<core:CustomData key="{FieldDataModel>/Project}" value="Project"/>
 								</customData>
@@ -104,10 +102,10 @@
 					</f:SimpleForm>
 					<HBox width="100%" fitContainer="true">
 						<items>
-							<CheckBox id="newWarShipProject" class="alignBoxes" text="New Project"/>
+							<CheckBox id="newWarShipProject" class="alignBoxes" text="{i18n>NewProject}"/>
 							<ToolbarSpacer width="16rem"/>
 							<l:HorizontalLayout>
-								<Label class="sapUiTinyMarginTop" text="Project Unknown"/>
+								<Label class="sapUiTinyMarginTop" text="{i18n>ProjectUnknown}"/>
 								<CheckBox id="unknownWarShipProject"/>
 							</l:HorizontalLayout>
 						</items>
@@ -124,9 +122,9 @@
 			<Toolbar width="100%">
 				<content>
 					<ToolbarSpacer></ToolbarSpacer>
-					<Button text="Back" id="back" press="goBackInitial" width="100px" visible="{oVisibleModel>/backVisible}"/>
-					<Button text="Create" id="create" press="createCr" width="100px" visible="{oVisibleModel>/createVisible}"/>
-					<Button text="Next" id="next" press="fetchAllfileds" visible="{oVisibleModel>/nextVisible}" width="100px"/>
+					<Button text="{i18n>Back}" id="back" press="goBackInitial" width="100px" visible="{oVisibleModel>/backVisible}"/>
+					<Button text="{i18n>Create}" id="create" press="createCr" width="100px" visible="{oVisibleModel>/createVisible}"/>
+					<Button text="{i18n>Next}" id="next" press="fetchAllfileds" visible="{oVisibleModel>/nextVisible}" width="100px"/>
 				</content>
 			</Toolbar>
 		</footer>

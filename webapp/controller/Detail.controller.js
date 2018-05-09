@@ -234,6 +234,13 @@ sap.ui.define([
 			var oAttach = this.getView();
 			this.attachDialog = sap.ui.xmlfragment(oAttach.getId(), "zm209_chng_req.fragments.attachment", this);
 			this.getView().addDependent(this.attachDialog);
+			this.getView().getModel("oAttachmentModel").setData({
+				Type: "",
+				AttachNumber: "",
+				AttachVersion: "",
+				AttachPart: "",
+				AttachDesciption: ""
+			});
 			this.attachDialog.open();
 		},
 		/**
@@ -246,6 +253,10 @@ sap.ui.define([
 			var attachmentModel = this.getView().getModel("oAttachmentModel");
 			oPayload.DocumentType = attachmentModel.getProperty("/Type");
 			oPayload.DocumentNumber = attachmentModel.getProperty("/AttachNumber");
+			if(oPayload.DocumentType === "" || oPayload.DocumentNumber === ""){
+				MessageToast.show("Please enter Document Type and Number");
+						return;
+			}
 			oPayload.DocumentVersion = attachmentModel.getProperty("/AttachVersion");
 			oPayload.DocumentPart = attachmentModel.getProperty("/AttachPart");
 			oPayload.Description = attachmentModel.getProperty("/AttachDesciption");
@@ -277,7 +288,7 @@ sap.ui.define([
 		attachDocValueHelp: function() {
 			var oDefaultoModel = this.getOwnerComponent().getModel();
 			var oDocModel = new JSONModel();
-			var sType = this.getView().byId("ipAttachType").getCustomData()["0"].getKey();
+			var sType = this.getView().getModel("oAttachmentModel").getProperty("/Type");
 
 			var aFilters = [new Filter("DocumentType", FilterOperator.EQ, sType)];
 			var sServiceUrl = "/AttachmentsSet";
@@ -299,6 +310,7 @@ sap.ui.define([
 			}
 			this.getView().addDependent(this.DocIdDialog);
 			this.DocIdDialog.setModel(oDocModel, "docModel");
+			this.DocIdDialog.setModel(this.getResourceModel(), "i18n");
 			this.DocIdDialog.open();
 		},
 		/**
@@ -1169,8 +1181,71 @@ sap.ui.define([
 		},
 		onChangeInfoUpdated: function() {
 			this.getView().getModel("detailView").setProperty("/changesToUpdate", true);
+		},
+		/**
+		 * This will open the Task List - Search Fragments
+		 */		
+		onPressAddTaskList: function(){
+			if (!this.addTaskList) {
+				this.addTaskList = sap.ui.xmlfragment(this.getView().getId(),
+					"zm209_chng_req.fragments.addTaskList", this);
+				this.getView().addDependent(this.addTaskList);
+			}
+			var oTaskSearchModel = new JSONModel();
+			this.addTaskList.setModel(oTaskSearchModel,"taskSearchModel");
+			this._resetTaskListModel();
+			this.addTaskList.open();
+		},
+		// TODO: Service is not built
+		addTaskListFromDialog: function(){
+			var bvalid = this.validateTaskFields();
+			if(!bvalid){
+				return;
+			}
+			this.addTaskList.close();
+		},
+		clearTaskListFromDialog: function(){
+			this._resetTaskListModel();
+		},
+		cancelTaskListFromDialog: function(){
+			this.addTaskList.close();
+		},
+		_resetTaskListModel: function(){
+			this.addTaskList.getModel("taskSearchModel").setData({
+				group: "",
+				groupValueState: "None",
+			    counter: "",
+			    counterValueState: "None",
+			    ctrNo: "",
+			    ctrNoValueState: "None"
+			});			
+		},
+		/**
+		 * This will validate all the Fields of the Task List Dialog. This wil compare the property for any initial values
+		 * If there is any Fields which are initial,the ValueState will be made error
+		 */			
+		validateTaskFields: function(){
+			var oTaskInputModel = this.addTaskList.getModel("taskSearchModel"),
+			     oTaskInputData = oTaskInputModel.getData(),
+			     bValid = true;
+			var aPropertyFields = Object.getOwnPropertyNames(oTaskInputData);
+			aPropertyFields.forEach(function(i) {
+				if(i.indexOf("ValueState") > 0){
+					return;
+				}
+				if(oTaskInputData[i] === ""){
+					if(oTaskInputData[i + "ValueState"] !== "undefined"){
+						oTaskInputData[i + "ValueState"] = "Error";
+						bValid = false;
+					}
+				}
+				else{
+					oTaskInputData[i + "ValueState"] = "None";
+				}
+			}.bind(this));
+			oTaskInputModel.refresh();
+			return bValid;
 		}
-
 	});
 
 });

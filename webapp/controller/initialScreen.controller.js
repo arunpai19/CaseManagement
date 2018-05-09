@@ -20,11 +20,14 @@ sap.ui.define([
 			this.docAttachmentModel();
 			this.noftifTypeReset();
 		},
+
 		onWrongInput: function(oEvent) {
-			var newValue = oEvent.getParameter("newValue");
-			if (newValue !== "") {
+
+			if (oEvent.getSource().getSelectedKey() === "" && oEvent.getParameter("newValue") !== "") {
 				oEvent.getSource().setValue("");
-				sap.m.MessageBox.error("Please make use of search help");
+				sap.m.MessageBox.error("Invalid Data entry");
+			} else if (oEvent.getSource().getSelectedKey() !== null && oEvent.getSource().getSelectedKey() !== undefined) {
+				oEvent.getSource().getCustomData()[0].setKey(oEvent.getSource().getSelectedKey());
 			}
 		},
 		onKeyReset: function(oEvent) { //reset the value in Iput field if direct entry is done
@@ -39,7 +42,16 @@ sap.ui.define([
 				oEvent.getSource().setValue("");
 			}
 		},
-		onValueIntialize: function() { // function to handle the visiblity of the form and button
+		docNumberChange: function(oEvent) {
+			var newDocNum = oEvent.getParameter("newValue");
+			if (newDocNum === "") {
+				var attachModel = this.getView().getModel("oAttachmentModel");
+				attachModel.setProperty("/AttachVersion", "");
+				attachModel.setProperty("/AttachPart", "");
+				attachModel.setProperty("/AttachDesciption", "");
+			}
+		},
+		onValueIntialize: function() { // function to set the description on the detailed fragment view
 			var value = {
 				"Program": "",
 				"SubType": "",
@@ -133,73 +145,7 @@ sap.ui.define([
 			this.attachArr = [];
 			engAttachModel.setData(this.attachArr);
 			this.getView().setModel(engAttachModel, "engAttachModel");
-
-			var fieldDataSet = {
-				"SubType": "",
-				"Categorisation": "",
-				"StartDate": new Date(),
-				"EndDate": new Date(),
-				"RaisedBy": "",
-				"Project": "",
-				"FacFloc": "",
-				"CrTitle": "",
-				"Description": "",
-				"CompartmentName": "",
-				"ProjectManager": "",
-				"ProgrammeManager": "",
-				"ComInput": "",
-				"TafRequired": "",
-				"PlanningNotification": "",
-				"Priority": "",
-				"ComSspoc": "",
-				"TaskNumber": "",
-				"AcceptanceLevel": "",
-				"StoresProvider": "",
-				"CtrNumber": "",
-				"EnhancementFitType": "",
-				"ItarControlLevel": "",
-				"SpecialistTooling": "",
-				"TestPressures": "",
-				"ApprovalTemplate": "",
-
-				//Eng
-
-				"TargetFinishDate": new Date(),
-				"CrDescriptionAndJustification": "",
-				//	BaseService
-				"FundReleaseDate": new Date(),
-
-				"ProgramArea": "",
-				"AssetNumber": "",
-				"EmpPriority": "",
-				"FundingStream": "",
-				"AssetEquip": "",
-				"Client": "",
-				"LegacyProjectNum": "",
-				"LegacyActivityNum": "",
-				"PlannedModYear": "",
-
-				// //costFields"
-				"Currency": "",
-				"MaterialCostsFML": "0",
-				"MaterialCostsLive": "0",
-				"MaterialCostsProp": "0",
-				"SubConsCostsFML": "0",
-				"SubConsCostsLive": "0",
-				"SubConsCostsProp": "0",
-				"LabourCostsFML": "0",
-				"LabourCostsLive": "0",
-				"LabourCostsProp": "0",
-				"DisbursementCostsFML": "0",
-				"DisbursementCostsLive": "0",
-				"DisbursementCostsProp": "0",
-				"TotalFML": "0",
-				"TotalLive": "0",
-				"TotalProp": "0"
-
-			};
 			var FieldDataModel = new JSONModel();
-			//FieldDataModel.setData(fieldDataSet);
 			this.getView().setModel(FieldDataModel, "FieldDataModel");
 
 		},
@@ -585,60 +531,64 @@ sap.ui.define([
 			var key = "unique";
 			var length;
 			var initiaModelData;
+			var dropDownSelected = this.getView().byId("notifValueData").getSelectedItem();
+			if (dropDownSelected !== null) {
+				var index = dropDownSelected.getBindingContext("dropDown").getPath().split("/")[2];
+				if (Item === "CR") {
+					var objCr = {};
 
-			var index = this.getView().byId("notifValueData").getSelectedItem().getBindingContext("dropDown").getPath().split("/")[2];
-			if (Item === "CR") {
-				var objCr = {};
+					objCr.CrNotification = this.dropDialog.getModel("dropDown").getData().addField[index].Value;
+					objCr.Type = this.dropDialog.getModel("dropDown").getData().addField[index].Param1;
+					objCr.Description = this.dropDialog.getModel("dropDown").getData().addField[index].Description;
 
-				objCr.CrNotification = this.dropDialog.getModel("dropDown").getData().addField[index].Value;
-				objCr.Type = this.dropDialog.getModel("dropDown").getData().addField[index].Param1;
-				objCr.Description = this.dropDialog.getModel("dropDown").getData().addField[index].Description;
+					length = this.getView().getModel("crModel").getData().length;
+					initiaModelData = this.getView().getModel("crModel").getData();
+					key = this.onDuplicationCheck(objCr, initiaModelData, length, key);
+					if (key === "unique") {
+						this.crArr.push(objCr);
+					}
 
-				length = this.getView().getModel("crModel").getData().length;
-				initiaModelData = this.getView().getModel("crModel").getData();
-				key = this.onDuplicationCheck(objCr, initiaModelData, length, key);
-				if (key === "unique") {
-					this.crArr.push(objCr);
+					this.getView().getModel("crModel").updateBindings();
+
+				}
+				if (Item === "Notification") {
+					var objNotif = {};
+
+					objNotif.Notification = this.getView().getModel("dropDown").getData().addField[index].Value;
+					objNotif.Type = this.getView().getModel("dropDown").getData().addField[index].Param1;
+					objNotif.Description = this.getView().getModel("dropDown").getData().addField[index].Description;
+
+					length = this.getView().getModel("notificationModel").getData().length;
+					initiaModelData = this.getView().getModel("notificationModel").getData();
+					key = this.onDuplicationCheck(objNotif, initiaModelData, length, key);
+
+					if (key === "unique") {
+						this.notifArr.push(objNotif);
+					}
+
+					this.getView().getModel("notificationModel").updateBindings();
 				}
 
-				this.getView().getModel("crModel").updateBindings();
+				if (Item === "Quotation") {
+					var objQuotation = {};
 
-			}
-			if (Item === "Notification") {
-				var objNotif = {};
+					objQuotation.Quotation = this.getView().getModel("dropDown").getData().addField[index].Value;
+					objQuotation.Description = this.getView().getModel("dropDown").getData().addField[index].Description;
+					length = this.getView().getModel("quotationModel").getData().length;
+					initiaModelData = this.getView().getModel("quotationModel").getData();
+					key = this.onDuplicationCheck(objQuotation, initiaModelData, length, key);
+					if (key === "unique") {
+						this.quotationArr.push(objQuotation);
+					}
 
-				objNotif.Notification = this.getView().getModel("dropDown").getData().addField[index].Value;
-				objNotif.Type = this.getView().getModel("dropDown").getData().addField[index].Param1;
-				objNotif.Description = this.getView().getModel("dropDown").getData().addField[index].Description;
-
-				length = this.getView().getModel("notificationModel").getData().length;
-				initiaModelData = this.getView().getModel("notificationModel").getData();
-				key = this.onDuplicationCheck(objNotif, initiaModelData, length, key);
-
-				if (key === "unique") {
-					this.notifArr.push(objNotif);
+					this.getView().getModel("quotationModel").updateBindings();
 				}
 
-				this.getView().getModel("notificationModel").updateBindings();
+				this.dropDialog.close();
+				this.getView().byId("notifValueData").setValue("");
+			} else {
+				MessageBox.information("Select Item from dropdown");
 			}
-
-			if (Item === "Quotation") {
-				var objQuotation = {};
-
-				objQuotation.Quotation = this.getView().getModel("dropDown").getData().addField[index].Value;
-				objQuotation.Description = this.getView().getModel("dropDown").getData().addField[index].Description;
-				length = this.getView().getModel("quotationModel").getData().length;
-				initiaModelData = this.getView().getModel("quotationModel").getData();
-				key = this.onDuplicationCheck(objQuotation, initiaModelData, length, key);
-				if (key === "unique") {
-					this.quotationArr.push(objQuotation);
-				}
-
-				this.getView().getModel("quotationModel").updateBindings();
-			}
-
-			this.dropDialog.close();
-			this.getView().byId("notifValueData").setValue("");
 		},
 
 		createCr: function() { // function to create the cr for all the four types of notification
@@ -723,50 +673,30 @@ sap.ui.define([
 				payload.Quotations = this.getView().getModel("quotationModel").getData();
 				payload.CRLinks = this.spliceTypeData(this.getView().getModel("crModel").getData());
 			}
-			// Notification Type
-			this.getView().getModel("NotifType").setData({
-				"notifType": ""
-			});
-
 			var mParameters = {
 
 				success: function(oData, response) {
+					this.getView().byId("fields").destroyItems();
+					var visibleMOdel = this.getView().getModel("oVisibleModel");
+					visibleMOdel.setProperty("/warShipForm", true);
+					visibleMOdel.setProperty("/nextVisible", true);
+					visibleMOdel.setProperty("/backVisible", false);
+					visibleMOdel.setProperty("/createVisible", false);
+					this.modelInitialize();
+					this.onValueIntialize();
+					this.propControl();
+					this.docAttachmentModel();
+					this.noftifTypeReset();
+					this.getView().byId("segmentButton").setEnabled(true);
 
 					var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
 					MessageBox.success(
 						"Cr Created with NotifNumber:" + oData.NotifNumber, {
 							styleClass: bCompact ? "sapUiSizeCompact" : "",
 							onClose: function() {
-								this.getView().byId("fields").destroyItems();
-								var visibleMOdel = this.getView().getModel("oVisibleModel");
-								visibleMOdel.setProperty("/warShipForm", true);
-								visibleMOdel.setProperty("/nextVisible", true);
-								visibleMOdel.setProperty("/backVisible", false);
-								visibleMOdel.setProperty("/createVisible", false);
-								this.modelInitialize();
-								this.onValueIntialize();
-								this.propControl();
-								this.docAttachmentModel();
-								this.noftifTypeReset();
-								this.getView().byId("segmentButton").setEnabled(true);
-								//Navigate to the Master Detail Screen. Pass the Notif Type
-								var sFleet = payload.Type,
-								   oNotifModel = this.getView().getModel("NotifType");
-							 	   oNotifModel.setProperty("/notifType",payload.Type);
-							 	   oNotifModel.setProperty("/notifNumber",oData.NotifNumber);
-								if(this.getOwnerComponent().oListSelector._oList !== undefined){
-									var oListSelector = this.getOwnerComponent().oListSelector;
-									oListSelector.setBoundMasterList(oListSelector._oList);
-									//Filter based on the engineering Type
-									var aFilters = [new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.Contains, sFleet)];
-									oListSelector._oList.getBinding("items").filter(aFilters);
-								}
-								
-								this.getRouter().navTo("object", {
-									Type: sFleet,
-									objectId: oData.NotifNumber
+								this.getOwnerComponent().getRouter().navTo("master", {
+									Type: "ZC"
 								});
-								
 							}.bind(this)
 
 						}
@@ -777,7 +707,6 @@ sap.ui.define([
 
 				}
 			};
-			defaultoModel.setRefreshAfterChange(false);
 			defaultoModel.create(serviceUrl, payload, mParameters);
 
 		},
@@ -828,29 +757,34 @@ sap.ui.define([
 			objAttach.DocumentPart = attachmentModel.getProperty("/AttachPart");
 			objAttach.Description = attachmentModel.getProperty("/AttachDesciption");
 
-			var length = this.getView().getModel("engAttachModel").getData().length;
-			var attachModelData = this.getView().getModel("engAttachModel").getData();
+			if (objAttach.DocumentType !== "" && objAttach.DocumentNumber !== "") {
+				var length = this.getView().getModel("engAttachModel").getData().length;
+				var attachModelData = this.getView().getModel("engAttachModel").getData();
 
-			for (var i = 0; i < length; i++) {
-				if (attachModelData[i].DocumentType === objAttach.DocumentType &&
-					attachModelData[i].DocumentNumber === objAttach.DocumentNumber &&
-					attachModelData[i].DocumentVersion === objAttach.DocumentVersion
-				) {
-					key = "same";
-					break;
-				} else {
-					key = "unique";
+				for (var i = 0; i < length; i++) {
+					if (attachModelData[i].DocumentType === objAttach.DocumentType &&
+						attachModelData[i].DocumentNumber === objAttach.DocumentNumber &&
+						attachModelData[i].DocumentVersion === objAttach.DocumentVersion
+					) {
+						key = "same";
+						MessageBox.information("Please select Differernt Document Type and Documnet Number");
+						break;
+					} else {
+						key = "unique";
+					}
+
+				}
+				if (key === "unique") {
+					this.attachArr.push(objAttach);
 				}
 
-			}
-			if (key === "unique") {
-				this.attachArr.push(objAttach);
-			}
+				this.getView().getModel("engAttachModel").updateBindings();
 
-			this.getView().getModel("engAttachModel").updateBindings();
-
-			this.attachDialog.destroy(true);
-			this.docAttachmentModel();
+				this.attachDialog.destroy(true);
+				this.docAttachmentModel();
+			} else {
+				MessageBox.information("Please select Document Type and Document Number");
+			}
 		},
 		cancelAttachDialog: function() {
 			this.attachDialog.destroy(true);
@@ -929,8 +863,8 @@ sap.ui.define([
 				formatter.stringToInt(Totalfield[2].getCells()[5].getValue());
 			Totalfield[3].getCells()[5].setValue(overallTotal);
 		},
-		currencyChange: function(event) { // adding the currency to the field
-			this.setNull(event);
+		currencyChange: function(event) {
+			this.setNull(event); // adding the currency to the field
 			var currencyKey = event.getSource().getSelectedKey();
 			this.getView().byId("variantTotal").setCurrency(currencyKey);
 		},

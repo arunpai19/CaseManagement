@@ -18,7 +18,7 @@
 				mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" updateFinished="onUpdateFinished" selectionChange="onSelectionChange">
 				<infoToolbar>
 					<Toolbar active="true" id="filterBar" visible="{masterView>/isFilterBarVisible}" press="onOpenViewSettings">
-						<Title id="filterBarLabel" text="{masterView>/filterBarLabel}"/>
+						<Title text="{masterView>/filterBarLabel}"/>
 					</Toolbar>
 				</infoToolbar>
 				<items>
