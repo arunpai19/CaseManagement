@@ -863,6 +863,7 @@ sap.ui.define([
 					this.getRouter().getTargets().display("detailObjectNotFound");
 				}.bind(this));
 			this.resetDataModel();
+			sap.ui.core.BusyIndicator.hide();
 		},
 		_callDetailSetService: function(sId) {
 			return new Promise(function(resolve, reject) {
@@ -1018,6 +1019,14 @@ sap.ui.define([
 				this.getModel("detailView").setProperty("/changesToUpdate", true);
 			}
 			this.relativeInput = '';
+			this.Dialog.destroy(true);
+		},
+		handleHelpConfirmDocType: function(oEvent){
+			var helpData = oEvent.getParameter("selectedItems")["0"].getDescription();
+			var helpKey = oEvent.getParameter("selectedItems")["0"].getTitle(),
+			     oModel = this.getView().getModel("oAttachmentModel");
+			oModel.setProperty("/TypeValue", helpData);
+			oModel.setProperty("/Type", helpKey);
 			this.Dialog.destroy(true);
 		},
 		setModelToFrag: function(oEvent) { //adding the desired model to the fragment is handled here

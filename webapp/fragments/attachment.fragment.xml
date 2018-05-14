@@ -8,7 +8,7 @@
 			<form:SimpleForm editable="true" layout="ResponsiveGridLayout" id="attachForm">
 				<form:content>
 					<Label text="Type" id="attachType"/>
-					<Input change="onWrongInput" liveChange="onKeyReset"  width="100%" showValueHelp="true" valueHelpRequest="handleValueHelpDocTyp">
+					<Input change="onWrongInput" liveChange="onKeyReset" value="{oAttachmentModel>/TypeValue}"  width="100%" showValueHelp="true" valueHelpRequest="handleValueHelpDocTyp">
 						<customData>
 							<core:CustomData key="{oAttachmentModel>/Type}" value="attachType"/>
 						</customData>

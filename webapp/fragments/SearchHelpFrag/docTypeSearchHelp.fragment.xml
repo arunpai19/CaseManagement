@@ -1,5 +1,5 @@
 <core:FragmentDefinition id="SearchFrag" xmlns="sap.m" xmlns:core="sap.ui.core">
-	<SelectDialog noDataText="No Data" title="{i18n>titleDoc}" search="wildSearch" confirm="handleHelpConfirm"
+	<SelectDialog noDataText="No Data" title="{i18n>titleDoc}" search="wildSearch" confirm="handleHelpConfirmDocType"
 		cancel="handleHelpClose" items="{path : '/SearchHelpSet', filters: [{ path: 'FieldName', operator:'EQ', value1: 'DOCUMENT_TYPE'}] }">
 		<StandardListItem title="{Value}" description="{Description}"></StandardListItem>
 			<customData>

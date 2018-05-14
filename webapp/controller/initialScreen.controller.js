@@ -92,6 +92,7 @@ sap.ui.define([
 		docAttachmentModel: function() { //  function for creation of model for attachment data 
 			var oAttachmentModel = new JSONModel({
 				Type: "",
+				TypeValue: "",
 				AttachNumber: "",
 				AttachVersion: "",
 				AttachPart: "",
@@ -464,6 +465,14 @@ sap.ui.define([
 					.catch(function(sErrorText) {
 						busyIndicator.close();
 					});
+					//Call Start_up service to populate the Raised By
+					var myModel = new JSONModel();
+			            myModel.loadData("/sap/bc/ui2/start_up");
+			            myModel.attachRequestCompleted(function () {
+			                var modelData = myModel.getData();
+			                var fullName = modelData.fullName ? modelData.fullName : "";
+			                this.getView().getModel("FieldDataModel").setProperty("/RaisedBy", fullName);
+			            }.bind(this));
 				} else {
 					sap.m.MessageBox.error("Please Fill all the mandatory Fileds");
 				}
@@ -477,6 +486,14 @@ sap.ui.define([
 			var helpKey = oevent.getParameter("selectedItems")["0"].getTitle();
 			this.getView().byId(this.input).setValue(helpData);
 			this.getView().byId(this.input).getCustomData()["0"].setKey(helpKey);
+			this.Dialog.destroy(true);
+		},
+		handleHelpConfirmDocType: function(oEvent){
+			var helpData = oEvent.getParameter("selectedItems")["0"].getDescription();
+			var helpKey = oEvent.getParameter("selectedItems")["0"].getTitle(),
+			     oModel = this.getView().getModel("oAttachmentModel");
+			oModel.setProperty("/TypeValue", helpData);
+			oModel.setProperty("/Type", helpKey);
 			this.Dialog.destroy(true);
 		},
 		addItemToList: function(oEvent) { // adding item to the specific list in fleet , engineering , eng and taf
@@ -673,6 +690,7 @@ sap.ui.define([
 				payload.Quotations = this.getView().getModel("quotationModel").getData();
 				payload.CRLinks = this.spliceTypeData(this.getView().getModel("crModel").getData());
 			}
+			initialData.RaisedBy = "";// Pass Raised by as Empty 
 			var mParameters = {
 
 				success: function(oData, response) {
@@ -694,8 +712,23 @@ sap.ui.define([
 						"Cr Created with NotifNumber:" + oData.NotifNumber, {
 							styleClass: bCompact ? "sapUiSizeCompact" : "",
 							onClose: function() {
-								this.getOwnerComponent().getRouter().navTo("master", {
-									Type: "ZC"
+								sap.ui.core.BusyIndicator.show();
+								//Navigate to the Master Detail Screen. Pass the Notif Type
+								var sFleet = payload.Type,
+								   oNotifModel = this.getView().getModel("NotifType");
+							 	   oNotifModel.setProperty("/notifType",payload.Type);
+							 	   oNotifModel.setProperty("/notifNumber",oData.NotifNumber);
+								if(this.getOwnerComponent().oListSelector._oList !== undefined){
+									var oListSelector = this.getOwnerComponent().oListSelector;
+									oListSelector.setBoundMasterList(oListSelector._oList);
+									//Filter based on the engineering Type
+									var aFilters = [new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.Contains, sFleet)];
+									oListSelector._oList.getBinding("items").filter(aFilters);
+								}
+								
+								this.getRouter().navTo("object", {
+									Type: sFleet,
+									objectId: oData.NotifNumber
 								});
 							}.bind(this)
 
@@ -796,7 +829,7 @@ sap.ui.define([
 		{
 			var defaultoModel = this.getOwnerComponent().getModel();
 			var docModel = new JSONModel();
-			var Type = this.getView().byId("ipAttachType").getCustomData()["0"].getKey();
+			var Type = this.getView().getModel("oAttachmentModel").getProperty("/Type");
 
 			var oFilters = [new Filter("DocumentType", FilterOperator.EQ, Type)];
 			var serviceUrl = "/AttachmentsSet";

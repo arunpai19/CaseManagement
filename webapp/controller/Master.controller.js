@@ -61,7 +61,7 @@ sap.ui.define([
 					this._oListFilterState.type = oHashChanger.getHash().split("-")[1].split("/")[0];
 				}
 			}
-
+			//sap.ui.core.BusyIndicator.hide();
 			this.getView().addEventDelegate({
 				onBeforeFirstShow: function() {
 					this._oListFilterState.aFilter = [new Filter("Type", FilterOperator.Contains, this._oListFilterState.type)];

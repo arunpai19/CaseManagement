@@ -86,7 +86,7 @@
 				</l:VerticalLayout>
 				<core:Title></core:Title>
 				<Label text="Raised By"/>
-				<Input value="{FieldDataModel>/RaisedBy}">
+				<Input value="{FieldDataModel>/RaisedBy}" enabled = "false">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
