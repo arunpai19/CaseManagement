@@ -1,0 +1,165 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified">
+		<HBox justifyContent="SpaceBetween" alignItems="Center">
+			<Title class="sapUiSmallMarginTop" text="Costed Proposal" titleStyle="H3"/>
+			<ComboBox change="currencyChange"  visible = "{= !${detailView>/edit} }" selectedKey="{empCostsDataModel>/Currency}" items="{path: 'dropDown>/Curr'}">
+				<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/></ComboBox>
+		</HBox>
+	<!--	<Toolbar height="0.1rem" class="panelListAlign" width="60rem"></Toolbar>-->
+		<Table visible = "{= !${detailView>/edit} }">
+			<columns>
+				<Column hAlign="Left">
+					<Text text=""/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Material cost"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Sub. Cons."/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Labour Cost"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Disbursement"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Total"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<Text text="FML"/>
+				<HBox  alignItems="Center" >
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/MaterialCostsFML}"/>
+					</HBox>
+					<HBox alignItems="Center" >
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/SubConsCostsFML}"/>
+					</HBox>
+					<HBox alignItems="Center" >
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/LabourCostsFML}"/>
+					</HBox>
+					<HBox alignItems="Center" >
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/DisbursementCostsFML}"/>
+					</HBox>
+					<HBox alignItems="Center" >
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" editable="false" value="{empCostsDataModel>/TotalFML}"/>
+					</HBox>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text="Costed Proposal"/>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/MaterialCostsProp}"/>
+					</HBox>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/SubConsCostsProp}"/>
+					</HBox>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/LabourCostsProp}"/>
+					</HBox>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/DisbursementCostsProp}"/>
+					</HBox>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" editable="false" value="{empCostsDataModel>/TotalProp}"/>
+					</HBox>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text="Live Forecast"/>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/MaterialCostsLive}"/>
+					</HBox>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/SubConsCostsLive}"/>
+					</HBox>
+					<HBox alignItems="Center">
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/LabourCostsLive}"/>
+					</HBox>
+					<HBox>
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" liveChange="onChgCostValue" value="{empCostsDataModel>/DisbursementCostsLive}"/>
+					</HBox>
+					<HBox>
+					<Label text = "{empCostsDataModel>/Currency}"/>
+					<Input type="Number" width = "75px" editable="false" value="{empCostsDataModel>/TotalLive}"/>
+					</HBox>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text=" Variants"/>
+					<Text/>
+					<Text/>
+					<Text/>
+					<Text/>
+					<Text textDirection="RTL" text="{ parts:[{path:'empCostsDataModel>/Currency'},{path:'empCostsDataModel>/Variants'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<Table visible = "{= ${detailView>/edit} }">
+			<columns>
+				<Column hAlign="Left">
+					<Text text=""/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Material cost"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Sub. Cons."/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Labour Cost"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Disbursement"/>
+				</Column>
+				<Column hAlign="Center">
+					<Text text="Total"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<Text text="FML"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/MaterialCostsFML'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/SubConsCostsFML'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/LabourCostsFML'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/DisbursementCostsFML'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/TotalFML'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text="Costed Proposal"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/MaterialCostsProp'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/SubConsCostsProp'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/LabourCostsProp'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/DisbursementCostsProp'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/TotalProp'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text="Live Forecast"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/MaterialCostsLive'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/SubConsCostsLive'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/LabourCostsLive'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/DisbursementCostsLive'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/TotalLive'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+				</ColumnListItem>
+				<ColumnListItem>
+					<Text text=" Variants"/>
+					<Text/>
+					<Text/>
+					<Text/>
+					<Text/>
+					<Text textDirection="RTL" text="{ parts:[{path:'detailModel>/Costs/results/0/Currency'},{path:'detailModel>/Costs/results/0/Variants'}], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+				</ColumnListItem>
+			</items>
+		</Table>
+</core:FragmentDefinition>

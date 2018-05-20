@@ -39,13 +39,13 @@ sap.ui.define([
 			this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
 
 			this.setDetailModels();
+			
 			this.approvalrouteFragment = sap.ui.xmlfragment("approvalrouteFragment", "zm209_chng_req.fragments.Tabs.approvalrouteTab", this.getView()
 				.getController());
 			this.getView().addDependent(this.approvalrouteFragment);
 			this.getView().byId("iconTabBarApproval").insertContent(this.approvalrouteFragment);
 
 		},
-
 		/* =========================================================== */
 		/* event handlers                                              */
 		/* =========================================================== */
@@ -88,25 +88,82 @@ sap.ui.define([
 					}
 					this.postNotesData(oNotesItem);
 					break;
+				case "empCosts":
+					var oViewModel = this.getModel("detailView");
+					oViewModel.setProperty("/busy", true);
+					this.postEmpCosts(this.getView().getModel("empCostsDataModel")).then(function(oDisplayData) {
+							this._callDetailSetService(this.getView().getModel("detailModel").getProperty("/NotifNumber")).then(function() {
+								MessageToast.show("EMP Costs has been Updated");
+								this.btnFooterVisibility(true, false, false);
+								oViewModel.setProperty("/busy", false);
+							}.bind(this));
+						//	this.addTaskList.close();
+						}.bind(this))
+						.catch(function(sErrorText) {
+								oViewModel.setProperty("/busy", false);
+								this.showServiceError(sErrorText);
+						}.bind(this));
+					break;
+				case "designReview":
+					var oViewModel = this.getModel("detailView");
+					oViewModel.setProperty("/busy", true);
+					this.postDesignReview(this.getView().getModel("designReviewModel")).then(function() {
+							this._callDetailSetService(this.getView().getModel("detailModel").getProperty("/NotifNumber")).then(function() {
+								this._formatDesignReviewData();
+								MessageToast.show("Design Review has been Updated");
+								this.btnFooterVisibility(true, false, false);
+								oViewModel.setProperty("/busy", false);
+							}.bind(this));
+						//	this.addTaskList.close();
+						}.bind(this))
+						.catch(function(sErrorText) {
+								oViewModel.setProperty("/busy", false);
+								this.showServiceError(sErrorText);
+						}.bind(this));
+					break;
 				default:
 					break;
 			}
 		},
-
+		getInformationTab: function(sFragmentId,sType,sEdit){
+			var sFragmentPath;
+			if(sType === "ZC"){
+				sFragmentPath = "zm209_chng_req.fragments.Tabs.informationTab" + (sEdit === 'X' ? 'EditMode' : '');
+			}
+			else if(sType === "ZD"){
+				sFragmentPath = "zm209_chng_req.fragments.Tabs.informationTabEng" + (sEdit === 'X' ? 'EditMode' : '');
+			}
+			else if(sType === "ZF" || sType === "ZE"){
+				sFragmentPath = "zm209_chng_req.fragments.Tabs.informationTabBase" + (sEdit === 'X' ? 'EditMode' : '');
+			}
+			var oFragment = 	sap.ui.xmlfragment(sFragmentId,
+										sFragmentPath, this.getView().getController());
+										this.getView().addDependent(oFragment);
+			this.getView().addDependent(oFragment);	
+			return(oFragment);
+		},
 		/**
 		 * Cancel button will make the screen in the disply mode by replacing the fragments
 		 */
 		onPressFooterCancel: function() {
 			var oView = this.getView(),
 			    sKey = oView.byId("iconTabBar").getSelectedKey();
+				this.displayOnlyTabs(sKey);
+		},
+		displayOnlyTabs: function(sKey){
+			var oView = this.getView();
 			switch (sKey) {
 				case "infoTab":
 					this.btnFooterVisibility(true, false, false);
 					oView.byId("iconTabBarInform").removeAllContent();
-					var infoFragment = sap.ui.xmlfragment("infoDisplayFragment",
+					/*var infoFragment = sap.ui.xmlfragment("infoDisplayFragment",
 						"zm209_chng_req.fragments.Tabs.informationTab", this.getView().getController());
-						this.getView().addDependent(infoFragment);
-					oView.byId("iconTabBarInform").insertContent(infoFragment);
+						this.getView().addDependent(infoFragment);*/
+						//Make this Fragment to the List selector. If there is a change in Subtype, the fragment will be cleared
+					if (!this.getOwnerComponent().oListSelector.infoTabDisplayFrag){
+						this.getOwnerComponent().oListSelector.infoTabDisplayFrag = this.getInformationTab("infoDisplayFragment", this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"),'');
+					}
+					oView.byId("iconTabBarInform").insertContent(this.getOwnerComponent().oListSelector.infoTabDisplayFrag);
 					/*}*/
 					oView.getModel("FieldDataModel").setData([]);
 					oView.getParent().getParent().setMode("ShowHideMode");
@@ -121,7 +178,14 @@ sap.ui.define([
 					oView.byId("iconTabBarNotes").insertContent(this.getView().byId("notesFragment--detail"));
 					this.btnFooterVisibility(true, false, false);
 					break;
-			}	
+				case "empCosts":
+					this.btnFooterVisibility(true, false, false);	
+					break;
+				case "designReview":
+					this._formatDesignReviewData();
+					this.btnFooterVisibility(true, false, false);	
+					break;
+			}
 		},
 		/**
 		 * Edit button will make the screen editable depending upon the tab selected.
@@ -141,6 +205,13 @@ sap.ui.define([
 				case "notesTab":
 					this.btnFooterVisibility(false, false, false);
 					break;
+				case "empCosts":
+					this._formatEmpCostsData();
+					this.btnFooterVisibility(false, true, true);
+					break;
+				case "designReview":
+					this.btnFooterVisibility(false, true, true);
+					break;	
 				default:
 					this.btnFooterVisibility(false, false, false);
 					break;
@@ -159,14 +230,21 @@ sap.ui.define([
 			this.checkForIconTabSelection(oEvent.getParameters().key);
 		},
 		checkForIconTabSelection: function(sKey) {
+			var oView = this.getView();
 			switch (sKey) {
 				case "infoTab":
-					if (!this.getModel("detailView").getProperty("/infoEdit")) {
-						this.onPressFooterCancel();
-					} else {
-						this.getView().getParent().getParent().setMode("HideMode");
-						this.btnFooterVisibility(false, true, true);
+					this.btnFooterVisibility(true, false, false);
+					oView.byId("iconTabBarInform").removeAllContent();
+					//Make this Fragment to the List selector. If there is a change in Subtype, the fragment will be cleared
+					if (!this.getOwnerComponent().oListSelector.infoTabDisplayFrag){
+						this.getOwnerComponent().oListSelector.infoTabDisplayFrag = this.getInformationTab("infoDisplayFragment", this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"),'');
 					}
+					oView.byId("iconTabBarInform").insertContent(this.getOwnerComponent().oListSelector.infoTabDisplayFrag);
+					/*}*/
+					oView.getModel("FieldDataModel").setData([]);
+					oView.getParent().getParent().setMode("ShowHideMode");
+					this.getModel("detailView").setProperty("/infoEdit", false);
+					this.getModel("detailView").setProperty("/changesToUpdate", false);
 					break;
 				case "attachmentTab":
 					this.btnFooterVisibility(true, false, false);
@@ -184,6 +262,9 @@ sap.ui.define([
 					this.getView().byId("iconTabBarNotes").insertContent(this.getView().byId("notesFragment--detail"));
 					this._showTextDecoration("");
 					this.btnFooterVisibility(true, false, false);
+					break;
+				case "designReview":
+					this._formatDesignReviewData();
 					break;
 				default:
 					this._setSplitScreenMode();
@@ -831,6 +912,15 @@ sap.ui.define([
 				case "Ship Hazards":
 					oEditModel.setProperty("/ShipHazard", sFlag);
 					break;
+				case "Not Started":
+					oEditModel.setProperty("/NotStarted", sFlag);
+					break;
+				case "Started":
+					oEditModel.setProperty("/Started", sFlag);
+					break;
+				case "Complete":
+					oEditModel.setProperty("/Complete", sFlag);
+					break;	
 			}
 			this.getView().getModel("detailView").setProperty("/changesToUpdate", true);
 		},
@@ -845,7 +935,8 @@ sap.ui.define([
 		 * @private
 		 */
 		_onObjectMatched: function(oEvent) {
-			var sObjectId = oEvent.getParameter("arguments").objectId;
+			var sObjectId = oEvent.getParameter("arguments").objectId,
+				sType	 = oEvent.getParameter("arguments").Type;
 			this.getOwnerComponent().oListSelector.oWhenListLoadingIsDone.then(
 				function() {
 					this.getModel().metadataLoaded().then(function() {
@@ -853,7 +944,7 @@ sap.ui.define([
 						oViewModel.setProperty("/infoEdit", false);
 						oViewModel.setProperty("/busy", false);
 						this._callDetailSetService(sObjectId);
-						this.checkForIconTabSelection(this.getView().byId("iconTabBar").getSelectedKey());
+						this._searchHelps(sType);
 					}.bind(this));
 				}.bind(this),
 				function(mParams) {
@@ -863,6 +954,14 @@ sap.ui.define([
 					this.getRouter().getTargets().display("detailObjectNotFound");
 				}.bind(this));
 			this.resetDataModel();
+			//Load Fragment
+			if(this.getView().byId("iconTabBar").getSelectedKey() === "")
+			{
+				this.checkForIconTabSelection("infoTab");
+			}
+			else{
+			this.checkForIconTabSelection(this.getView().byId("iconTabBar").getSelectedKey());
+			}
 			sap.ui.core.BusyIndicator.hide();
 		},
 		_callDetailSetService: function(sId) {
@@ -870,19 +969,18 @@ sap.ui.define([
 			var oMainModel = this.getView().getModel();
 			var sRequestUri = "/NotificationHeaderSet('" + sId + "')";
 			var oViewModel = this.getModel("detailView");
-			oViewModel.setProperty("/busy", false);
+			oViewModel.setProperty("/busy", true);
 			oMainModel.read(sRequestUri, {
 				urlParameters: {
-					$expand: "Attachments,CRLinks,Notes,NotificationLinks,ApprovalRoutes,WorkOrders,Projects,Quotations"
+					$expand: "Attachments,CRLinks,Notes,NotificationLinks,ApprovalRoutes,WorkOrders,Projects,Quotations,TaskList,Costs,Design,Lab,NonLab"
 				},
 				success: function(oData, response) {
 					this.initialiseDetailModel(oData);
 					oViewModel.setProperty("/busy", false);
-					if (this.getView().getModel("NotifType")) {
-						this.getView().getModel("NotifType").setProperty("/notifNumber", sId);
+					if (this.getOwnerComponent().getModel("NotifType")) {
+						this.getOwnerComponent().getModel("NotifType").setProperty("/notifNumber", sId);
 					}
 					this.getOwnerComponent().oListSelector.selectAListItem(sRequestUri);
-					this._searchHelps(oData.Type);
 					resolve();
 					//this.checkForIconTabSelection(this.getView().byId("iconTabBar").getSelectedKey());
 				}.bind(this),
@@ -1029,6 +1127,24 @@ sap.ui.define([
 			oModel.setProperty("/Type", helpKey);
 			this.Dialog.destroy(true);
 		},
+		handleHelpGroupConfirm: function(oEvent){
+			var selectedItems = oEvent.getParameter("selectedItems")["0"].getBindingContext().getObject(),
+						oTaskModel = this.addTaskList.getModel("taskSearchModel");
+						oTaskModel.setProperty("/group", selectedItems.Value);
+						oTaskModel.setProperty("/counter", selectedItems.Param1);
+						oTaskModel.setProperty("/ctrNoEnabled", false);
+			this.Dialog.destroy(true);			
+			/*var helpData = selectedItems.Value;
+			var helpKey = selectedItems.Param1;*/
+		},
+		handleHelpConfirmCtrNo: function(oEvent){
+			var selectedItems = oEvent.getParameter("selectedItems")["0"].getBindingContext().getObject(),
+						oTaskModel = this.addTaskList.getModel("taskSearchModel");
+						oTaskModel.setProperty("/ctrNo", selectedItems.Value);
+						oTaskModel.setProperty("/groupEnabled", false);
+						//oTaskModel.setProperty("/counter", selectedItems.Param1);
+			this.Dialog.destroy(true);	
+		},
 		setModelToFrag: function(oEvent) { //adding the desired model to the fragment is handled here
 			this.input = oEvent.getParameter("id");
 			this.Dialog.setModel(this.getBaseModel());
@@ -1052,7 +1168,11 @@ sap.ui.define([
 			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.progMngSearchHelp", this);
 			this.setModelToFrag(oEvent);
 		},
+		handleValueHelpAssetFuct: function(oEvent) { // project search help is handled
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.asssetFuctSearchHelp", this);
+			this.setModelToFrag(oEvent);
 
+		},
 		handleValueHelpPriorityF: function(oEvent) {
 			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.priorityFleetSearchHelp", this);
 			this.setModelToFrag(oEvent);
@@ -1079,6 +1199,31 @@ sap.ui.define([
 			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.asssetNoSearchHelp", this);
 			this.setModelToFrag(oEvent);
 		},
+		handleValueHelpTaskLead: function(oEvent) { 
+
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.taskLeadSearchHelp", this);
+			this.setModelToFrag(oEvent);
+		},
+		handleValueHelpModLead: function(oEvent) { 
+
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.modLeadSearchHelp", this);
+			this.setModelToFrag(oEvent);
+		},
+		handleValueHelpProjAuth: function(oEvent) {
+
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.projectAuthSearchHelp", this);
+			this.setModelToFrag(oEvent);
+		},
+		handleValueHelpDesign: function(oEvent) { 
+
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.designSearchHelp", this);
+			this.setModelToFrag(oEvent);
+		},
+		handleValueHelpProjLead: function(oEvent) { 
+
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.projectLeadSearchHelp", this);
+			this.setModelToFrag(oEvent);
+		},		
 		handleValueHelpGroupId: function(oEvent) {
 			this.input = oEvent.getParameter("id");
 			var oDataItem = this.approvalrouteAddFromTemplate.getModel("customTempModel").getData();
@@ -1143,6 +1288,22 @@ sap.ui.define([
 			oBinding.filter(aFilter);
 			this.Dialog.open();
 		},
+		handleValueHelpGroup: function(oEvent) {
+			this.input = oEvent.getParameter("id");
+			this.relativeInput = "approvalrouteAddFromTemplate--inpGroupDesc";
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.groupSearchHelp", this);
+			var aFilter = [];
+			var aFilter1 = new Filter("FieldName", FilterOperator.EQ, 'GROUP');
+			aFilter.push(new sap.ui.model.Filter([aFilter1], true));
+			this.Dialog.setModel(this.getBaseModel());
+			this.Dialog.open();
+			var oBinding = this.getView().byId("selectDialog").getBinding("items");
+			oBinding.filter(aFilter);
+		},
+		handleValueHelpCtrNo: function(oEvent){
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.ctrNoSearchHelp", this);
+			this.setModelToFrag(oEvent);
+		},
 		/**
 		 * Search functionlity on the Field names.
 		 */
@@ -1171,7 +1332,7 @@ sap.ui.define([
 				oView = this.getView();
 			var oEditModel = oView.getModel("FieldDataModel");
 			if (!oParameters.valid) {
-				MessageToast.show("Date is not Valid");
+				MessageToast.show("End Date is not Valid");
 				return;
 			}
 			oEditModel.setProperty("/EndDate", oParameters.value);
@@ -1182,10 +1343,43 @@ sap.ui.define([
 				oView = this.getView();
 			var oEditModel = oView.getModel("FieldDataModel");
 			if (!oParameters.valid) {
-				MessageToast.show("Date is not Valid");
+				MessageToast.show("Start Date is not Valid");
 				return;
 			}
 			oEditModel.setProperty("/StartDate", oParameters.value);
+			oView.getModel("detailView").setProperty("/changesToUpdate", true);
+		},
+		handleFundReleaseDateChange: function(oEvent){
+			var oParameters = oEvent.getParameters(),
+				oView = this.getView();
+			var oEditModel = oView.getModel("FieldDataModel");
+			if (!oParameters.valid) {
+				MessageToast.show("Fund Release Date is not Valid");
+				return;
+			}
+			oEditModel.setProperty("/FundReleaseDate", oParameters.value);
+			oView.getModel("detailView").setProperty("/changesToUpdate", true);
+		},
+		handleFinishDateChange: function(oEvent){
+			var oParameters = oEvent.getParameters(),
+				oView = this.getView();
+			var oEditModel = oView.getModel("FieldDataModel");
+			if (!oParameters.valid) {
+				MessageToast.show("Target Finish Date is not Valid");
+				return;
+			}
+			oEditModel.setProperty("/TargetFinishDate", oParameters.value);
+			oView.getModel("detailView").setProperty("/changesToUpdate", true);
+		},
+		handlePlannedModYearChange: function(oEvent){
+			var oParameters = oEvent.getParameters(),
+				oView = this.getView();
+			var oEditModel = oView.getModel("FieldDataModel");
+			if (!oParameters.valid) {
+				MessageToast.show("Planned MOD Date is not Valid");
+				return;
+			}
+			oEditModel.setProperty("/PlannedModYear", oParameters.value);
 			oView.getModel("detailView").setProperty("/changesToUpdate", true);
 		},
 		onChangeInfoUpdated: function() {
@@ -1205,13 +1399,49 @@ sap.ui.define([
 			this._resetTaskListModel();
 			this.addTaskList.open();
 		},
-		// TODO: Service is not built
 		addTaskListFromDialog: function(){
-			var bvalid = this.validateTaskFields();
+			var 	oTaskInputModel = this.addTaskList.getModel("taskSearchModel"),
+			    	bvalid = this.validateTaskFields(oTaskInputModel),
+			    	oViewModel = this.getModel("detailView");
 			if(!bvalid){
+				MessageToast.show("Please enter Group or CTR Number");
 				return;
 			}
-			this.addTaskList.close();
+			oViewModel.setProperty("/busy", true);
+			this.postTaskListService(oTaskInputModel).then(function(oDisplayData) {
+				this._callDetailSetService(this.getView().getModel("detailModel").getProperty("/NotifNumber")).then(function() {
+					MessageToast.show("Task List has been Updated");
+					oViewModel.setProperty("/busy", false);
+				}.bind(this));
+				this.addTaskList.close();
+			}.bind(this))
+			.catch(function(sErrorText) {
+					oViewModel.setProperty("/busy", false);
+					this.showServiceError(sErrorText);
+			}.bind(this));
+			
+		},
+		postTaskListService: function(oTaskInputModel){
+			return new Promise(function(resolve, reject) {
+				var sServiceUrl = "/TaskListSet",
+					oDefaultoModel = this.getOwnerComponent().getModel(),
+					oPayload = {
+						NotifNumber: this.getModel("detailModel").getProperty("/NotifNumber"),
+						Group: oTaskInputModel.getProperty("/group"),
+						Counter: oTaskInputModel.getProperty("/counter"),
+						CtrNumber: oTaskInputModel.getProperty("/ctrNo")
+					};
+				var mParameters = {
+					success: function(oData, response) {
+						resolve(oData);
+					},
+					error: function(oError) {
+						this.showServiceError(oError);
+						reject();
+					}.bind(this)
+				};
+					oDefaultoModel.create(sServiceUrl, oPayload, mParameters);
+			}.bind(this));
 		},
 		clearTaskListFromDialog: function(){
 			this._resetTaskListModel();
@@ -1226,35 +1456,76 @@ sap.ui.define([
 			    counter: "",
 			    counterValueState: "None",
 			    ctrNo: "",
-			    ctrNoValueState: "None"
+			    ctrNoValueState: "None",
+			    groupEnabled: true,
+			    //counterEnabled: "false",
+			    ctrNoEnabled: true
 			});			
 		},
 		/**
 		 * This will validate all the Fields of the Task List Dialog. This wil compare the property for any initial values
 		 * If there is any Fields which are initial,the ValueState will be made error
 		 */			
-		validateTaskFields: function(){
-			var oTaskInputModel = this.addTaskList.getModel("taskSearchModel"),
-			     oTaskInputData = oTaskInputModel.getData(),
+		validateTaskFields: function(oTaskInputModel){
+			var  oTaskInputData = oTaskInputModel.getData(),
 			     bValid = true;
-			var aPropertyFields = Object.getOwnPropertyNames(oTaskInputData);
-			aPropertyFields.forEach(function(i) {
-				if(i.indexOf("ValueState") > 0){
-					return;
-				}
-				if(oTaskInputData[i] === ""){
-					if(oTaskInputData[i + "ValueState"] !== "undefined"){
-						oTaskInputData[i + "ValueState"] = "Error";
-						bValid = false;
-					}
-				}
-				else{
-					oTaskInputData[i + "ValueState"] = "None";
-				}
-			}.bind(this));
+			     if(oTaskInputData.group === "" && oTaskInputData.ctrNo === ""){
+			     	oTaskInputData["groupValueState"] = "Error";
+			     	oTaskInputData["counterValueState"] = "Error";
+			     	oTaskInputData["ctrNoValueState"] = "Error";
+			     	bValid = false;
+			     }
+			     else{
+			     	oTaskInputData["groupValueState"] = "None";
+			     	oTaskInputData["counterValueState"] = "None";
+			     	oTaskInputData["ctrNoValueState"] = "None";
+			     }
 			oTaskInputModel.refresh();
 			return bValid;
-		}
+		},
+		onChgCostValue: function(oEvent){
+			var oRow = oEvent.getSource().getParent().getParent().getCells();
+			var iVal1 = formatter.stringToInt(oRow[1].getItems()[1].getValue());
+			var iVal2 = formatter.stringToInt(oRow[2].getItems()[1].getValue());
+			var iVal3 = formatter.stringToInt(oRow[3].getItems()[1].getValue());
+			var iVal4 = formatter.stringToInt(oRow[4].getItems()[1].getValue());
+
+			var Total = iVal1 + iVal2 + iVal3 + iVal4;
+			oRow[5].getItems()[1].setValue(Total);
+			var oTotalfield = oEvent.getSource().getParent().getParent().getParent().getItems();
+			var iOverallTotal = formatter.stringToInt(oTotalfield[0].getCells()[5].getItems()[1].getValue()) + formatter.stringToInt(oTotalfield[1].getCells()[5].getItems()[1]
+					.getValue()) +
+				formatter.stringToInt(oTotalfield[2].getCells()[5].getItems()[1].getValue());
+				this.getView().getModel("empCostsDataModel").setProperty("/Variants", iOverallTotal);
+		},
+		currencyChange: function(oEvent) {
+			/*var currencyKey = event.getSource().getSelectedKey();
+			this.getView().byId("variantTotal").setCurrency(currencyKey);*/
+		},
+		handleDesignRevDateChange: function(oEvent) {
+			var oParameters = oEvent.getParameters(),
+				oView = this.getView();
+			var oModel = oView.getModel("designReviewModel");
+			if (!oParameters.valid) {
+				MessageToast.show("Date is not Valid");
+				return;
+			}
+			
+			var oFormatDate = sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern: "yyyy-MM-ddT00:00:00"
+			});
+			var dFormattedDate = oFormatDate.format(new Date(oParameters.value));
+			oModel.setProperty(("/" + oEvent.getSource().getName()), dFormattedDate);
+			//oView.getModel("detailView").setProperty("/changesToUpdate", true);
+		},	
+		onSelectDesignRevApplicable:function(oEvent) {
+			var sFlag = oEvent.getParameter("selected") ? 'X' : '',
+				oModel = this.getView().getModel("designReviewModel");
+			oModel.setProperty(("/" + oEvent.getSource().getName()), sFlag);
+			/*switch (oEvent.getSource().getText()) {
+				case "Asbestos":
+					oEditModel.setProperty("/Asbestos", sFlag);*/
+		}	
 	});
 
 });

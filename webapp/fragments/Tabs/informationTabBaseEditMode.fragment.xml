@@ -1,0 +1,346 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<Panel expandable="false">
+		<headerToolbar>
+			<Toolbar height="3rem">
+				<Title text="{detailModel>/NotifNumber}"/>
+			</Toolbar>
+		</headerToolbar>
+		<content>
+			<l:Grid vSpacing="0.5" defaultSpan="XL4 L4 M12 S12">
+				<CheckBox text="Naval Base Physical Asset Change - EMP" class="sapUiLargeMarginBegin" enabled="false"
+					selected="{= ${detailModel>/Type} === 'ZE' ? true : false}">
+					<layoutData>
+						<l:GridData indentL="1" linebreak="true"/>
+					</layoutData>
+				</CheckBox>
+				<CheckBox text="Naval Base Physical Asset Change - TAF" class="sapUiLargeMarginBegin" enabled="false"
+					selected="{= ${detailModel>/Type} === 'ZF' ? true : false}">
+					<layoutData>
+						<l:GridData indentL="1" linebreak="true"/>
+					</layoutData>
+				</CheckBox>
+			</l:Grid>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="7" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title/>
+					<Label text="{i18n>subTypeText}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M12 S12" indentL="1"/>
+						</layoutData>
+					</Label>
+					<ComboBox change="setNull" required="{path: 'dispControlModel>/SubType', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/SubType', formatter: '.formatter.displayControlEnable'}" selectedKey="{FieldDataModel>/SubType}"
+						items="{path: 'dropDown>/SubType'}">
+						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</ComboBox>
+					<Label text="{i18n>categoryText}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M12 S12" indentL="1"/>
+						</layoutData>
+					</Label>
+					<ComboBox change="onChangeOfCategory" required="{path: 'dispControlModel>/Categorisation', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/Categorisation', formatter: '.formatter.displayControlEnable'}"
+						selectedKey="{FieldDataModel>/Categorisation}" items="{path: 'dropDown>/Categorisation'}">
+						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</ComboBox>
+					<Label text="{i18n>assetNumberTxt}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M12 S12" indentL="1"/>
+						</layoutData>
+					</Label>
+					<Input value="{FieldDataModel>/AssetNumber}" change="onWrongInput" liveChange="onKeyReset" showValueHelp="true"
+						valueHelpRequest="handleValueHelpAssetFuct">
+						<customData>
+							<core:CustomData key="{FieldDataModel>/AssetNumber}" value="AssetNumber"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</Input>
+					<!--<ComboBox change="setNull" selectedKey="{FieldDataModel>/AssetNumber}" items="{path: 'dropDown>/AssetNumber'}">
+						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</ComboBox>-->
+					<!--<Input value="{FieldDataModel>/FieldsDesc/FlocDesc}" change="onWrongInput" liveChange="onKeyReset"
+						required="{path: 'dispControlModel>/FacFloc', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/FacFloc', formatter: '.formatter.displayControlEnable'}" showValueHelp="true"
+						valueHelpRequest="handleValueHelpFloc">
+						<customData>
+							<core:CustomData key="{FieldDataModel>/FacFloc}" value="floc"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</Input>-->
+					<core:Title/>
+					<Label text="{i18n>startDateText}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M5 S12"/>
+						</layoutData>
+					</Label>
+					<DatePicker value="{FieldDataModel>/StartDate}"
+						required="{path: 'dispControlModel>/StartDate', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/StartDate', formatter: '.formatter.displayControlEnable'}" valueFormat="yyyy-MM-ddT00:00:00"
+						displayFormat="dd.MM.yyyy" change="handleStartDateChange">
+						<customData>
+							<core:CustomData value="{FieldDataModel>/StartDate}"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="XL4 L6 M5 S12"/>
+						</layoutData>
+					</DatePicker>
+					<Label text="{i18n>endDateText}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M5 S12"/>
+						</layoutData>
+					</Label>
+					<DatePicker value="{path: 'FieldDataModel>/EndDate', formatter: '.formatter.handleDateNull'}"
+						required="{path: 'dispControlModel>/EndDate', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/EndDate', formatter: '.formatter.displayControlEnable'}" valueFormat="yyyy-MM-ddT00:00:00"
+						displayFormat="dd.MM.yyyy" change="handleEndDateChange">
+						<customData>
+							<core:CustomData value="{FieldDataModel>/EndDate}"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="XL4 L6 M5 S12"/>
+						</layoutData>
+					</DatePicker>
+					<Label text="{i18n>fundRelDateTxt}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M5 S12"/>
+						</layoutData>
+					</Label>
+					<DatePicker value="{path: 'FieldDataModel>/FundReleaseDate', formatter: '.formatter.handleDateNull'}"
+						required="{path: 'dispControlModel>/FundReleaseDate', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/FundReleaseDate', formatter: '.formatter.displayControlEnable'}" valueFormat="yyyy-MM-ddT00:00:00"
+						displayFormat="dd.MM.yyyy" change="handleFundReleaseDateChange">
+						<customData>
+							<core:CustomData value="{FieldDataModel>/FundReleaseDate}"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="XL4 L6 M5 S12"/>
+						</layoutData>
+					</DatePicker>
+					<core:Title text=""/>
+					<Label text="{i18n>raisedByTxt}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M5 S12"/>
+						</layoutData>
+					</Label>
+					<Input value="{FieldDataModel>/FieldsDesc/RaisedByDesc}" enabled="false">
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</Input>
+					<Label text="{i18n>clientTxt}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M5 S12"/>
+						</layoutData>
+					</Label>
+					<Input value="{FieldDataModel>/Client}" change="onWrongInput" liveChange="onKeyReset" showValueHelp="true"
+						valueHelpRequest="handleValueHelpClient">
+						<customData>
+							<core:CustomData key="{FieldDataModel>/Client}" value="Client"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</Input>
+					<!--<Input value="{FieldDataModel>/CompartmentName}"
+						required="{path: 'dispControlModel>/CompartmentName', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/CompartmentName', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated">
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</Input>-->
+					<Label text="{i18n>assetEquipTxt}">
+						<layoutData>
+							<l:GridData span="XL4 L4 M5 S12"/>
+						</layoutData>
+					</Label>
+					<Input value="{FieldDataModel>/AssetEquip}" change="onWrongInput" showValueHelp="true" liveChange="onKeyReset"
+						valueHelpRequest="handleValueHelpAssetNo">
+						<customData>
+							<core:CustomData key="{FieldDataModel>/AssetEquip}" value="AssetEquiq"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="XL4 L7 M5 S12"/>
+						</layoutData>
+					</Input>
+				</f:content>
+			</f:SimpleForm>
+			<l:Grid defaultSpan="L12 M6 S10">
+				<VBox>
+					<HBox justifyContent="Center" alignItems="Center">
+						<CheckBox text="{i18n>newProjText}" class="sapUiTinyMarginBegin" enabled="false"
+							selected="{= ${FieldDataModel>/NewProject} === 'X' ? 'true' : 'false'}"></CheckBox>
+					</HBox>
+					<layoutData>
+						<l:GridData span="XL4 L4 M5 S12"/>
+					</layoutData>
+				</VBox>
+				<VBox class="sapUiMediumMarginEnd">
+					<HBox justifyContent="End" alignItems="Center">
+						<Label text="{i18n>descText}"></Label>
+						<TextArea class="sapUiSmallMarginBegin" value="{FieldDataModel>/Description}"
+							required="{path: 'dispControlModel>/Description', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/Description', formatter: '.formatter.displayControlEnable'}" rows="4" width="37rem"
+							change="onChangeInfoUpdated"></TextArea>
+					</HBox>
+					<layoutData>
+						<l:GridData span="XL4 L8 M5 S12"/>
+					</layoutData>
+				</VBox>
+			</l:Grid>
+			<l:Grid defaultSpan="L12 M6 S10">
+				<VBox>
+					<layoutData>
+						<l:GridData span="XL4 L4 M5 S12"/>
+					</layoutData>
+				</VBox>
+				<VBox class="sapUiMediumMarginEnd">
+					<HBox justifyContent="End" alignItems="Center">
+						<Label text="{i18n>crTitleTxt}:"></Label>
+						<Input value="{FieldDataModel>/CrTitle}" required="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin" width="37rem"
+							change="onChangeInfoUpdated"></Input>
+					</HBox>
+					<layoutData>
+						<l:GridData span="XL4 L8 M5 S12"/>
+					</layoutData>
+				</VBox>
+			</l:Grid>
+			<l:Grid defaultSpan="L12 M6 S10">
+				<VBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>pjtManager}:"/>
+						<Input value="{FieldDataModel>/FieldsDesc/ProjManagerDesc}" change="onWrongInput" liveChange="onKeyReset"
+							required="{path: 'dispControlModel>/ProjectManager', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/ProjectManager', formatter: '.formatter.displayControlEnable'}" width="210px" showValueHelp="true"
+							valueHelpRequest="handleValueHelpPrjMng">
+							<customData>
+								<core:CustomData key="{FieldDataModel>/ProjectManager}" value="projectManager"/>
+							</customData>
+						</Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>modLead}:"/>
+						<Input value="{FieldDataModel>/FieldsDesc/ModLeadDesc}" change="onWrongInput" liveChange="onKeyReset"
+							required="{path: 'dispControlModel>/ModLead', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/ModLead', formatter: '.formatter.displayControlEnable'}" width="210px" showValueHelp="true"
+							valueHelpRequest="handleValueHelpModLead">
+							<customData>
+								<core:CustomData key="{FieldDataModel>/ModLead}" value="MODLead"/>
+							</customData>
+						</Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>ProjectTechAuthority}:"/>
+						<Input value="{FieldDataModel>/ProjTechAuth}" change="onWrongInput" liveChange="onKeyReset"
+							required="{path: 'dispControlModel>/ProjTechAuth', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/ProjTechAuth', formatter: '.formatter.displayControlEnable'}" width="210px" showValueHelp="true"
+							valueHelpRequest="handleValueHelpProjAuth">
+							<customData>
+								<core:CustomData key="{FieldDataModel>/ProjTechAuth}" value="ProjectTechAuthority"/>
+							</customData>
+						</Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>empPiorityTxt}:"/>
+						<ComboBox change="setNull" width="210px" selectedKey="{FieldDataModel>/EmpPriority}" items="{path: 'dropDown>/EmpPriority'}">
+							<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+						</ComboBox>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>fundStreamTxt}:"/>
+						<ComboBox change="setNull" selectedKey="{FieldDataModel>/FundingStream}" width="210px" items="{path: 'dropDown>/FundingStream'}">
+							<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+						</ComboBox>
+					</HBox>
+					<layoutData>
+						<l:GridData span="XL4 L4 M5 S12"/>
+					</layoutData>
+				</VBox>
+				<VBox class="sapUiMediumMarginEnd">
+					<HBox justifyContent="End" alignItems="Center">
+						<Label text="{i18n>pgmMangeTxt}:"></Label>
+						<Input value="{FieldDataModel>/FieldsDesc/ProgManagerDesc}" change="onWrongInput" liveChange="onKeyReset"
+							required="{path: 'dispControlModel>/ProgrammeManager', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/ProgrammeManager', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin"
+							width="210px" showValueHelp="true" valueHelpRequest="handleValueHelpProgMng">
+							<customData>
+								<core:CustomData key="{FieldDataModel>/ProgrammeManager}" value="programManager"/>
+							</customData>
+						</Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label text="{i18n>ProjectEngLead}:"></Label>
+						<Input value="{FieldDataModel>/ProjEngLead}" change="onWrongInput" liveChange="onKeyReset"
+							required="{path: 'dispControlModel>/ProjEngLead', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/ProjEngLead', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin"
+							width="210px" showValueHelp="true" valueHelpRequest="handleValueHelpProjLead">
+							<customData>
+								<core:CustomData key="{FieldDataModel>/ProjEngLead}" value="projectEngLead"/>
+							</customData>
+						</Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label text="{i18n>DesignRevChair}:"></Label>
+						<Input value="{FieldDataModel>/DesignRevChair}" change="onWrongInput" liveChange="onKeyReset"
+							required="{path: 'dispControlModel>/DesignRevChair', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/DesignRevChair', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin"
+							width="210px" showValueHelp="true" valueHelpRequest="handleValueHelpDesign">
+							<customData>
+								<core:CustomData key="{FieldDataModel>/DesignRevChair}" value="DesignRevChair"/>
+							</customData>
+						</Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label text="{i18n>plannedModYearTxt}:"></Label>
+						<DatePicker value="{FieldDataModel>/PlannedModYear}" width="210px"
+							required="{path: 'dispControlModel>/PlannedModYear', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/PlannedModYear', formatter: '.formatter.displayControlEnable'}" valueFormat="YYYY" displayFormat="YYYY"
+							change="handlePlannedModYearChange">
+							<customData>
+								<core:CustomData value="{FieldDataModel>/PlannedModYear}"/>
+							</customData>
+						</DatePicker>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>legacyProjTxt}:"></Label>
+						<Input width="37rem" value="{FieldDataModel>/LegacyProjectNum}"
+							required="{path: 'dispControlModel>/LegacyProjectNum', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/LegacyProjectNum', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated"></Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>legacyActTxt}"></Label>
+						<Input value="{FieldDataModel>/LegacyActivityNum}" width="37rem"
+							required="{path: 'dispControlModel>/LegacyActivityNum', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/LegacyActivityNum', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated"></Input>
+					</HBox>
+					<HBox justifyContent="End" alignItems="Center">
+						<Label class="sapUiTinyMarginEnd" text="{i18n>apprTempTxt}:"/>
+						<ComboBox width="37rem" required="{path: 'dispControlModel>/ApprovalTemplate', formatter: '.formatter.displayControlRequired'}"
+							enabled="{path: 'dispControlModel>/ApprovalTemplate', formatter: '.formatter.displayControlEnable'}" change="setNull"
+							selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
+							<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+						</ComboBox>
+					</HBox>
+					<layoutData>
+						<l:GridData span="XL4 L8 M5 S12"/>
+					</layoutData>
+				</VBox>
+			</l:Grid>
+		</content>
+	</Panel>
+</core:FragmentDefinition>

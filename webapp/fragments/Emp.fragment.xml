@@ -8,30 +8,30 @@
 					<CheckBox enabled="false" id="BaseEmpEmp" selected="{checkBoxModel>/Emp}" text="Naval Base Physical Asset Change - EMP"/>
 					<CheckBox enabled="false" id="baseEmpTaf" text="Naval Base Physical Asset Change - TAF"/>
 				</l:VerticalLayout>
-				<Label text="Sub Type"/>
+				<Label text="{i18n>subTypeText}:"/>
 				<Text text="{valueModel>/SubType}" width="15rem" id="subTypeText"/>
-				<Label text="Category"/>
+				<Label text="{i18n>categoryText}:"/>
 				<Text text="{valueModel>/Category}" width="15rem" id="categoryText"/>
-				<Label text="Asset Number - Func"/>
+				<Label text="{i18n>assetNumberTxt}"/>
 				<Text text="{valueModel>/AssetNumber}" id="assetText" width="15rem"/>
 				<Label/>
-				<CheckBox id="empNewProject" text="New Project" visible="false"/>
+				<CheckBox id="empNewProject" text="{i18n>newProjText}" visible="false"/>
 				<core:Title></core:Title>
 				<Label></Label>
 				<Text></Text>
-				<Label text="StartDate"/>
+				<Label text="{i18n>startDateText}"/>
 				<DatePicker dateValue="{FieldDataModel>/StartDate}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</DatePicker>
-				<Label text="EndDate"/>
+				<Label text="{i18n>endDateText}"/>
 				<DatePicker dateValue="{FieldDataModel>/EndDate}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</DatePicker>
-				<Label text="Fund. release date "/>
+				<Label text="{i18n>fundReleaseDate} "/>
 				<DatePicker dateValue="{FieldDataModel>/FundReleaseDate}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
@@ -44,7 +44,7 @@
 				<Label/>
 				<Text/><Label/>
 				<Text class="sapUiTinyMarginBottom"/>
-				<Label text="Asset n. Equip"/>
+				<Label text="{i18n>AssetnEquip}"/>
 				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" id="AssetEquiq" valueHelpRequest="handleValueHelpAssetNo">
 					<customData>
 						<core:CustomData key="{FieldDataModel>/AssetEquip}" value="AssetEquiq"/>
@@ -53,13 +53,13 @@
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="CR Title"/>
+				<Label text="{i18n>crTitleTxt}"/>
 				<Input value="{FieldDataModel>/CrTitle}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="Description"/>
+				<Label text="{i18n>descText}"/>
 				<TextArea value="{FieldDataModel>/Description}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
@@ -68,7 +68,7 @@
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</TextArea>
-				<Label text="Project Manger"/>
+				<Label text="{i18n>pjtManager}"/>
 				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPrjMng" id="projectManager">
 					<customData>
 						<core:CustomData key="{FieldDataModel>/ProjectManager}" value="projectManager"/>
@@ -77,33 +77,52 @@
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="EMP Priority"/>
+				<Label text="{i18n>modLead}"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpModLead" id="ModLead">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/MODLead}" value="MODLead"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="{i18n>ProjectTechAuthority}"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpProjAuth"
+					id="ProjectTechAuthority">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/ProjectTechAuthority}" value="ProjectTechAuthority"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="{i18n>EmpPriority}"/>
 				<ComboBox change="setNull" selectedKey="{FieldDataModel>/EmpPriority}" items="{path: 'dropDown>/EmpPriority'}">
 					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</ComboBox>
-				<Label text="Funding Stream"/>
+				<Label text="{i18n>FundingStream}"/>
 				<ComboBox change="setNull" selectedKey="{FieldDataModel>/FundingStream}" items="{path: 'dropDown>/FundingStream'}">
 					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</ComboBox>
-				<Label text="Legacy Project n"/>
+				<Label text="{i18n>LegacyProjectn}"/>
 				<Input value="{FieldDataModel>/LegacyProjectNum}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="Legacy Activity n"/>
+				<Label text="{i18n>LegacyActivityn}"/>
 				<Input value="{FieldDataModel>/LegacyActivityNum}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="Approval Template"/>
+				<Label text="{i18n>apprTempTxt}"/>
 				<ComboBox change="setNull" selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
 					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 					<layoutData>
@@ -111,13 +130,13 @@
 					</layoutData>
 				</ComboBox>
 				<core:Title></core:Title>
-				<Label text="Raised By"/>
+				<Label text="{i18n>raisedByTxt}"/>
 				<Input value="{FieldDataModel>/RaisedBy}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="Client"/>
+				<Label text="{i18n>Client}"/>
 				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpClient" id="client">
 					<customData>
 						<core:CustomData key="{FieldDataModel>/Client}" value="Client"/>
@@ -130,7 +149,7 @@
 				<Text class="sapUiSmallMarginBottom"/>
 				<Label/>
 				<Text class="sapUiTinyMarginBottom"/>
-				<Label text="Program Manager"/>
+				<Label text="{i18n>pgmMangeTxt}"/>
 				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpProgMng" id="programManager">
 					<customData>
 						<core:CustomData key="{FieldDataModel>/ProgrammeManager}" value="programManager"/>
@@ -139,7 +158,25 @@
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="Planned MOD Yr"/>
+				<Label text="{i18n>ProjectEngLead}"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpProjLead" id="projectEngLead">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/projectEngLead}" value="projectEngLead"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="{i18n>DesignRevChair}"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpProgMng" id="DesignRevChair">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/DesignRevChair}" value="DesignRevChair"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="{i18n>PlannedModYr}"/>
 				<DatePicker value="{FieldDataModel>/PlannedModYear}" valueFormat="YYYY" displayFormat="YYYY">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
@@ -150,7 +187,7 @@
 		<Title class=" panelListAlign" text="Costs" titleStyle="H1"/>
 		<Toolbar class=" toolSpacing panelListAlign" width="60rem"></Toolbar>
 		<HBox width="60rem" justifyContent="SpaceBetween" alignItems="Center" class="sapUiLargeMarginTop panelListAlign">
-			<Title class="sapUiSmallMarginTop" text="Costed Proposal" titleStyle="H3"/>
+			<Title class="sapUiSmallMarginTop" text="{i18n>CostedProposal}" titleStyle="H3"/>
 			<ComboBox change="currencyChange" selectedKey="{FieldDataModel>/Currency}" items="{path: 'dropDown>/Curr'}">
 				<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/></ComboBox>
 		</HBox>
@@ -161,24 +198,24 @@
 					<Text text=""/>
 				</Column>
 				<Column hAlign="Center">
-					<Text text="Material cost"/>
+					<Text text="{i18n>MaterialCost}"/>
 				</Column>
 				<Column hAlign="Center">
-					<Text text="Sub. Cons."/>
+					<Text text="{i18n>SubCons}"/>
 				</Column>
 				<Column hAlign="Center">
-					<Text text="Labour Cost"/>
+					<Text text="{i18n>LabourCost}"/>
 				</Column>
 				<Column hAlign="Center">
-					<Text text="Disbursement"/>
+					<Text text="{i18n>Disbursement}"/>
 				</Column>
 				<Column hAlign="Center">
-					<Text text="Total"/>
+					<Text text="{i18n>Total}"/>
 				</Column>
 			</columns>
 			<items>
 				<ColumnListItem>
-					<Text text="FML"/>
+					<Text text="{i18n>FML}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/MaterialCostsFML}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/SubConsCostsFML}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/LabourCostsFML}"/>
@@ -186,7 +223,7 @@
 					<Input type="Number" editable="false" value="{FieldDataModel>/TotalFML}"/>
 				</ColumnListItem>
 				<ColumnListItem>
-					<Text text="Costed Proposal"/>
+					<Text text="{i18n>CostedProposal}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/MaterialCostsProp}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/SubConsCostsProp}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/LabourCostsProp}"/>
@@ -194,7 +231,7 @@
 					<Input type="Number" editable="false" value="{FieldDataModel>/TotalProp}"/>
 				</ColumnListItem>
 				<ColumnListItem>
-					<Text text="Live Forecast"/>
+					<Text text="{i18n>LiveForecast}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/MaterialCostsLive}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/SubConsCostsLive}"/>
 					<Input type="Number" liveChange="onChgCostValue" value="{FieldDataModel>/LabourCostsLive}"/>
@@ -202,7 +239,7 @@
 					<Input type="Number" editable="false" value="{FieldDataModel>/TotalLive}"/>
 				</ColumnListItem>
 				<ColumnListItem>
-					<Text text=" Variants"/>
+					<Text text="{i18n>variant}"/>
 					<Text/>
 					<Text/>
 					<Text/>
@@ -212,12 +249,12 @@
 			</items>
 		</Table>
 		<FlexBox class="panelListAlign" width="60rem" direction="Column" justifyContent="Center">
-			<Title titleStyle="H1" class="sapUiSmallMarginBottom" text="Links"/>
+			<Title titleStyle="H1" class="sapUiSmallMarginBottom" text="{i18n>LinksText}"/>
 			<Toolbar class="toolbaradjust"/>
 			<Panel>
 				<headerToolbar>
 					<Toolbar height="2rem">
-						<Title titleStyle="H3" text="CR. Linked"/>
+						<Title titleStyle="H3" text="{i18n>crLinkedTxt}"/>
 						<ToolbarSpacer/>
 						<core:Icon alt="CR" src="sap-icon://add" press="addItemToList"/>
 					</Toolbar>
@@ -242,7 +279,7 @@
 			<Panel>
 				<headerToolbar>
 					<Toolbar height="2rem">
-						<Title titleStyle="H3" text="Quotations"/>
+						<Title titleStyle="H3" text="{i18n>quotationTxt}"/>
 						<ToolbarSpacer/>
 						<core:Icon alt="Quotation" src="sap-icon://add" press="addItemToList"/>
 					</Toolbar>

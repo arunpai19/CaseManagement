@@ -50,3 +50,7 @@ div[data-textDecorationNotes="true"]{
 	text-decoration: underline;
 	color: red;
 }
+
+.floatNestRight>bdi{
+	float: right;
+}

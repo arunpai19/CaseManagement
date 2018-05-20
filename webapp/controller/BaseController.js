@@ -471,6 +471,8 @@ sap.ui.define([
 			oPayload = oInitialData;
 			oPayload.StartDate = oPayload.StartDate === "" ? null : oPayload.StartDate;
 			oPayload.EndDate = oPayload.EndDate === "" ? null : oPayload.EndDate;
+			oPayload.TargetFinishDate = oPayload.TargetFinishDate === "" ? null : oPayload.TargetFinishDate;
+			oPayload.FundReleaseDate = oPayload.FundReleaseDate === "" ? null : oPayload.FundReleaseDate;
 			oPayload.NotificationLinks = [];
 			oPayload.CRLinks = [];
 			oPayload.Quotations = [];
@@ -478,7 +480,10 @@ sap.ui.define([
 			oPayload.ApprovalRoutes = [];
 			oPayload.Projects = [];
 			oPayload.Notes = [];
+			oPayload.TaskList = [];
 			oPayload.WorkOrders = [];
+			oPayload.Costs = [];
+			oPayload.Design = [];
 			oPayload.NotifNumber = this.getView().getModel("detailModel").getProperty("/NotifNumber");
 			oViewModel.setProperty("/busy", true);
 			var mParameters = {
@@ -488,9 +493,12 @@ sap.ui.define([
 					this._callDetailSetService(oData.NotifNumber);
 					this.getView().getModel("FieldDataModel").setData([]);
 					this.getView().byId("iconTabBarInform").removeAllContent();
-					var infoFragment = sap.ui.xmlfragment("infoDisplayFragment","zm209_chng_req.fragments.Tabs.informationTab", this.getView().getController());
-						this.getView().addDependent(infoFragment);
-					this.getView().byId("iconTabBarInform").insertContent(infoFragment);
+					/*var infoFragment = sap.ui.xmlfragment("infoDisplayFragment","zm209_chng_req.fragments.Tabs.informationTab", this.getView().getController());
+						this.getView().addDependent(infoFragment);*/
+					if (!this.getOwnerComponent().oListSelector.infoTabDisplayFrag){
+					this.getOwnerComponent().oListSelector.infoTabDisplayFrag = this.getInformationTab("infoDisplayFragment",this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"),'X');
+					}
+					this.getView().byId("iconTabBarInform").insertContent(this.getOwnerComponent().oListSelector.infoTabDisplayFrag);
 					this.getView().getParent().getParent().setMode("ShowHideMode");
 					oViewModel.setProperty("/busy", false);
 					oViewModel.setProperty("/infoEdit", false);
@@ -529,6 +537,62 @@ sap.ui.define([
 			this.getView().byId("iconTabBarNotes").insertContent(this.getView().byId("notesFragment--detail"));
 			this.btnFooterVisibility(true, false, false);
 		},
+		postEmpCosts: function(oEmpCostData){
+			return new Promise(function(resolve, reject) {
+				var sServiceUrl = "/CostsSet",
+					oDefaultoModel = this.getOwnerComponent().getModel(),
+					oPayload = {
+						NotifNumber: this.getModel("detailModel").getProperty("/NotifNumber"),
+						Currency: oEmpCostData.getProperty("/Currency"),
+						MaterialCostsFML: oEmpCostData.getProperty("/MaterialCostsFML"),
+						MaterialCostsLive: oEmpCostData.getProperty("/MaterialCostsLive"),
+						MaterialCostsProp: oEmpCostData.getProperty("/MaterialCostsProp"),
+						SubConsCostsFML: oEmpCostData.getProperty("/SubConsCostsFML"),
+						SubConsCostsLive: oEmpCostData.getProperty("/SubConsCostsLive"),
+						SubConsCostsProp: oEmpCostData.getProperty("/SubConsCostsProp"),
+						LabourCostsFML: oEmpCostData.getProperty("/LabourCostsFML"),
+						LabourCostsLive: oEmpCostData.getProperty("/LabourCostsLive"),
+						LabourCostsProp: oEmpCostData.getProperty("/LabourCostsProp"),
+						DisbursementCostsFML: oEmpCostData.getProperty("/DisbursementCostsFML"),
+						DisbursementCostsLive: oEmpCostData.getProperty("/DisbursementCostsLive"),
+						DisbursementCostsProp: oEmpCostData.getProperty("/DisbursementCostsProp"),
+						TotalFML: oEmpCostData.getProperty("/TotalFML"),
+						TotalLive: oEmpCostData.getProperty("/TotalLive"),
+						TotalProp: oEmpCostData.getProperty("/TotalProp")
+					};
+				var mParameters = {
+					success: function(oData, response) {
+						resolve(oData);
+					},
+					error: function(oError) {
+						this.showServiceError(oError);
+						reject();
+					}.bind(this)
+				};
+					oDefaultoModel.create(sServiceUrl, oPayload, mParameters);
+			}.bind(this));
+		},
+		postDesignReview: function(oDeignReviewData){
+			return new Promise(function(resolve, reject) {
+				var sServiceUrl = "/CostsSet",
+					//Unclone the data models using JSON.parse and not sure whether this is standard
+					oPayload = JSON.parse(JSON.stringify(oDeignReviewData.getData())),
+					//oPayload =  ,
+					oDefaultoModel = this.getOwnerComponent().getModel();
+					oPayload.NotifNumber = this.getModel("detailModel").getProperty("/NotifNumber");
+					 delete oPayload['__metadata'];
+				var mParameters = {
+					success: function(oData, response) {
+						resolve(oData);
+					},
+					error: function(oError) {
+						this.showServiceError(oError);
+						reject();
+					}.bind(this)
+				};
+					oDefaultoModel.create(sServiceUrl, oPayload, mParameters);
+			}.bind(this));
+		},
 		/**
 		 * This method will initialise the dropdown models and field data models 
 		 */
@@ -541,6 +605,7 @@ sap.ui.define([
 				ProgramArea: [],
 				AssetNumber: [],
 				COM: [],
+				CAUSATION: [],
 				TAF: [],
 				Stores: [],
 				Itar: [],
@@ -554,7 +619,8 @@ sap.ui.define([
 				PartnerType: [],
 				WBS: [],
 				Networks: [],
-				NetworkAct: []
+				NetworkAct: [],
+				headerUserStatus: []
 
 			};
 			//All the dropdowns are binded to this model
@@ -574,6 +640,9 @@ sap.ui.define([
 				AttachDesciption: ""
 			});
 			this.getView().setModel(oAttachmentModel, "oAttachmentModel");
+			var oJsonModel = new JSONModel();
+				oJsonModel.setData([]);
+				this.setModel(oJsonModel, 'detailModel');
 		},
 		_searchHelps: function(sType) {
 				var secondFilter;
@@ -589,7 +658,7 @@ sap.ui.define([
 				if (sType === "ZF") {
 					secondFilter = "TAF";
 				}
-                this.comboModelFunction("COM", "ZZ_COMINPUT", secondFilter);
+                this.comboModelFunction("CAUSATION", "ZZ_CAUSATION", secondFilter);
 				this.comboModelFunction("TAF", "ZZ_TAF_REQ", secondFilter);
 				this.comboModelFunction("Acceptance", "ZZ_ACCPTLVL", secondFilter);
 				this.comboModelFunction("Stores", "ZZ_STOREPRO", secondFilter);
@@ -605,6 +674,7 @@ sap.ui.define([
 				this.comboModelFunction("AssetNumber", "ASSETNUMBER");
 				this.comboModelFunction("ProgramArea", "ZZ_PROG_AREA", secondFilter);
 				this.comboModelFunction("PartnerType", "PARTNER_FUNCTION", secondFilter);
+				this.comboModelFunction("headerUserStatus", "HEADER_USER_STATUS", secondFilter);
 
 		},
 		/**
@@ -815,20 +885,18 @@ sap.ui.define([
 			this._callRoleServiceInfoEdit(oDetailData.Type, sCategory, oDetailData.NotifSystemStatus, oDetailData.NotifUserStatus)
 				.then(function(oDisplayData) {
 					this.getView().getParent().getParent().setMode("HideMode");
-					
-					if (!this.infoTabEditFrag && !sOnChange) {
-						this.infoTabEditFrag = sap.ui.xmlfragment("infoTabEdit", "zm209_chng_req.fragments.Tabs.informationTabEditMode", this);
-						this.getView().addDependent(this.infoTabEditFrag, this);
+					if (!this.getOwnerComponent().oListSelector.infoTabEditFrag && !sOnChange) {
+						this.getOwnerComponent().oListSelector.infoTabEditFrag = this.getInformationTab("infoTabEdit", this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"),'X');
 						oViewModel.setProperty("/changesToUpdate", false);
 					}
 					this._setDataModelsForDisplay(oDisplayData, oDetailData,sCategory);
 					if(!sOnChange){
 					this.getView().byId("iconTabBarInform").removeAllContent();
-					this.getView().byId("iconTabBarInform").insertContent(this.infoTabEditFrag);
+					this.getView().byId("iconTabBarInform").insertContent(this.getOwnerComponent().oListSelector.infoTabEditFrag);
 					//Button Visibility
 					this.btnFooterVisibility(false, true, true);
 					}
-					oViewModel.setProperty("/infoEdit", false);//This was earlier true to take care of switching tab functionality
+					oViewModel.setProperty("/infoEdit", true);//This is only used for Notification Head status in detail View 
 					oViewModel.setProperty("/busy", false);
 
 				}.bind(this))
@@ -837,6 +905,19 @@ sap.ui.define([
 					this.showServiceError(sErrorText);
 				}.bind(this));
 
+		},
+		_formatEmpCostsData: function(){
+			// THis is to bind Information Edit tab fields
+			var oEmpCostsData = JSON.parse(JSON.stringify(this.getView().getModel("detailModel").getData().Costs.results[0]));
+			var oEmpCostsDataModel = new JSONModel();
+			this.getView().setModel(oEmpCostsDataModel, "empCostsDataModel");
+			oEmpCostsDataModel.setData(oEmpCostsData);
+		},
+		_formatDesignReviewData: function(){
+			var oDesignReviewData = JSON.parse(JSON.stringify(this.getView().getModel("detailModel").getData().Design.results[0]));
+			var oDesignReviewModel = new JSONModel();
+			this.getView().setModel(oDesignReviewModel, "designReviewModel");
+			oDesignReviewModel.setData(oDesignReviewData);
 		},
 		/* This will get the data from the role display service and move it to the Information edit model
 		 * @param oDisplayData -Control model for role display
@@ -851,14 +932,16 @@ sap.ui.define([
 			//The Date format changes because of uncloning it.Hence need to format it
 			oDataCopy.StartDate = oDataCopy.StartDate === null ? oDataCopy.StartDate :  oFormatDate.format(new Date(oDataCopy.StartDate));
 			oDataCopy.EndDate = oDataCopy.EndDate === null ? oDataCopy.EndDate :  oFormatDate.format(new Date(oDataCopy.EndDate)); 
-			oDataCopy.DateRaised = oFormatDate.format(new Date(oDataCopy.DateRaised));
+			oDataCopy.DateRaised = oDataCopy.DateRaised === null ? oDataCopy.DateRaised :  oFormatDate.format(new Date(oDataCopy.DateRaised)); 
+			oDataCopy.TargetFinishDate = oDataCopy.TargetFinishDate === null ? oDataCopy.TargetFinishDate :  oFormatDate.format(new Date(oDataCopy.TargetFinishDate)); 
+			oDataCopy.FundReleaseDate = oDataCopy.FundReleaseDate === null ? oDataCopy.FundReleaseDate :  oFormatDate.format(new Date(oDataCopy.FundReleaseDate)); 
 			oDataCopy.Categorisation = sCategory;
 			this.getView().getModel('FieldDataModel').setData(oDataCopy);
 			this._displayControlData = oDisplayData;
 			var roleData = this._addRolesPropertyToModel(oDisplayData);
 			var oDispControlJSONModel = new JSONModel();
 			oDispControlJSONModel.setData(roleData);
-			this.infoTabEditFrag.setModel(oDispControlJSONModel, 'dispControlModel');
+			this.getOwnerComponent().oListSelector.infoTabEditFrag.setModel(oDispControlJSONModel, 'dispControlModel');
 		},
 		/**
 		 * Post method to call the APproval status in the Master List.Master will refresh After the call is successful

@@ -6,23 +6,23 @@
 				<f:content>
 					<Label/>
 					<CheckBox selected="{checkBoxModel>/Fleet}" id="fleetcheck" text="Fleet"/>
-					<Label text="Sub Type"/>
+					<Label text="{i18n>subTypeText}:"/>
 					<Text text="{valueModel>/SubType}" width="15rem" id="subTypeText"/>
-					<Label text="Category"/>
+					<Label text="{i18n>categoryText}:"/>
 					<Text text="{valueModel>/Category}" width="15rem" id="categoryText"/>
-					<Label text="Project ID"/>
+					<Label text="{i18n>pjIdTxt}"/>
 					<Text text="{valueModel>/Project}" width="15rem" id="projectText"/>
 					<Label/>
-					<CheckBox id="newProject" text="New Project" visible="false"/>
+					<CheckBox id="newProject" text="{i18n>newProjText}" visible="false"/>
 					<CheckBox id="unknownProject" text="Project Unknown" visible="false"/>
 					<core:Title></core:Title>
-					<Label text="Start Date"/>
+					<Label text="{i18n>startDateText}"/>
 					<DatePicker dateValue="{FieldDataModel>/StartDate}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</DatePicker>
-					<Label text="End Date"/>
+					<Label text="{i18n>endDateText}"/>
 					<DatePicker dateValue="{FieldDataModel>/EndDate}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
@@ -36,7 +36,7 @@
 					<Text ></Text>
 					<Label/>
 					<Text ></Text>
-					<Label text="FAC/FLOC"/>
+					<Label text="{i18n>facFlocText}"/>
 					<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpFloc" id="flacfloc">
 						<customData>
 							<core:CustomData key="{FieldDataModel>/FacFloc}" value="floc"/>
@@ -45,19 +45,19 @@
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="CR Title"/>
+					<Label text="{i18n>crTitleTxt}"/>
 					<Input value="{FieldDataModel>/CrTitle}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="Description"/>
+					<Label text="{i18n>descText}"/>
 					<TextArea value="{FieldDataModel>/Description}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</TextArea>
-					<Label text="Project Manger"/>
+					<Label text="{i18n>pjtManager}"/>
 					<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPrjMng" id="projectManager">
 						<customData>
 							<core:CustomData key="{FieldDataModel>/ProjectManager}" value="projectManager"/>
@@ -66,7 +66,7 @@
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="Notification"/>
+					<Label text="{i18n>NotifText}"/>
 					<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPlnNotif"
 						id="fleetPlanningNotification">
 						<customData>
@@ -76,14 +76,14 @@
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="TAF Required"/>
-					<ComboBox change="setNull" selectedKey="{FieldDataModel>/TafRequired}" items="{path: 'dropDown>/TAF'}">
-						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
-						<layoutData>
-							<l:GridData span="Xl6 L7 M9 S12"/>
-						</layoutData>
-					</ComboBox>
-					<Label text="Priority"/>
+					<!--<Label text="TAF Required"/>-->
+					<!--<ComboBox change="setNull" selectedKey="{FieldDataModel>/TafRequired}" items="{path: 'dropDown>/TAF'}">-->
+					<!--	<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>-->
+					<!--	<layoutData>-->
+					<!--		<l:GridData span="Xl6 L7 M9 S12"/>-->
+					<!--	</layoutData>-->
+					<!--</ComboBox>-->
+					<Label text="{i18n>prtyTxt}"/>
 					<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPriorityF" id="fleetPriority">
 						<customData>
 							<core:CustomData key="{FieldDataModel>/Priority}" value="fleetPriority"/>
@@ -92,39 +92,39 @@
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="Unique number"/>
+					<Label text="{i18n>uniqNotxt}"/>
 					<Input value="{FieldDataModel>/TaskNumber}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="Acceptance Level"/>
+					<Label text="{i18n>accLevelTxt}"/>
 					<ComboBox change="setNull" selectedKey="{FieldDataModel>/AcceptanceLevel}" items="{path: 'dropDown>/Acceptance'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</ComboBox>
-					<Label text="Enhancement fit type"/>
+					<Label text="{i18n>enhanceFitTxt}"/>
 					<ComboBox change="setNull" selectedKey="{FieldDataModel>/EnhancementFitType}" items="{path: 'dropDown>/Enhancement'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</ComboBox>
-					<Label text="Specialist tooling"/>
+					<Label text="{i18n>spclToolTxt}"/>
 					<Input value="{FieldDataModel>/SpecialistTooling}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="Test Pressure"/>
+					<Label text="{i18n>tstPressTxt}"/>
 					<Input value="{FieldDataModel>/TestPressures}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="Approval Template"/>
+					<Label text="{i18n>apprTempTxt}"/>
 					<ComboBox change="setNull" selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 						<layoutData>
@@ -132,21 +132,21 @@
 						</layoutData>
 					</ComboBox>
 					<Label/>
-					<Text text="Health and Safety issues"></Text>
+					<Text text="{i18n>hsIssueTxt}"></Text>
 					<Label/>
 					<l:VerticalLayout>
-						<CheckBox id="fleetShip" text="Ship Hazards"/>
-						<CheckBox id="fleetSpace" text="Confined Space"/>
-						<CheckBox id="fleetAsbestos" text="Asbestos"/>
+						<CheckBox id="fleetShip" text="{i18n>shipHzdTxt}"/>
+						<CheckBox id="fleetSpace" text="{i18n>confinedTxt}"/>
+						<CheckBox id="fleetAsbestos" text="{i18n>asbestosTxt}"/>
 					</l:VerticalLayout>
 					<core:Title></core:Title>
-					<Label text="Raised By"/>
-					<Input value="{FieldDataModel>/RaisedBy}"  enabled = "false">
+					<Label text="{i18n>raisedByTxt}"/>
+					<Input value="{FieldDataModel>/RaisedBy}" enabled="false">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="Compt. name"/>
+					<Label text="{i18n>compNameTxt}"/>
 					<Input value="{FieldDataModel>/CompartmentName}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
@@ -156,7 +156,7 @@
 					<Text class="sapUiTinyMarginBottom"></Text>
 					<Label></Label>
 					<Text class="sapUiTinyMarginBottom"></Text>
-					<Label text="Program Manager"/>
+					<Label text="{i18n>PpgmMangeTxt}"/>
 					<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpProgMng" id="programManager">
 						<customData>
 							<core:CustomData key="{FieldDataModel>/ProgrammeManager}" value="programManager"/>
@@ -165,20 +165,20 @@
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="COM input"/>
+					<Label text="Causation"/>
 					<ComboBox change="setNull" selectedKey="{FieldDataModel>/ComInput}" items="{path: 'dropDown>/COM'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</ComboBox>
-					<Label text="COM/SS PoC"/>
+					<Label text="{i18n>comPocTxt}"/>
 					<Input value="{FieldDataModel>/ComSspoc}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</Input>
-					<Label text="CTR Number"/>
+					<Label text="{i18n>ctrNoTxt}"/>
 					<Input value="{FieldDataModel>/CtrNumber}">
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
@@ -186,14 +186,14 @@
 					</Input>
 					<Label/>
 					<Text></Text>
-					<Label text="Store Provider"/>
+					<Label text="{i18n>storeProviderTxt}"/>
 					<ComboBox change="setNull" selectedKey="{FieldDataModel>/StoresProvider}" items="{path: 'dropDown>/Stores'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 						<layoutData>
 							<l:GridData span="Xl6 L7 M9 S12"/>
 						</layoutData>
 					</ComboBox>
-					<Label class="sapUiSmallMarginEnd" text="ITAR control level"/>
+					<Label class="sapUiSmallMarginEnd" text="{i18n>ITARctlLevel}"/>
 					<ComboBox change="setNull" selectedKey="{FieldDataModel>/ItarControlLevel}" items="{path: 'dropDown>/Itar'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 						<layoutData>
@@ -203,12 +203,12 @@
 				</f:content>
 			</f:SimpleForm>
 			<FlexBox class="panelListAlign" width="60rem" direction="Column" justifyContent="Center">
-				<Title class="sapUiSmallMarginBottom" titleStyle="H1" text="Links"/>
+				<Title class="sapUiSmallMarginBottom" titleStyle="H1" text="{i18n>LinksText}"/>
 				<Toolbar class="toolbaradjust"/>
 				<Panel>
 					<headerToolbar>
 						<Toolbar height="2rem">
-							<Title titleStyle="H3" text="CR. Linked"/>
+							<Title titleStyle="H3" text="{i18n>crLinkedTxt}"/>
 							<ToolbarSpacer/>
 							<core:Icon alt="CR" src="sap-icon://add" press="addItemToList"/>
 						</Toolbar>
@@ -233,7 +233,7 @@
 				<Panel>
 					<headerToolbar>
 						<Toolbar height="2rem">
-							<Title titleStyle="H3" text="Notification linked"/>
+							<Title titleStyle="H3" text="{i18n>notifLinkedTxt}"/>
 							<ToolbarSpacer/>
 							<core:Icon alt="Notification" src="sap-icon://add" press="addItemToList"/>
 						</Toolbar>
@@ -260,7 +260,7 @@
 				<Panel>
 					<headerToolbar>
 						<Toolbar height="2rem">
-							<Title titleStyle="H3" text="Quotations"/>
+							<Title titleStyle="H3" text="{i18n>quotationTxt}"/>
 							<ToolbarSpacer/>
 							<core:Icon alt="Quotation" src="sap-icon://add" press="addItemToList"/>
 						</Toolbar>

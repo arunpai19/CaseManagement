@@ -5,15 +5,15 @@
 			<f:content>
 				<Label/>
 				<CheckBox selected="{checkBoxModel>/Eng}" id="engCheck" text="Engineering"/>
-				<Label text="Sub Type"/>
+				<Label text="{i18n>subTypeText}"/>
 				<Text text="{valueModel>/SubType}" wrapping="true" width="15rem" id="subTypeText"/>
-				<Label text="Category"/>
+				<Label text="{i18n>categoryText}"/>
 				<Text text="{valueModel>/Category}" width="15rem" wrapping="true" id="categoryText"/>
-				<Label text="Project ID"/>
+				<Label text="{i18n>projIdText}"/>
 				<Text text="{valueModel>/Project}" width="15rem" wrapping="true" id="projectText"/>
 				<Label/>
-				<CheckBox id="newProject" text="New Project" visible="false"/>
-				<CheckBox id="unknownProject" text="Project Unknown" visible="false"/>
+				<CheckBox id="newProject" text="{i18n>newProjText}" visible="false"/>
+				<CheckBox id="unknownProject" text="{i18n>ProjectUnknown}" visible="false"/>
 				<core:Title></core:Title>
 				<Label text="StartDate"/>
 				<DatePicker dateValue="{FieldDataModel>/StartDate}">
@@ -21,13 +21,13 @@
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</DatePicker>
-				<Label text="EndDate"/>
+				<Label text="{i18n>endDateText}"/>
 				<DatePicker dateValue="{FieldDataModel>/EndDate}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</DatePicker>
-				<Label text="Target Finish Date"/>
+				<Label text="{i18n>tarFndDate}"/>
 				<DatePicker dateValue="{FieldDataModel>/TargetFinishDate}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
@@ -41,7 +41,7 @@
 				<Text></Text>
 				<Label></Label>
 				<Text></Text>
-				<Label text="Priority"/>
+				<Label text="{i18n>prtyTxt}"/>
 				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPriorityE" id="engPriority">
 					<customData>
 						<core:CustomData key="{FieldDataModel>/Priority}" value="engPriority"/>
@@ -50,26 +50,41 @@
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="CrTitle"/>
+				<Label text="{i18n>customerTxt}"/>
+				<Input value="{FieldDataModel>/CustomerPOC}">
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="{i18n>taskLeadTxt}"/>
+				<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpTaskLead" id="engTaskLead">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/TaskLead}" value="TaskLead"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="Xl6 L7 M9 S12"/>
+					</layoutData>
+				</Input>
+				<Label text="{i18n>crTitleTxt}"/>
 				<Input value="{FieldDataModel>/CrTitle}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="Description"/>
+				<Label text="{i18n>descText}"/>
 				<TextArea value="{FieldDataModel>/CrDescriptionAndJustification}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</TextArea>
-				<Label text="ITAR Control Level"/>
+				<Label text="{i18n>ITARctlLevel}"/>
 				<ComboBox change="setNull" selectedKey="{FieldDataModel>/ItarControlLevel}" items="{path: 'dropDown>/Itar'}">
 					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</ComboBox>
-				<Label text="Approval Template"/>
+				<Label text="{i18n>apprTempTxt}"/>
 				<ComboBox change="setNull" selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
 					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 					<layoutData>
@@ -77,35 +92,53 @@
 					</layoutData>
 				</ComboBox>
 				<Label/>
-				<Text text="Work Status"></Text>
+				<Text text="{i18n>workStatusTxt}"></Text>
 				<Label/>
 				<l:VerticalLayout>
-					<CheckBox id="engNotCheck" text="Not Started"/>
-					<CheckBox id="engStartedCheck" text="Started"/>
-					<CheckBox id="engCompleteCheck" text="Complete"/>
+					<CheckBox id="engNotCheck" text="{i18n>ntStartedTxt}"/>
+					<CheckBox id="engStartedCheck" text="{i18n>startedTxt}"/>
+					<CheckBox id="engCompleteCheck" text="{i18n>completeTxt}"/>
 				</l:VerticalLayout>
 				<core:Title></core:Title>
-				<Label text="Raised By"/>
-				<Input value="{FieldDataModel>/RaisedBy}" enabled = "false">
+				<Label text="{i18n>raisedByTxt}"/>
+				<Input value="{FieldDataModel>/RaisedBy}" enabled="false">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
-				<Label text="Task Number"/>
+				<Label text="{i18n>taskNumberTxt}"/>
 				<Input value="{FieldDataModel>/TaskNumber}">
 					<layoutData>
 						<l:GridData span="Xl6 L7 M9 S12"/>
 					</layoutData>
 				</Input>
+				<Label text="{i18n>pjtManager}"/>
+					<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpPrjMng" id="projectManager">
+						<customData>
+							<core:CustomData key="{FieldDataModel>/ProjectManager}" value="projectManager"/>
+						</customData>
+						<layoutData>
+							<l:GridData span="Xl6 L7 M9 S12"/>
+						</layoutData>
+					</Input>
+				<!--<Label text="{i18n>taskLeadTxt}"/>-->
+				<!--<Input change="onWrongInput" liveChange="onKeyReset" showValueHelp="true" valueHelpRequest="handleValueHelpTaskLead" id="engTaskLead">-->
+				<!--	<customData>-->
+				<!--		<core:CustomData key="{FieldDataModel>/TaskLead}" value="TaskLead"/>-->
+				<!--	</customData>-->
+				<!--	<layoutData>-->
+				<!--		<l:GridData span="Xl6 L7 M9 S12"/>-->
+				<!--	</layoutData>-->
+				<!--</Input>-->
 			</f:content>
 		</f:SimpleForm>
 		<FlexBox class="panelListAlign" width="60rem" direction="Column" justifyContent="Center">
-			<Title titleStyle="H1" class="sapUiSmallMarginBottom" text="Links"/>
+			<Title titleStyle="H1" class="sapUiSmallMarginBottom" text="{i18n>LinksText}"/>
 			<Toolbar class="toolbaradjust"/>
 			<Panel>
 				<headerToolbar>
 					<Toolbar height="2rem">
-						<Title titleStyle="H3" text="Attachment"/>
+						<Title titleStyle="H3" text="{i18n>attachTxt}"/>
 						<ToolbarSpacer/>
 						<core:Icon alt="Attachment" src="sap-icon://add" press="addEngAttachment"/>
 					</Toolbar>
@@ -134,7 +167,7 @@
 			<Panel>
 				<headerToolbar>
 					<Toolbar height="2rem">
-						<Title titleStyle="H3" text="Quotation"/>
+						<Title titleStyle="H3" text="{i18n>quotationTxt}"/>
 						<ToolbarSpacer/>
 						<core:Icon alt="Quotation" src="sap-icon://add" press="addItemToList"/>
 					</Toolbar>

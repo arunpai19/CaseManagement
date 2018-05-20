@@ -111,7 +111,7 @@
 		adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
 		singleContainerFullSize="true">
 		<f:content>
-			<CheckBox class="sapUiSmallMarginBegin" text="{i18n>newProjText}" enabled = "false" selected="{= ${FieldDataModel>/NewProject} === 'X' ? 'true' : 'false'}">
+			<CheckBox  visible = "false" class="sapUiSmallMarginBegin" text="{i18n>newProjText}" enabled = "false" selected="{= ${FieldDataModel>/NewProject} === 'X' ? 'true' : 'false'}">
 				<layoutData>
 					<l:GridData span="XL4 L12 M12 S12" indentL="3" linebreak="true"/>
 				</layoutData>
@@ -140,13 +140,13 @@
 					<l:GridData span="XL4 L5 M5 S12"/>
 				</layoutData>
 			</Input>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>tafRqd}"/>
+			<!--<Label class="sapUiTinyMarginBegin" text="{i18n>tafRqd}"/>
 				<ComboBox class="sapUiSmallMarginBegin"  change="setNull" required = "{path: 'dispControlModel>/TafRequired', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/TafRequired', formatter: '.formatter.displayControlEnable'}" width="215px" selectedKey="{FieldDataModel>/TafRequired}" items="{path: 'dropDown>/TAF'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 				<layoutData>
 					<l:GridData span="XL4 L5 M5 S12"/>
 				</layoutData>
-			</ComboBox>
+			</ComboBox>-->
 			<Label class="sapUiTinyMarginBegin" text="{i18n>prtyTxt}"/>
 				<Input value ="{FieldDataModel>/FieldsDesc/PriorityDesc}" change="onWrongInput" liveChange="onKeyReset"  required = "{path: 'dispControlModel>/Priority', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/Priority', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin" width="215px" showValueHelp="true" valueHelpRequest="handleValueHelpPriorityF">
 						<customData>
@@ -216,12 +216,12 @@
 					<l:GridData span="XL4 L5 M5 S12"/>
 				</layoutData>
 			</Input>
-			<Label text="{i18n>comInputTxt}">
+			<Label text="{i18n>causationTxt}">
 				<layoutData>
 					<l:GridData indentL="4"/>
 				</layoutData>
 			</Label>
-			<ComboBox width="205px" change="setNull" selectedKey="{FieldDataModel>/ComInput}" required = "{path: 'dispControlModel>/ComInput', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/ComInput', formatter: '.formatter.displayControlEnable'}" items="{path: 'dropDown>/COM'}">
+			<ComboBox width="205px" change="setNull" selectedKey="{FieldDataModel>/ComInput}" required = "{path: 'dispControlModel>/ComInput', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/ComInput', formatter: '.formatter.displayControlEnable'}" items="{path: 'dropDown>/CAUSATION'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
 		
 				<layoutData>
@@ -265,7 +265,7 @@
 					<l:GridData indentL="4"/>
 				</layoutData>
 			</Label>
-				<ComboBox width="205px" change="setNull" selectedKey="{FieldDataModel>/ItarControlLevel}" required = "{path: 'dispControlModel>/Itar', formatter: '.formatter.displayControlRequired'}" items="{path: 'dropDown>/Itar'}" enabled = "{path: 'dispControlModel>/Itar', formatter: '.formatter.displayControlEnable'}">
+				<ComboBox width="205px" change="setNull" selectedKey="{FieldDataModel>/ItarControlLevel}" required = "{path: 'dispControlModel>/ItarControlLevel', formatter: '.formatter.displayControlRequired'}" items="{path: 'dropDown>/Itar'}" enabled = "{path: 'dispControlModel>/ItarControlLevel', formatter: '.formatter.displayControlEnable'}">
 						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"  />
 				<layoutData>
 					<l:GridData span="XL4 L5 M5 S12"/>

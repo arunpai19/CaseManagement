@@ -40,17 +40,20 @@
 						<l:GridData span="XL4 L4 M12 S12" indentL="1"/>
 					</layoutData>
 				</Label>
-				<Input value="{FieldDataModel>/FieldsDesc/ProjectDesc}" change="onWrongInput" liveChange="onKeyReset"
-					required="{path: 'dispControlModel>/Project', formatter: '.formatter.displayControlRequired'}"
-					enabled="{path: 'dispControlModel>/Project', formatter: '.formatter.displayControlEnable'}" showValueHelp="true"
-					valueHelpRequest="handleValueHelpProject">
-					<customData>
-						<core:CustomData key="{FieldDataModel>/Project}" value="Project"/>
-					</customData>
+				<Input width="220px" value="{FieldDataModel>/Class}"
+						enabled="{path: 'dispControlModel>/Class', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated"
+						>
 					<layoutData>
 						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
 				</Input>
+					<!--<customData>
+						<core:CustomData key="{FieldDataModel>/Class}" value="Project"/>
+					</customData>
+					<layoutData>
+						<l:GridData span="XL4 L7 M5 S12"/>
+					</layoutData>
+				</Input>-->
 				<core:Title/>
 				<Label text="{i18n>startDateText}">
 					<layoutData>
@@ -65,7 +68,7 @@
 						<core:CustomData value="{FieldDataModel>/StartDate}"/>
 					</customData>
 					<layoutData>
-						<l:GridData span="XL4 L6 M5 S12"/>
+						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
 				</DatePicker>
 				<Label text="{i18n>endDateText}">
@@ -81,7 +84,7 @@
 						<core:CustomData value="{FieldDataModel>/EndDate}"/>
 					</customData>
 					<layoutData>
-						<l:GridData span="XL4 L6 M5 S12"/>
+						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
 				</DatePicker>
 				<Label text="{i18n>finishDateTxt}">
@@ -89,12 +92,15 @@
 						<l:GridData span="XL4 L4 M5 S12"/>
 					</layoutData>
 				</Label>
-				<DatePicker>
+				<DatePicker value="{path: 'FieldDataModel>/TargetFinishDate', formatter: '.formatter.handleDateNull'}"
+					required="{path: 'dispControlModel>/TargetFinishDate', formatter: '.formatter.displayControlRequired'}"
+					enabled="{path: 'dispControlModel>/TargetFinishDate', formatter: '.formatter.displayControlEnable'}" valueFormat="yyyy-MM-ddT00:00:00"
+					displayFormat="dd.MM.yyyy" change="handleFinishDateChange">
 					<customData>
-						<core:CustomData value="{FieldDataModel>/EndDate}"/>
+						<core:CustomData value="{FieldDataModel>/TargetFinishDate}"/>
 					</customData>
 					<layoutData>
-						<l:GridData span="XL4 L6 M5 S12"/>
+						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
 				</DatePicker>
 				<core:Title text=""/>
@@ -129,10 +135,9 @@
 						<l:GridData span="XL4 L4 M5 S12"/>
 					</layoutData>
 				</Label>
-				<Input>
-					<customData>
-						<core:CustomData value="floc"/>
-					</customData>
+				<Input value="{FieldDataModel>/TaskNumber}"
+					required="{path: 'dispControlModel>/TaskNumber', formatter: '.formatter.displayControlRequired'}"
+					enabled="{path: 'dispControlModel>/TaskNumber', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated">
 					<layoutData>
 						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
@@ -154,9 +159,9 @@
 						<l:GridData span="XL4 L4 M12 S12" indentL="1"/>
 					</layoutData>
 				</Label>
-				<Input value="{FieldDataModel>/CrTitle}" required="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlRequired'}"
-					enabled="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlEnable'}" 
-					change="onChangeInfoUpdated">
+				<Input value="{FieldDataModel>/CustomerPO}" required = "{path: 'dispControlModel>/CustomerPO', formatter: '.formatter.displayControlRequired'}"  enabled = "{path: 'dispControlModel>/CustomerPO', formatter: '.formatter.displayControlEnable'}" change = "onChangeInfoUpdated">
+				<!--<Input value="{FieldDataModel>/CrTitle}" required="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlRequired'}"
+					enabled="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated">-->
 					<layoutData>
 						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
@@ -167,9 +172,15 @@
 						<l:GridData span="XL4 L4 M5 S12"/>
 					</layoutData>
 				</Label>
-				<Input value="{FieldDataModel>/CrTitle}" required="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlRequired'}"
-					enabled="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin" 
-					change="onChangeInfoUpdated">
+					<Input value="{FieldDataModel>/FieldsDesc/TaskLeadDesc}" change="onWrongInput" liveChange="onKeyReset"
+					required="{path: 'dispControlModel>/TaskLead', formatter: '.formatter.displayControlRequired'}"
+					enabled="{path: 'dispControlModel>/TaskLead', formatter: '.formatter.displayControlEnable'}" showValueHelp="true"
+					valueHelpRequest="handleValueHelpPrjMng">
+					<customData>
+						<core:CustomData key="{FieldDataModel>/TaskLead}" value="TaskLead"/>
+					</customData>
+				<!--<Input value="{FieldDataModel>/CrTitle}" required="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlRequired'}"
+					enabled="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated">-->
 					<layoutData>
 						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
@@ -182,8 +193,8 @@
 				</Label>
 				<Input value="{FieldDataModel>/FieldsDesc/ProjManagerDesc}" change="onWrongInput" liveChange="onKeyReset"
 					required="{path: 'dispControlModel>/ProjectManager', formatter: '.formatter.displayControlRequired'}"
-					enabled="{path: 'dispControlModel>/ProjectManager', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin"
-					 showValueHelp="true" valueHelpRequest="handleValueHelpPrjMng">
+					enabled="{path: 'dispControlModel>/ProjectManager', formatter: '.formatter.displayControlEnable'}" showValueHelp="true"
+					valueHelpRequest="handleValueHelpPrjMng">
 					<customData>
 						<core:CustomData key="{FieldDataModel>/ProjectManager}" value="projectManager"/>
 					</customData>
@@ -191,185 +202,66 @@
 						<l:GridData span="XL4 L7 M5 S12"/>
 					</layoutData>
 				</Input>
-				<!--<Label class="sapUiTinyMarginBegin" text="{i18n>pjtManager}"/>
-			<Input value ="{FieldDataModel>/FieldsDesc/ProjManagerDesc}" change="onWrongInput" liveChange="onKeyReset" required = "{path: 'dispControlModel>/ProjectManager', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/ProjectManager', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin" width="215px" showValueHelp="true" valueHelpRequest="handleValueHelpPrjMng" >
-						<customData>
-							<core:CustomData key="{FieldDataModel>/ProjectManager}" value="projectManager"/>
-						</customData>
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>NotifText}"/>
-			<Input class="sapUiSmallMarginBegin" change="onWrongInput" liveChange="onKeyReset" required = "{path: 'dispControlModel>/PlanningNotification', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/PlanningNotification', formatter: '.formatter.displayControlEnable'}" value ="{FieldDataModel>/FieldsDesc/PlanNotifDesc}" width="215px" showValueHelp="true" valueHelpRequest="handleValueHelpPlnNotif" >
-						<customData>
-							<core:CustomData key="{FieldDataModel>/PlanningNotification}" value="PlanningNotification"/>
-						</customData>
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>tafRqd}"/>
-				<ComboBox class="sapUiSmallMarginBegin"  change="setNull" required = "{path: 'dispControlModel>/TafRequired', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/TafRequired', formatter: '.formatter.displayControlEnable'}" width="215px" selectedKey="{FieldDataModel>/TafRequired}" items="{path: 'dropDown>/TAF'}">
-						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>prtyTxt}"/>
-				<Input value ="{FieldDataModel>/FieldsDesc/PriorityDesc}" change="onWrongInput" liveChange="onKeyReset"  required = "{path: 'dispControlModel>/Priority', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/Priority', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin" width="215px" showValueHelp="true" valueHelpRequest="handleValueHelpPriorityF">
-						<customData>
-							<core:CustomData key="{FieldDataModel>/Priority}" value="fleetPriority"/>
-						</customData>
-			
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>uniqNotxt}"/>
-			<Input value="{FieldDataModel>/TaskNumber}"  required = "{path: 'dispControlModel>/TaskNumber', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/TaskNumber', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin" width="215px"  change = "onChangeInfoUpdated">
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>accLevelTxt}"/>
-			<ComboBox class="sapUiSmallMarginBegin" width="215px" change="setNull" required = "{path: 'dispControlModel>/AcceptanceLevel', formatter: '.formatter.displayControlRequired'}"  enabled = "{path: 'dispControlModel>/AcceptanceLevel', formatter: '.formatter.displayControlEnable'}" selectedKey="{FieldDataModel>/AcceptanceLevel}" items="{path: 'dropDown>/Acceptance'}">
-						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label class="sapUiTinyMarginBegin fontsize" text="{i18n>enhanceFitTxt}"/>
-				<ComboBox class="sapUiSmallMarginBegin" change="setNull" width="215px" required = "{path: 'dispControlModel>/EnhancementFitType', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/EnhancementFitType', formatter: '.formatter.displayControlEnable'}" selectedKey="{FieldDataModel>/EnhancementFitType}" items="{path: 'dropDown>/Enhancement'}">
-						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>spclToolTxt}"/>
-			<Input  class="sapUiSmallMarginBegin" width="215px" required = "{path: 'dispControlModel>/SpecialistTooling', formatter: '.formatter.displayControlRequired'}"  enabled = "{path: 'dispControlModel>/SpecialistTooling', formatter: '.formatter.displayControlEnable'}" value="{FieldDataModel>/SpecialistTooling}"  change = "onChangeInfoUpdated">
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>tstPressTxt}"/>
-			<Input value="{FieldDataModel>/TestPressures}" required = "{path: 'dispControlModel>/TestPressures', formatter: '.formatter.displayControlRequired'}"  enabled = "{path: 'dispControlModel>/TestPressures', formatter: '.formatter.displayControlEnable'}" class="sapUiSmallMarginBegin" width="215px"  change = "onChangeInfoUpdated">
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label class="sapUiTinyMarginBegin" text="{i18n>apprTempTxt}"/>
-			<ComboBox width = "95%" class="sapUiSmallMarginBegin" required = "{path: 'dispControlModel>/ApprovalTemplate', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/ApprovalTemplate', formatter: '.formatter.displayControlEnable'}" change="setNull" selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
-					<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
-				<layoutData>
-					<l:GridData span="XL4 L9 M5 S12"/>
-				</layoutData>
-			</ComboBox>
-			<core:Title/>
-			<Label text="{i18n>descText}"></Label>
-			<TextArea value="{FieldDataModel>/Description}" required = "{path: 'dispControlModel>/Description', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/Description', formatter: '.formatter.displayControlEnable'}" rows="4" width="395px"  change = "onChangeInfoUpdated">
-				<layoutData>
-					<l:GridData span="XL4 L9 M5 S12"/>
-				</layoutData>
-			</TextArea>
-			<Label text="{i18n>pgmMangeTxt}">
-				<layoutData>
-					<l:GridData indentL="4"/>
-				</layoutData>
-			</Label>
-			<Input  value ="{FieldDataModel>/FieldsDesc/ProgManagerDesc}" change="onWrongInput" liveChange="onKeyReset" required = "{path: 'dispControlModel>/ProgrammeManager', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/ProgrammeManager', formatter: '.formatter.displayControlEnable'}" width="205px" showValueHelp="true" valueHelpRequest="handleValueHelpProgMng">
-						<customData>
-							<core:CustomData key="{FieldDataModel>/ProgrammeManager}" value="programManager"/>
-						</customData>
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label text="{i18n>comInputTxt}">
-				<layoutData>
-					<l:GridData indentL="4"/>
-				</layoutData>
-			</Label>
-			<ComboBox width="205px" change="setNull" selectedKey="{FieldDataModel>/ComInput}" required = "{path: 'dispControlModel>/ComInput', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/ComInput', formatter: '.formatter.displayControlEnable'}" items="{path: 'dropDown>/COM'}">
-						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
-		
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label text="{i18n>comPocTxt}">
-				<layoutData>
-					<l:GridData indentL="4"/>
-				</layoutData>
-			</Label>
-			<Input width="205px" value="{FieldDataModel>/ComSspoc}" required = "{path: 'dispControlModel>/ComSspoc', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/ComSspoc', formatter: '.formatter.displayControlEnable'}"  change = "onChangeInfoUpdated">
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label text="{i18n>ctrNoTxt}">
-				<layoutData>
-					<l:GridData indentL="4"/>
-				</layoutData>
-			</Label>
-			<Input value="{FieldDataModel>/CtrNumber}" width="205px" required = "{path: 'dispControlModel>/CtrNumber', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/CtrNumber', formatter: '.formatter.displayControlEnable'}"  change = "onChangeInfoUpdated">
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</Input>
-			<Label text="{i18n>storeProviderTxt}">
-				<layoutData>
-					<l:GridData indentL="4"/>
-				</layoutData>
-			</Label>
-			<ComboBox width="205px" change="setNull" selectedKey="{FieldDataModel>/StoresProvider}" items="{path: 'dropDown>/Stores'}" required = "{path: 'dispControlModel>/Stores', formatter: '.formatter.displayControlRequired'}" enabled = "{path: 'dispControlModel>/Stores', formatter: '.formatter.displayControlEnable'}">
-						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"   />
-			
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</ComboBox>
-			<Label text="{i18n>ITARctlLevel}">
-				<layoutData>
-					<l:GridData indentL="4"/>
-				</layoutData>
-			</Label>
-				<ComboBox width="205px" change="setNull" selectedKey="{FieldDataModel>/ItarControlLevel}" required = "{path: 'dispControlModel>/Itar', formatter: '.formatter.displayControlRequired'}" items="{path: 'dropDown>/Itar'}" enabled = "{path: 'dispControlModel>/Itar', formatter: '.formatter.displayControlEnable'}">
-						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"  />
-				<layoutData>
-					<l:GridData span="XL4 L5 M5 S12"/>
-				</layoutData>
-			</ComboBox>-->
 			</f:content>
 		</f:SimpleForm>
-		<!--<HBox>
-		<Label text="Description:" class="marginBegin"></Label>
-		<Text class="sapUiSmallMarginBegin" maxLines="3"
-			text="Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber Street HouseNumber"
-			width="29rem"></Text>
-	</HBox>-->
-		<l:Grid class="sapUiMediumMarginTop" vSpacing="1" defaultSpan="L4 M6 S10">
-			<Label text="{i18n>hsIssueTxt}">
+		<l:Grid defaultSpan="L4 M6 S10">
+			<VBox>
+				<HBox justifyContent="End" alignItems="Center">
+					<Label width="100%" required="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlRequired'}" class="floatNestRight" text="{i18n>crTitleTxt}:"></Label>
+					<Input width="220px" value="{FieldDataModel>/CrTitle}"
+						enabled="{path: 'dispControlModel>/CrTitle', formatter: '.formatter.displayControlEnable'}" change="onChangeInfoUpdated"
+						class="sapUiTinyMarginBegin"></Input>
+				</HBox>
+				<HBox justifyContent="End" alignItems="Center">
+					<Label width="100%" class="floatNestRight" text="{i18n>ITARctlLevel}:"></Label>
+					<ComboBox width="220px" change="setNull" class="sapUiTinyMarginBegin sapUiTinyMarginTop floatRight"
+						selectedKey="{FieldDataModel>/ItarControlLevel}" required="{path: 'dispControlModel>/ItarControlLevel', formatter: '.formatter.displayControlRequired'}"
+						items="{path: 'dropDown>/Itar'}" enabled="{path: 'dispControlModel>/ItarControlLevel', formatter: '.formatter.displayControlEnable'}">
+						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+					</ComboBox>
+				</HBox>
+			</VBox>
+			<VBox>
+				<HBox justifyContent="Start" alignItems="Center" class="sapUiLargeMarginBegin">
+					<Label text="{i18n>descText}"></Label>
+					<TextArea width="38rem" class="sapUiSmallMarginBegin" value="{FieldDataModel>/Description}"
+						required="{path: 'dispControlModel>/Description', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/Description', formatter: '.formatter.displayControlEnable'}" rows="4" change="onChangeInfoUpdated"></TextArea>
+				</HBox>
+				<HBox justifyContent="Start" alignItems="Center">
+					<Label class="sapUiTinyMarginBegin" text="{i18n>apprTempTxt}:"/>
+					<ComboBox width="38rem" class="sapUiTinyMarginBegin"
+						required="{path: 'dispControlModel>/ApprovalTemplate', formatter: '.formatter.displayControlRequired'}"
+						enabled="{path: 'dispControlModel>/ApprovalTemplate', formatter: '.formatter.displayControlEnable'}" change="setNull"
+						selectedKey="{FieldDataModel>/ApprovalTemplate}" items="{path: 'dropDown>/ApprovalTemplate'}">
+						<core:Item key="{dropDown>Value}" text="{dropDown>Description}"/>
+					</ComboBox>
+				</HBox>
 				<layoutData>
-					<l:GridData span="XL10 L10 M12 S12" indentL="2"/>
+					<l:GridData span="XL4 L8 M5 S12"/>
+				</layoutData>
+			</VBox>
+		</l:Grid>
+		<l:Grid class="sapUiMediumMarginTop" vSpacing="1" defaultSpan="L4 M6 S10">
+			<Label text="{i18n>workStatusTxt}" class="sapUiLargeMarginBegin">
+				<layoutData>
+					<l:GridData span="XL10 L10 M12 S12" indentL="5"/>
 				</layoutData>
 			</Label>
-			<CheckBox text="{i18n>shipHzdTxt}" id="fleetShip" selected="{= ${FieldDataModel>/ShipHazard} === 'X' ? true : false}"
-				select="onSelectHealthSafetyCbox">
+			<CheckBox text="{i18n>ntStartedTxt}" selected="{= ${FieldDataModel>/NotStarted} === 'X' ? true : false}" select="onSelectHealthSafetyCbox"
+				class="sapUiLargeMarginBegin">
 				<layoutData>
-					<l:GridData span="XL3 L3 M12 S12" indentL="2"/>
+					<l:GridData span="XL3 L2 M12 S12" indentL="5"/>
 				</layoutData>
 			</CheckBox>
-			<CheckBox text="{i18n>confinedTxt}" id="fleetSpace" selected="{= ${FieldDataModel>/ConfinedSpace} === 'X' ? true : false}"
-				select="onSelectHealthSafetyCbox">
+			<CheckBox text="{i18n>startedTxt}" selected="{= ${FieldDataModel>/Started} === 'X' ? true : false}" select="onSelectHealthSafetyCbox">
 				<layoutData>
-					<l:GridData span="XL3 L3 M12 S12"/>
+					<l:GridData span="XL3 L2 M12 S12"/>
 				</layoutData>
 			</CheckBox>
-			<CheckBox text="{i18n>asbestosTxt}" id="fleetAsbestos" selected="{= ${FieldDataModel>/Asbestos} === 'X' ? true : false}"
-				select="onSelectHealthSafetyCbox">
+			<CheckBox text="{i18n>completeTxt}" selected="{= ${FieldDataModel>/Complete} === 'X' ? true : false}" select="onSelectHealthSafetyCbox">
 				<layoutData>
-					<l:GridData span="XL3 L3 M12 S12"/>
+					<l:GridData span="XL3 L2 M12 S12"/>
 				</layoutData>
 			</CheckBox>
 		</l:Grid>

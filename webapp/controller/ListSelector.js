@@ -173,6 +173,8 @@ sap.ui.define([
 			clearPromises: function(){
 				this._oWhenListHasBeenSet = null;
 				this.oWhenListLoadingIsDone = null;
+				this.infoTabDisplayFrag = null; // Detail View Information tab Fragment
+				this.infoTabEditFrag = null; // Detail View Information tab Edit Fragment
 				this._oWhenListHasBeenSet = new Promise(function (fnResolveListHasBeenSet) {
 					this._fnResolveListHasBeenSet = fnResolveListHasBeenSet;
 				}.bind(this));

@@ -1,0 +1,14 @@
+<core:FragmentDefinition id="SearchFrag" xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="No Data" id = "selectDialog" title="{titleModel>/title}" search="wildSearch" confirm="handleHelpGroupConfirm"
+		cancel="handleHelpClose" items="{path : '/SearchHelpSet' }">
+		<ObjectListItem title="{Value}">
+			<attributes>
+				<ObjectAttribute title = "Counter: " text="{Param1}"/>
+				<ObjectAttribute title = "Description: " text="{Description}"/>
+			</attributes>
+		</ObjectListItem>
+		<customData>
+			<core:CustomData value="GROUP"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

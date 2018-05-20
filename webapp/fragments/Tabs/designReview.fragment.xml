@@ -1,0 +1,228 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<IconTabBar class="sapUiResponsiveContentPadding">
+		<items>
+			<IconTabFilter text="{i18n>detailedDRTxt}">
+				<Toolbar>
+					<Title text="{i18n>detailedDRTxt}" class="sapUiSmallMarginBegin"/>
+					<ToolbarSpacer/>
+					<Text text="{i18n>applicableTxt}" class="sapUiTinyMarginEnd"/>
+					<CheckBox enabled="{= !${detailView>/edit} }" name = "DetApplicable" selected="{= ${designReviewModel>/DetApplicable} === 'X' ? true : false}" class="sapUiLargeMarginEnd" select = "onSelectDesignRevApplicable"/>
+				</Toolbar>
+				<l:Grid class="sapUiMediumMarginTop" width = "50rem" vSpacing="1" defaultSpan="L5 M6 S10">
+					<HBox alignItems="Center">
+						<Label text="{i18n>baseLineDate}"/> 
+						<DatePicker enabled="{= !${detailView>/edit} }" value ="{path: 'designReviewModel>/DetBaselineDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						 width="150px"
+						 name = "DetBaselineDate"
+						  change="handleDesignRevDateChange"/>
+						<!--<DatePicker class="sapUiSmallMarginBegin" width="150px" displayFormat="MM.dd.YYYY"/>-->
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center" justifyContent="End">
+						<Label text="{i18n>revisedDate}"/>
+						<DatePicker enabled="{= !${detailView>/edit} }"  value ="{path: 'designReviewModel>/DetRevisedDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						 name = "DetRevisedDate"
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center">
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>	
+					<HBox justifyContent="End" alignItems="Center">
+						<Label text="{i18n>passDate}"/>
+						<DatePicker enabled="{= !${detailView>/edit} }"  value ="{path: 'designReviewModel>/DetPassDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "DetPassDate"
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+				</l:Grid>
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>feasibilityDRTxt}">
+				<Toolbar>
+					<Title text="{i18n>feasibilityDRTxt}" class="sapUiSmallMarginBegin"/>
+					<ToolbarSpacer/>
+					<CheckBox enabled="{= !${detailView>/edit} }" text="{i18n>applicableTxt}"  selected="{= ${designReviewModel>//FeasApplicable} === 'X' ? true : false}" class="sapUiLargeMarginEnd"  select = "onSelectDesignRevApplicable"/>
+				</Toolbar>
+				<l:Grid class="sapUiMediumMarginTop" vSpacing="1" defaultSpan="L4 M6 S10">
+					<HBox alignItems="Center">
+						<Label text="{i18n>baseLineDate}"/>
+						<DatePicker enabled="{= !${detailView>/edit} }"  value="{path: 'designReviewModel>/FeasBaselineDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "FeasBaselineDate"
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>revisedDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/FeasRevisedDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "FeasRevisedDate"
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center">
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>	
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>passDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/FeasPassDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "FeasPassDate"
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+				</l:Grid>
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>requirementsDRTxt}">
+				<Toolbar>
+					<Title text="{i18n>requirementsDRTxt}" class="sapUiSmallMarginBegin"/>
+					<ToolbarSpacer/>
+					<CheckBox enabled="{= !${detailView>/edit} }" text="{i18n>applicableTxt}" name = "ReqApplicable"  selected="{= ${designReviewModel>/ReqApplicable} === 'X' ? true : false}" class="sapUiLargeMarginEnd"  select = "onSelectDesignRevApplicable"/>
+				</Toolbar>
+				<l:Grid class="sapUiMediumMarginTop" vSpacing="1" defaultSpan="L4 M6 S10">
+					<HBox alignItems="Center">
+						<Label text="{i18n>baseLineDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/ReqBaselineDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "ReqBaselineDate"
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>revisedDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/ReqRevisedDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						 name = "ReqRevisedDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center">
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>	
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>passDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/ReqPassDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "ReqPassDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+				</l:Grid>
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>tenderDRTxt}">
+				<Toolbar>
+					<Title text="{i18n>tenderDRTxt}" class="sapUiSmallMarginBegin"/>
+					<ToolbarSpacer/>
+					<CheckBox enabled="{= !${detailView>/edit} }" text="{i18n>applicableTxt}" name = "TenApplicable"  selected="{= ${designReviewModel>/TenApplicable} === 'X' ? true : false}" class="sapUiLargeMarginEnd"  select = "onSelectDesignRevApplicable"/>
+				</Toolbar>
+				<l:Grid class="sapUiMediumMarginTop" vSpacing="1" defaultSpan="L4 M6 S10">
+					<HBox alignItems="Center">
+						<Label text="{i18n>baseLineDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/TenBaselineDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "TenBaselineDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>revisedDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/TenRevisedDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "TenRevisedDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center">
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>	
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>passDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/TenPassDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "TenPassDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+				</l:Grid>
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>validationDRTxt}">
+				<Toolbar>
+					<Title text="{i18n>validationDRTxt}" class="sapUiSmallMarginBegin"/>
+					<ToolbarSpacer/>
+					<CheckBox enabled="{= !${detailView>/edit} }" text="{i18n>applicableTxt}" name = "ValApplicable"  selected="{= ${designReviewModel>/ValApplicable} === 'X' ? true : false}"  class="sapUiLargeMarginEnd"  select = "onSelectDesignRevApplicable"/>
+				</Toolbar>
+				<l:Grid class="sapUiMediumMarginTop" vSpacing="1" defaultSpan="L4 M6 S10">
+					<HBox alignItems="Center">
+						<Label text="{i18n>baseLineDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }"  value="{path: 'designReviewModel>/ValBaselineDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "ValBaselineDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>revisedDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }"  value="{path: 'designReviewModel>/ValRevisedDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "ValRevisedDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+					<HBox alignItems="Center">
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>	
+					<HBox alignItems="Center" justifyContent="End" >
+						<Label text="{i18n>passDate}"/>
+						<DatePicker  enabled="{= !${detailView>/edit} }" value="{path: 'designReviewModel>/ValPassDate', formatter: '.formatter.datepickerToDisplayFormat'}" class="sapUiSmallMarginBegin"
+						name = "ValPassDate" 
+						 width="150px" 
+						 change="handleDesignRevDateChange"/>
+						<layoutData>
+							<l:GridData indentL="1"/>
+						</layoutData>
+					</HBox>
+				</l:Grid>
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
+</core:FragmentDefinition>

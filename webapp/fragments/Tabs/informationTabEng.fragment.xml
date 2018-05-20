@@ -14,7 +14,7 @@
 			<Label text="{i18n>categoryText}"/>
 			<Text text="{detailModel>/FieldsDesc/CategDesc}"/>
 			<Label text="{i18n>classPlatformText}"/>
-			<Text text=""/>
+			<Text text="{detailModel>/Class}"/>
 			<core:Title text=""/>
 			<Label text="{i18n>startDateText}">
 				<layoutData>
@@ -37,11 +37,10 @@
 					<l:GridData span="XL4 L4 M5 S12" linebreak="true"/>
 				</layoutData>
 			</Label>
-			<Text text="">
-				<layoutData>
-					<l:GridData linebreak="true"/>
-				</layoutData>
+			<Text text="{ path: 'detailModel>/TargetFinishDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yyyy'}, formatter: '.formatter.handleNull'  }">
+				
 			</Text>
+			
 		</f:content>
 	</f:SimpleForm>
 	<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="5" labelSpanS="12"
@@ -56,10 +55,10 @@
 			<Label text="{i18n>prtyTxt}"/>
 			<Text text="{detailModel>/FieldsDesc/PriorityDesc}"/>
 			<Label text="{i18n>customerTxt}"/>
-			<Text text=""/>			
+			<Text text="{detailModel>/CustomerPO}"/>			
 			<Label text="{i18n>pjtManager}"/>
 			<Text text="{detailModel>/FieldsDesc/ProjManagerDesc}"/>			
-			<Label text="CR {i18n>crTitleTxt}"/>
+			<Label text="{i18n>crTitleTxt}"/>
 			<Text text="{detailModel>/CrTitle}"/>
 			<core:Title text=""/>
 			<Label text="{i18n>raisedByTxt}">
@@ -73,13 +72,13 @@
 					<l:GridData span="XL4 L4 M5 S12"  linebreak="true"/>
 				</layoutData>
 			</Label>
-			<Text text=""/>
+			<Text text="{detailModel>/TaskNumber}"/>
 			<Label text="{i18n>taskLeadTxt}">
 				<layoutData>
 					<l:GridData span="XL4 L4 M5 S12"  linebreak="true"/>
 				</layoutData>
 			</Label>
-			<Text text=""/>
+			<Text text="{detailModel>/FieldsDesc/TaskLeadDesc}"></Text>
 		</f:content>
 	</f:SimpleForm>
 	<HBox width = "100%" height = "100%">
@@ -99,7 +98,7 @@
 			<Text text="{detailModel>/FieldsDesc/ApprovalTempDesc}"/>
 			<Label text="ITAR control level">
 				<layoutData>
-					<l:GridData span="XL4 L4 M5 S12"/>
+					<l:GridData span="XL4 L4 M5 S12" linebreak="true"/>
 				</layoutData>
 			</Label>
 			<Text  text="{= ${detailModel>/FieldsDesc/ItarCtlDesc} === '' ? '-' : ${detailModel>/FieldsDesc/ItarCtlDesc}}"/>
@@ -112,17 +111,17 @@
 				<l:GridData span="XL10 L10 M12 S12" indentL="2"/>
 			</layoutData>
 		</Label>
-		<CheckBox text="{i18n>ntStartedTxt}"  enabled = "false" selected="{= ${detailModel>/ShipHazard} === 'X' ? true : false}">
+		<CheckBox text="{i18n>ntStartedTxt}"  enabled = "false" selected="{= ${detailModel>/NotStarted} === 'X' ? true : false}">
 			<layoutData>
 				<l:GridData span="XL3 L3 M12 S12" indentL="2"/>
 			</layoutData>
 		</CheckBox>
-		<CheckBox text="{i18n>startedTxt}"  enabled = "false" selected="{= ${detailModel>/ConfinedSpace} === 'X' ? true : false}">
+		<CheckBox text="{i18n>startedTxt}"  enabled = "false" selected="{= ${detailModel>/Started} === 'X' ? true : false}">
 			<layoutData>
 				<l:GridData span="XL3 L3 M12 S12"/>
 			</layoutData>
 		</CheckBox>
-		<CheckBox text="{i18n>completeTxt}"  enabled = "false" selected="{= ${detailModel>/Asbestos} === 'X' ? true : false}">
+		<CheckBox text="{i18n>completeTxt}"  enabled = "false" selected="{= ${detailModel>/Complete} === 'X' ? true : false}">
 			<layoutData>
 				<l:GridData span="XL3 L3 M12 S12"/>
 			</layoutData>

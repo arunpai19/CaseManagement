@@ -32,14 +32,14 @@
 							</FlexBox>
 							<Text class="sapUiTinyMarginTop" text="{i18n>descText} {CrTitle}"/>
 							<Text class="sapUiTinyMarginTop" text="{i18n>createdByText} {FieldsDesc/RaisedByDesc}"/>
-							<HBox class="sapUiTinyMarginTop">
+							<HBox class="sapUiTinyMarginTop"  >
 								<Text text="{i18n>dateRaisedText}: "/>
 								<Text text="{ path: 'StartDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yy'} }"/>
 							</HBox>
-							<FlexBox class="sapUiSmallMarginTop sapUiTinyMarginBottom" alignItems="Start" justifyContent="SpaceBetween">
-								<items>
-									<Text text="{Task}" width = "12rem"/>
-									<HBox class="sapUiMediumMarginEnd">
+							<HBox visible = "{= ${Type} === 'ZC' || ${Type} === 'ZD'  ? true : false}"  alignItems="Start" justifyContent="SpaceBetween">
+								
+									<Text class="sapUiTinyMarginTop sapUiTinyMarginBottom" text="{Task}" width = "12rem"/>
+									<HBox class="sapUiTinyMarginTop sapUiTinyMarginBottom sapUiMediumMarginEnd">
 										<core:Icon src="sap-icon://decline" alt="RJCT" class="sapUiTinyMarginEnd cursorIcon"
 											visible="{path: 'Status', formatter: '.formatter.approvalRoutesStatusVisible'}"
 											color="{path: 'Status', formatter: '.formatter.approvalRoutesDecline'}" press="onStatusChange">
@@ -52,6 +52,30 @@
 											visible="{path: 'Status', formatter: '.formatter.approvalRoutesStatusVisible'}"
 											color="{path: 'Status', formatter: '.formatter.approvalRoutesAccept'}" press="onStatusChange">
 										</core:Icon>
+									</HBox>
+								
+							</HBox>
+							<FlexBox visible = "{= ${Type} === 'ZE' || ${Type} === 'ZF'  ? true : false}" alignItems="Start" justifyContent="SpaceBetween">
+								<items>
+									<HBox>
+										<Text  class = "sapUiTinyMarginEnd" text="Program:"/>
+										<Text text="{ProgramArea}"/>
+									</HBox>
+									<HBox  class = " sapUiTinyMarginEnd ">
+										<Text class = "sapUiTinyMarginEnd" text="LFC:"/>
+										<Text textDirection="RTL" text="{ parts:['{Currency}','{TotalLive}'], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
+									</HBox>
+								</items>
+							</FlexBox>
+							<FlexBox visible = "{= ${Type} === 'ZE' || ${Type} === 'ZF'  ? true : false}" alignItems="Start" class = "sapUiTinyMarginBottom" justifyContent="SpaceBetween">
+								<items>
+									<HBox>
+										<Text class = "sapUiTinyMarginEnd" text="EMP Priority:"/>
+										<Text text="{EmpPriority}"/>
+									</HBox>
+									<HBox class = "sapUiTinyMarginEnd">
+										<Text class = "sapUiTinyMarginEnd" text="Var. CP-LF:"/>
+										<Text textDirection="RTL" text="{ parts:['{Currency}','{Variants}'], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: true }, formatter: '.formatter.currencyFormat' }"/>
 									</HBox>
 								</items>
 							</FlexBox>

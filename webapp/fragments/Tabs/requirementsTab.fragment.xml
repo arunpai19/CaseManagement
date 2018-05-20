@@ -1,0 +1,72 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" >
+	<IconTabBar expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
+		<items>
+			<IconTabFilter text="LAB. Req">
+				<!--<Toolbar>
+					<Title text="{i18n>crLinkedTxt}"/>
+					<ToolbarSpacer/>
+					<core:Icon alt="CR" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="addItemToList"/>
+				</Toolbar>-->
+				<Table inset="false" items="{detailModel>/Lab/results}">
+					<columns>
+						<Column width="32%">
+							<Label text="Reactive Labour Requirement"/>
+						</Column>
+						<Column width="28%">
+							<Label text="WKCT"/>
+						</Column >
+						<Column width="28%">
+							<Label text="Hrs"/>
+						</Column>
+						<Column visible = "{= !${detailView>/edit} }">
+							<core:Icon alt="CR" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="addItemToList"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{detailModel>LabReq}"/>
+								<Text text="{detailModel>WorkCentre}"/>
+								<Text text="{detailModel>Hours}"/>
+								<Button type="Transparent"  class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteCRLinks"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</IconTabFilter>
+			<IconTabFilter text="NON LAB Req">
+			<!--	<Toolbar>
+					<Title text="{i18n>notifLinkedTxt}"/>
+					<ToolbarSpacer/>
+					<core:Icon alt="Notification" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="addItemToList"/>
+				</Toolbar>-->
+				<Table inset="false" items="{detailModel>/NonLab/results}">
+					<columns>
+						<Column width="32%">
+							<Label text="NON Reactive Labour Requirement"/>
+						</Column>
+						<Column width="28%">
+							<Label text="UOM"/>
+						</Column >
+						<Column width="28%">
+							<Label text="QTY"/>
+						</Column>
+						<Column visible = "{= !${detailView>/edit} }">
+							<core:Icon alt="CR" visible = "{= !${detailView>/edit} }" src="sap-icon://add" press="addItemToList"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{detailModel>NonLabReq}"/>
+								<Text text="{detailModel>Uom}"/>
+								<Text text="{detailModel>Quantity}"/>
+								<Button type="Transparent" class="iconDeleteColor" icon="sap-icon://sys-cancel" press="onPressDeleteNotifLink"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>				
+			</IconTabFilter>
+			</items>
+	</IconTabBar>
+</core:FragmentDefinition>

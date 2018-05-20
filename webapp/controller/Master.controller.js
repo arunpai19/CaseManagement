@@ -49,8 +49,8 @@ sap.ui.define([
 				oViewModel.setProperty("/delay", iOriginalBusyDelay);
 			});
 			// 
-			if (this.getView().getModel("NotifType") && this.getView().getModel("NotifType").getProperty("/notifType")) {
-				this._oListFilterState.type = this.getView().getModel("NotifType").getProperty("/notifType");
+			if (this.getOwnerComponent().getModel("NotifType") && this.getOwnerComponent().getModel("NotifType").getProperty("/notifType")) {
+				this._oListFilterState.type = this.getOwnerComponent().getModel("NotifType").getProperty("/notifType");
 			} else {
 				// THis will work only when the Browser app is refreshed in the Master detail screen  Since the Notif Type will not
 				// be availalbe in the mmodel
@@ -60,16 +60,17 @@ sap.ui.define([
 				} else {
 					this._oListFilterState.type = oHashChanger.getHash().split("-")[1].split("/")[0];
 				}
+				this.getOwnerComponent().getModel("NotifType").setProperty("/notifType", this._oListFilterState.type);
 			}
 			//sap.ui.core.BusyIndicator.hide();
 			this.getView().addEventDelegate({
 				onBeforeFirstShow: function() {
-					this._oListFilterState.aFilter = [new Filter("Type", FilterOperator.Contains, this._oListFilterState.type)];
+					this._oListFilterState.aFilter = [new Filter("Type", FilterOperator.Contains, this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"))];
 					this._applyFilterSearch();
 					this.getOwnerComponent().oListSelector.setBoundMasterList(oList);
 					this.getOwnerComponent().oListSelector.oWhenListLoadingIsDone.then(
 							function() {
-								this._callMasterService(this._oListFilterState.type);
+								this._callMasterService(this.getView().getModel("NotifType").getProperty("/notifType"));
 							}.bind(this));
 				}.bind(this)
 			});
@@ -94,7 +95,7 @@ sap.ui.define([
 			// hide pull to refresh if necessary
 			this.byId("pullToRefresh").hide();
 			//This is to select the master When the Data starts growing
-			var sNotifNo = this.getView().getModel("NotifType").getProperty("/notifNumber");
+			var sNotifNo = this.getOwnerComponent().getModel("NotifType").getProperty("/notifNumber");
 			this.getOwnerComponent().oListSelector.selectAListItem("/NotificationHeaderSet('" + sNotifNo + "')");
 		},
 		/**
@@ -107,10 +108,10 @@ sap.ui.define([
 				var aFilter = [];
 				if (oItem) {
 					var aFilter1 = new Filter("NotifNumber", FilterOperator.Contains, oItem);
-					var aFilter2 = new Filter("Type", FilterOperator.EQ, this._oListFilterState.type);
+					var aFilter2 = new Filter("Type", FilterOperator.EQ, this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"));
 					aFilter.push(new sap.ui.model.Filter([aFilter1, aFilter2], true));
 				} else {
-					aFilter = [new Filter("Type", FilterOperator.EQ, this._oListFilterState.type)];
+					aFilter = [new Filter("Type", FilterOperator.EQ, this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"))];
 				}
 
 				var oBinding = this._oList.getBinding("items");
@@ -136,13 +137,14 @@ sap.ui.define([
 			}
 
 			var sQuery = oEvent.getParameter("query");
-			var aFilter = [];
+			var aFilter = [],
+				sType = this.getOwnerComponent().getModel("NotifType").getProperty("/notifType");
 			if (sQuery) {
 				var aFilter1 = new Filter("NotifNumber", FilterOperator.Contains, sQuery);
-				var aFilter2 = new Filter("Type", FilterOperator.EQ, this._oListFilterState.type);
+				var aFilter2 = new Filter("Type", FilterOperator.EQ, sType);
 				aFilter.push(new sap.ui.model.Filter([aFilter1, aFilter2], true));
 			} else {
-				aFilter = [new Filter("Type", FilterOperator.EQ, this._oListFilterState.type)];
+				aFilter = [new Filter("Type", FilterOperator.EQ, sType)];
 			}
 
 			//var oList = this.getView().byId("list");
@@ -230,7 +232,7 @@ sap.ui.define([
 					}
 					var sObjectId = mParams.firstListitem.getBindingContext().getProperty("NotifNumber");
 					this.getRouter().navTo("object", {
-						Type: this._oListFilterState.type,
+						Type: this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"),
 						objectId: sObjectId
 					}, true);
 				}.bind(this),
@@ -252,7 +254,7 @@ sap.ui.define([
 		_showDetail: function(oItem) {
 			var bReplace = !Device.system.phone;
 			this.getRouter().navTo("object", {
-				Type: this._oListFilterState.type,
+				Type: this.getOwnerComponent().getModel("NotifType").getProperty("/notifType"),
 				objectId: oItem.getBindingContext().getProperty("NotifNumber")
 			}, bReplace);
 		},
@@ -390,15 +392,16 @@ sap.ui.define([
 				}
 				aFilters.push(filterItem);
 			});
-			var filterdata = [];
+			var filterdata = [],
+				sType = this.getOwnerComponent().getModel("NotifType").getProperty("/notifType");
 			aFilters.forEach(function(a) {
 				if (a.NotifNumber) {
 					filterdata.push(new Filter("NotifNumber", FilterOperator.Contains, a.NotifNumber));
-					filterdata.push(new Filter("Type", FilterOperator.EQ, this._oListFilterState.type));
+					filterdata.push(new Filter("Type", FilterOperator.EQ, sType));
 				} 
 			}.bind(this));
 			if (filterdata.length === 0) {
-				filterdata.push(new Filter("Type", FilterOperator.EQ, this._oListFilterState.type)); //Default
+				filterdata.push(new Filter("Type", FilterOperator.EQ, sType)); //Default
 				sap.m.MessageToast.show("No data for the selected combination");
 			}
 			var oBinding = this._oList.getBinding("items");

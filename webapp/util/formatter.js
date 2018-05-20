@@ -124,6 +124,28 @@ sap.ui.define([], function() {
 			else{
 				return dDate;
 			}
-		}		
+		},
+		currencyFormat: function(sCurrCode,sValue){
+			/*sCurrCode = "EUR";
+			sValue = "123.00";*/
+			if(sValue === null || sValue === undefined){
+				return '-';
+			}
+			var iCurrValue = sValue;
+			var sBrowserLocale = sap.ui.getCore().getConfiguration().getLanguage();
+			var oLocale = new sap.ui.core.Locale(sBrowserLocale);
+			var oLocaleData = new sap.ui.core.LocaleData(oLocale);
+			var ifinalAmt = oLocaleData.getCurrencySymbol(sCurrCode) + " " + iCurrValue;
+			return ifinalAmt;
+		},
+		datepickerToDisplayFormat: function(date) {
+			if (date === null || date === "" || date === undefined) {
+				return;
+			}
+			var oFormatDate = sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern: "dd.MM.yyyy"
+			});
+			return oFormatDate.format(new Date(date));
+		},
 	};
 });

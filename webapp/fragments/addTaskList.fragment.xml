@@ -8,7 +8,7 @@
 					<l:GridData span="XL4 L2 M4 S4"/>
 				</layoutData>
 			</Label>
-			<Input value="{taskSearchModel>/group}"  valueState = "{taskSearchModel>/groupValueState}">
+			<Input value="{taskSearchModel>/group}" change="onWrongInput" liveChange="onKeyReset" enabled = "{taskSearchModel>/groupEnabled}" valueState = "{taskSearchModel>/groupValueState}" showValueHelp="true"  valueHelpRequest="handleValueHelpGroup">
 				<customData>
 					<core:CustomData key="{taskSearchModel>/group}" value="taskGroup"/>
 				</customData>
@@ -21,7 +21,7 @@
 					<l:GridData span="XL2 L2 M4 S4"/>
 				</layoutData>
 			</Label>
-			<Input value="{taskSearchModel>/counter}" valueState = "{taskSearchModel>/counterValueState}">
+			<Input value="{taskSearchModel>/counter}" enabled = "false" valueState = "{taskSearchModel>/counterValueState}">
 				<customData>
 					<core:CustomData key="{taskSearchModel>/counter}" value="taskCounter"/>
 				</customData>
@@ -34,7 +34,7 @@
 					<l:GridData span="XL2 L2 M4 S4"/>
 				</layoutData>
 			</Label>
-			<Input value="{taskSearchModel>/ctrNo}"  valueState = "{taskSearchModel>/ctrNoValueState}">
+			<Input value="{taskSearchModel>/ctrNo}"  change="onWrongInput" liveChange="onKeyReset"  enabled = "{taskSearchModel>/ctrNoEnabled}" valueState = "{taskSearchModel>/ctrNoValueState}"  showValueHelp="true"  valueHelpRequest="handleValueHelpCtrNo">
 				<customData>
 					<core:CustomData key="{taskSearchModel>/ctrNo}" value="TaskctrNo"/>
 				</customData>

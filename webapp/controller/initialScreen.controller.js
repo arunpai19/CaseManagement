@@ -56,6 +56,7 @@ sap.ui.define([
 				"Program": "",
 				"SubType": "",
 				"Category": "",
+				"SubCategory": "",
 				"Project": "",
 				"AssetNumber": ""
 			};
@@ -76,6 +77,7 @@ sap.ui.define([
 			this.getView().setModel(checkBoxModel, "checkBoxModel");
 			var value = this.getView().getModel("valueModel");
 			value.setProperty("/Project", "");
+			value.setProperty("/AssetNumber", "");
 
 		},
 		propControl: function() { // function to control the visibilty  of simpleform and the button 
@@ -84,7 +86,9 @@ sap.ui.define([
 				backVisible: false,
 				createVisible: false,
 				warShipForm: false,
-				baseForm: false
+				baseForm: false,
+				pandTSForm: false,
+				newProject: false
 
 			});
 			this.getView().setModel(oVisibleModel, "oVisibleModel");
@@ -107,6 +111,7 @@ sap.ui.define([
 				ApprovalTemplate: [],
 				SubType: [],
 				Categorisation: [],
+				SubCategorisation: [],
 				ProgramArea: [],
 				AssetNumber: [],
 				COM: [],
@@ -184,10 +189,13 @@ sap.ui.define([
 		warShipForm: function() { // on click of the warship button this function is executed
 			var visibleMOdel = this.getView().getModel("oVisibleModel");
 			visibleMOdel.setProperty("/warShipForm", true);
+			visibleMOdel.setProperty("/pandTSForm", false);
 			visibleMOdel.setProperty("/baseForm", false);
+			visibleMOdel.setProperty("/newProject", false);
+			this._nullSegmentData();
 
 		},
-		nullSegmentData: function() { //on change of the buttons on the segmented  button tab
+		_nullSegmentData: function() { //on change of the buttons on the segmented  button tab
 			this.modelInitialize();
 			this.noftifTypeReset();
 		},
@@ -195,11 +203,27 @@ sap.ui.define([
 		baseForm: function() { // on the click of the base button this function is executed
 			var visibleMOdel = this.getView().getModel("oVisibleModel");
 			visibleMOdel.setProperty("/warShipForm", false);
+				this._nullSegmentData();
+			visibleMOdel.setProperty("/pandTSForm", false);
 			visibleMOdel.setProperty("/baseForm", true);
+			visibleMOdel.setProperty("/newProject", false);
+		
 
 		},
 		ptsForm: function() {
-			// this.getView().byId().setVisible(false);
+				this._nullSegmentData();
+			var visibleMOdel = this.getView().getModel("oVisibleModel");
+			visibleMOdel.setProperty("/warShipForm", false);
+			visibleMOdel.setProperty("/baseForm", false);
+			visibleMOdel.setProperty("/pandTSForm", true);
+			visibleMOdel.setProperty("/newProject", false);
+			var busyIndicator = new sap.m.BusyDialog();
+			busyIndicator.open();
+			this._intialfieldService("PT", busyIndicator);
+			var value = this.getView().getModel("valueModel");
+			value.setProperty("/Project", "");
+		
+
 		},
 
 		goBackInitial: function() { // getting back to the initial screen with all the buttons in active state
@@ -245,7 +269,11 @@ sap.ui.define([
 			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.prjMngSearchHelp", this);
 			this.setModelToFrag(oEvent);
 		},
+		handleValueHelpAssetFuct: function(oEvent) { // project search help is handled
+			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.asssetFuctSearchHelp", this);
+			this.setModelToFrag(oEvent);
 
+		},
 		handleValueHelpProgMng: function(oEvent) { // progrmme manager  search help is handled
 
 			this.Dialog = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.SearchHelpFrag.progMngSearchHelp", this);
@@ -321,7 +349,9 @@ sap.ui.define([
 		onNotifTypeChange: function(oEvent) { // on click of check box this function is executed , this call the servcie according to the new notification selected
 			this.modelInitialize();
 			var value = this.getView().getModel("valueModel");
+			var visibilityModel = this.getView().getModel("oVisibleModel");
 			value.setProperty("/Project", "");
+			value.setProperty("/AssetNumber", "");
 			this.getView().byId("warShipProject").getCustomData()[0].setKey("");
 			var busyIndicator = new sap.m.BusyDialog();
 			var checkBoxModel = this.getView().getModel("checkBoxModel");
@@ -335,6 +365,7 @@ sap.ui.define([
 					checkBoxModel.setProperty("/Eng", false);
 					checkBoxModel.setProperty("/Emp", false);
 					checkBoxModel.setProperty("/Taf", false);
+					visibilityModel.setProperty("/newProject", false);
 
 				}
 				if (type === "Engineering") {
@@ -342,6 +373,7 @@ sap.ui.define([
 					checkBoxModel.setProperty("/Fleet", false);
 					checkBoxModel.setProperty("/Emp", false);
 					checkBoxModel.setProperty("/Taf", false);
+					visibilityModel.setProperty("/newProject", true);
 				}
 				if (type === "EMP") {
 					advanceFilter = "EMP";
@@ -358,16 +390,7 @@ sap.ui.define([
 
 				}
 				this.getView().byId("warShipProject").setEnabled(true);
-				Promise.all([this.comboModelFunction("SubType", "ZZ_CRSUTYP", advanceFilter), this.comboModelFunction("Categorisation",
-						"ZZ_Categorisation", advanceFilter), this.comboModelFunction("AssetNumber", "ASSETNUMBER"), this.comboModelFunction(
-						"ProgramArea", "ZZ_PROG_AREA", advanceFilter)]).then(
-						function() {
-
-							busyIndicator.close();
-						})
-					.catch(function(sErrorText) {
-						busyIndicator.close();
-					});
+				this._intialfieldService(advanceFilter, busyIndicator);
 			} else {
 				var comboModel = this.getView().getModel("dropDown").getData();
 				comboModel.Project = [];
@@ -380,6 +403,20 @@ sap.ui.define([
 			}
 		},
 
+		_intialfieldService: function(advanceFilter, busyIndicator) {
+			Promise.all([this.comboModelFunction("Categorisation",
+					"ZZ_Categorisation", advanceFilter), this.comboModelFunction("SubType", "ZZ_CRSUTYP", advanceFilter), this.comboModelFunction(
+					"SubCategorisation", "ZZ_SUBCAT", advanceFilter), this.comboModelFunction(
+					"ProgramArea", "ZZ_PROG_AREA", advanceFilter)]).then(
+					function() {
+
+						busyIndicator.close();
+					})
+				.catch(function(sErrorText) {
+					busyIndicator.close();
+				});
+
+		},
 		intialMandtField: function() { // checking entry on the mandatory fields 
 			var FiledMand = this.getView().getModel("FieldDataModel");
 			var SubType = FiledMand.getProperty("/SubType");
@@ -400,7 +437,8 @@ sap.ui.define([
 			var typeFleet = checkBoxModel.getProperty("/Fleet");
 			var typeTaf = checkBoxModel.getProperty("/Taf");
 			var typeEmp = checkBoxModel.getProperty("/Emp");
-			if (typeEng === true || typeFleet === true || typeEmp === true || typeTaf === true) {
+			var selectedButton = this.getView().byId("segmentButton").getSelectedKey();
+			if (typeEng === true || typeFleet === true || typeEmp === true || typeTaf === true || selectedButton == "pts") {
 				var mandtFileds = this.intialMandtField();
 				if (mandtFileds === 1) {
 					busyIndicator.open();
@@ -421,6 +459,16 @@ sap.ui.define([
 							advanceFilter = "EN";
 							extraFields = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.engineering", this);
 							this.getView().byId("fields").addItem(extraFields);
+							Promise.all([this.comboModelFunction("Itar", "ZZ_ITARCTL", advanceFilter),
+								this.comboModelFunction("ApprovalTemplate", "APPROVAL_TEMPLATE", advanceFilter)
+							]).then(
+								function() {
+									busyIndicator.close();
+								})
+
+							.catch(function(sErrorText) {
+								busyIndicator.close();
+							});
 
 						}
 						if (typeFleet === true) {
@@ -428,6 +476,22 @@ sap.ui.define([
 
 							extraFields = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.fleet", this);
 							this.getView().byId("fields").addItem(extraFields);
+							Promise.all([this.comboModelFunction("COM", "ZZ_COMINPUT", advanceFilter),
+								this.comboModelFunction("TAF", "ZZ_TAF_REQ", advanceFilter),
+								this.comboModelFunction("Acceptance", "ZZ_ACCPTLVL", advanceFilter),
+								this.comboModelFunction("Stores", "ZZ_STOREPRO", advanceFilter),
+								this.comboModelFunction("Itar", "ZZ_ITARCTL", advanceFilter),
+								this.comboModelFunction("Enhancement", "ZZ_ENHFIT", advanceFilter),
+								this.comboModelFunction("ApprovalTemplate", "APPROVAL_TEMPLATE", advanceFilter),
+
+							]).then(
+								function() {
+									busyIndicator.close();
+								})
+
+							.catch(function(sErrorText) {
+								busyIndicator.close();
+							});
 
 						}
 
@@ -438,17 +502,66 @@ sap.ui.define([
 							extraFields = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.Emp", this);
 							this.getView().byId("fields").addItem(
 								extraFields);
+							Promise.all([this.comboModelFunction("ApprovalTemplate", "APPROVAL_TEMPLATE", advanceFilter),
+								this.comboModelFunction("EmpPriority", "ZZ_CAT_ASS", advanceFilter),
+								this.comboModelFunction("Curr", "CURRENCY"),
+								this.comboModelFunction("FundingStream", "ZZ_CDEL_RDEL", advanceFilter)
+							]).then(
+								function() {
+									busyIndicator.close();
+								})
+
+							.catch(function(sErrorText) {
+								busyIndicator.close();
+							});
+
 						}
 						if (typeTaf === true) {
 							advanceFilter = "TAF";
 							extraFields = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.Taf", this);
 							this.getView().byId("fields").addItem(extraFields);
+							Promise.all([this.comboModelFunction("ApprovalTemplate", "APPROVAL_TEMPLATE", advanceFilter),
+								this.comboModelFunction("EmpPriority", "ZZ_CAT_ASS", advanceFilter),
+								this.comboModelFunction("Curr", "CURRENCY"),
+								this.comboModelFunction("FundingStream", "ZZ_CDEL_RDEL", advanceFilter)
+							]).then(
+								function() {
+									busyIndicator.close();
+								})
+
+							.catch(function(sErrorText) {
+								busyIndicator.close();
+							});
+
+						}
+						if (selectedButton == "pts") {
+
+							advanceFilter = "PT";
+							extraFields = sap.ui.xmlfragment(this.getView().getId(), "zm209_chng_req.fragments.fleet", this);
+							this.getView().byId("fields").addItem(
+								extraFields);
+							Promise.all([this.comboModelFunction("COM", "ZZ_COMINPUT", advanceFilter),
+								this.comboModelFunction("TAF", "ZZ_TAF_REQ", advanceFilter),
+								this.comboModelFunction("Acceptance", "ZZ_ACCPTLVL", advanceFilter),
+								this.comboModelFunction("Stores", "ZZ_STOREPRO", advanceFilter),
+								this.comboModelFunction("Itar", "ZZ_ITARCTL", advanceFilter),
+								this.comboModelFunction("Enhancement", "ZZ_ENHFIT", advanceFilter),
+								this.comboModelFunction("ApprovalTemplate", "APPROVAL_TEMPLATE", advanceFilter),
+
+							]).then(
+								function() {
+									busyIndicator.close();
+								})
+
+							.catch(function(sErrorText) {
+								busyIndicator.close();
+							});
 
 						}
 
 					}
-					Promise.all([this.comboModelFunction("COM", "ZZ_COMINPUT", advanceFilter),
-						this.comboModelFunction("TAF", "ZZ_TAF_REQ", advanceFilter),
+					Promise.all([this.comboModelFunction("COM", "ZZ_CAUSEATION", advanceFilter),
+						// this.comboModelFunction("TAF", "ZZ_TAF_REQ", advanceFilter),
 						this.comboModelFunction("Acceptance", "ZZ_ACCPTLVL", advanceFilter),
 						this.comboModelFunction("Stores", "ZZ_STOREPRO", advanceFilter),
 						this.comboModelFunction("Itar", "ZZ_ITARCTL", advanceFilter),
@@ -467,12 +580,12 @@ sap.ui.define([
 					});
 					//Call Start_up service to populate the Raised By
 					var myModel = new JSONModel();
-			            myModel.loadData("/sap/bc/ui2/start_up");
-			            myModel.attachRequestCompleted(function () {
-			                var modelData = myModel.getData();
-			                var fullName = modelData.fullName ? modelData.fullName : "";
-			                this.getView().getModel("FieldDataModel").setProperty("/RaisedBy", fullName);
-			            }.bind(this));
+					myModel.loadData("/sap/bc/ui2/start_up");
+					myModel.attachRequestCompleted(function() {
+						var modelData = myModel.getData();
+						var fullName = modelData.fullName ? modelData.fullName : "";
+						this.getView().getModel("FieldDataModel").setProperty("/RaisedBy", fullName);
+					}.bind(this));
 				} else {
 					sap.m.MessageBox.error("Please Fill all the mandatory Fileds");
 				}
@@ -488,10 +601,10 @@ sap.ui.define([
 			this.getView().byId(this.input).getCustomData()["0"].setKey(helpKey);
 			this.Dialog.destroy(true);
 		},
-		handleHelpConfirmDocType: function(oEvent){
+		handleHelpConfirmDocType: function(oEvent) {
 			var helpData = oEvent.getParameter("selectedItems")["0"].getDescription();
 			var helpKey = oEvent.getParameter("selectedItems")["0"].getTitle(),
-			     oModel = this.getView().getModel("oAttachmentModel");
+				oModel = this.getView().getModel("oAttachmentModel");
 			oModel.setProperty("/TypeValue", helpData);
 			oModel.setProperty("/Type", helpKey);
 			this.Dialog.destroy(true);
@@ -502,6 +615,7 @@ sap.ui.define([
 			var checkFleet = selectionCheck.Fleet;
 			var checkEmp = selectionCheck.Emp;
 			var checkTaf = selectionCheck.Taf;
+			var selectedButton = this.getView().byId("segmentButton").getSelectedKey();
 			var advanceFilter;
 			var typeFilter;
 
@@ -530,6 +644,10 @@ sap.ui.define([
 			}
 			if (checkTaf === true && Item === "CR") {
 				typeFilter = "TAF";
+			}
+			if (selectedButton == "pts" && Item === "CR") {
+				typeFilter = "PT";
+
 			}
 
 			this.comboModelFunction("addField", advanceFilter, typeFilter).then(function() {
@@ -690,7 +808,7 @@ sap.ui.define([
 				payload.Quotations = this.getView().getModel("quotationModel").getData();
 				payload.CRLinks = this.spliceTypeData(this.getView().getModel("crModel").getData());
 			}
-			initialData.RaisedBy = "";// Pass Raised by as Empty 
+			initialData.RaisedBy = ""; // Pass Raised by as Empty 
 			var mParameters = {
 
 				success: function(oData, response) {
@@ -706,7 +824,7 @@ sap.ui.define([
 					this.docAttachmentModel();
 					this.noftifTypeReset();
 					this.getView().byId("segmentButton").setEnabled(true);
-
+					this.getView().byId("segmentButton").setSelectedKey("extra");
 					var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
 					MessageBox.success(
 						"Cr Created with NotifNumber:" + oData.NotifNumber, {
@@ -715,17 +833,17 @@ sap.ui.define([
 								sap.ui.core.BusyIndicator.show();
 								//Navigate to the Master Detail Screen. Pass the Notif Type
 								var sFleet = payload.Type,
-								   oNotifModel = this.getView().getModel("NotifType");
-							 	   oNotifModel.setProperty("/notifType",payload.Type);
-							 	   oNotifModel.setProperty("/notifNumber",oData.NotifNumber);
-								if(this.getOwnerComponent().oListSelector._oList !== undefined){
+									oNotifModel = this.getOwnerComponent().getModel("NotifType");
+								oNotifModel.setProperty("/notifType", payload.Type);
+								oNotifModel.setProperty("/notifNumber", oData.NotifNumber);
+								if (this.getOwnerComponent().oListSelector._oList !== undefined) {
 									var oListSelector = this.getOwnerComponent().oListSelector;
 									oListSelector.setBoundMasterList(oListSelector._oList);
 									//Filter based on the engineering Type
 									var aFilters = [new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.Contains, sFleet)];
 									oListSelector._oList.getBinding("items").filter(aFilters);
 								}
-								
+
 								this.getRouter().navTo("object", {
 									Type: sFleet,
 									objectId: oData.NotifNumber
@@ -740,6 +858,7 @@ sap.ui.define([
 
 				}
 			};
+			defaultoModel.setRefreshAfterChange(false);
 			defaultoModel.create(serviceUrl, payload, mParameters);
 
 		},

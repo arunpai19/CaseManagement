@@ -44,14 +44,14 @@
 		adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
 		singleContainerFullSize="false">
 		<f:content>
-			<CheckBox text="{i18n>newProjText}" enabled = "false" selected="{= ${detailModel>/NewProject} === 'X' ? 'true' : 'false'}">
+			<CheckBox visible = "false" text="{i18n>newProjText}" enabled = "false" selected="{= ${detailModel>/NewProject} === 'X' ? 'true' : 'false'}">
 				<layoutData>
 					<l:GridData span="XL4 L4 M12 S12" indentM="7"/>
 				</layoutData>
 			</CheckBox>
 			<Label text="{i18n>facFlocText}"/>
 			<Text text="{detailModel>/FieldsDesc/FlocDesc}"/>
-			<Label text="CR {i18n>crTitleTxt}"/>
+			<Label text="{i18n>crTitleTxt}"/>
 			<Text text="{detailModel>/CrTitle}"/>
 			<core:Title text=""/>
 			<Label text="{i18n>raisedByTxt}">
@@ -85,8 +85,8 @@
 			<Text text="{detailModel>/FieldsDesc/ProjManagerDesc}"/>
 			<Label text="{i18n>NotifText}"/>
 			<Text text="{detailModel>/FieldsDesc/PlanNotifDesc}"/>
-			<Label text="{i18n>tafRqd}"/>
-			<Text text="{detailModel>/FieldsDesc/TafReqDesc}"/>
+			<!--<Label text="{i18n>tafRqd}"/>
+			<Text text="{detailModel>/FieldsDesc/TafReqDesc}"/>-->
 			<Label text="{i18n>prtyTxt}"/>
 			<Text text="{detailModel>/FieldsDesc/PriorityDesc}"/>
 			<Label text="{i18n>uniqNotxt}"/>
@@ -112,7 +112,7 @@
 					<l:GridData span="XL4 L3 M3 S6"/>
 				</layoutData>
 			</Text>
-			<Label text="COM input">
+			<Label text="Causation">
 				<layoutData>
 					<l:GridData span="XL4 L4 M5 S12" indentL="0" linebreak="true"/>
 				</layoutData>

@@ -1,7 +1,8 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<!--This will be covered in the next phase of development-->
 	<Table 
 		inset="false"
+		 items="{detailModel>/TaskList/results}"
 		>
 		<headerToolbar>
 			<Toolbar>
@@ -29,17 +30,15 @@
 			<Column width="10rem">
 				<Label text="{i18n>taskListVersion}"/>
 			</Column>
-			<Column width="3rem"  visible = "{= !${detailView>/edit} }"/>
 		</columns>
 		<items>
 				<ColumnListItem>
 					<cells>
-						<Text text=""/>
-						<Text text=""/>
-						<Text text=""/>
-						<Text text=""/>
-						<Button type="Transparent" class="iconDeleteColor"
-							icon="sap-icon://sys-cancel" press="onPressTaskList"/>
+						<Text text="{detailModel>Group}"/>
+						<Text text="{detailModel>Counter}"/>
+						<Text text="{detailModel>Description}"/>
+						<Text text="{detailModel>CtrNumber}"/>
+						<Text text="{detailModel>Version}"/>
 					</cells>
 				</ColumnListItem>
 			</items>	

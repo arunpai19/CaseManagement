@@ -1,0 +1,151 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<VBox>
+	<f:SimpleForm  editable="false" layout="ResponsiveGridLayout" title="{detailModel>/NotifNumber}" labelSpanXL="4"
+		labelSpanL="4" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+		columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false">
+		<f:content>
+			<CheckBox text="Naval Base Physical Asset Change - EMP"  enabled = "false" selected="{= ${detailModel>/Type} === 'ZE' ? true : false}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M12 S12" indentM="5"/>
+				</layoutData>
+			</CheckBox>
+			<CheckBox text="Naval Base Physical Asset Change - TAF"  enabled = "false" selected="{= ${detailModel>/Type} === 'ZF' ? true : false}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M12 S12" indentM="5"/>
+				</layoutData>
+			</CheckBox>
+			<Label text="{i18n>subTypeText}"/>
+			<Text text="{detailModel>/FieldsDesc/SubtypeDesc}"/>
+			<Label text="{i18n>categoryText}"/>
+			<Text text="{detailModel>/FieldsDesc/CategDesc}"/>
+			<Label text="{i18n>assetNumberTxt}"/>
+			<Text text="{detailModel>/AssetNumber}"/>
+			<core:Title text=""/>
+			<Label text="{i18n>startDateText}" class = "sapUiMediumMarginTop">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" linebreak="true"/>
+				</layoutData>
+			</Label>
+			<Text class = "sapUiMediumMarginTop"  text="{ path: 'detailModel>/StartDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yyyy'}, formatter: '.formatter.handleNull' }"></Text>
+			<Label text="{i18n>endDateText}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" linebreak="true"/>
+				</layoutData>
+			</Label>
+			<Text text="{ path: 'detailModel>/EndDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yyyy'}, formatter: '.formatter.handleNull'  }">
+				<layoutData>
+					<l:GridData/>
+				</layoutData>
+			</Text>
+			<Label text="{i18n>fundRelDateTxt}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" linebreak="true"/>
+				</layoutData>
+			</Label>
+			<Text text="{ path: 'detailModel>/FundReleaseDate', type: 'sap.ui.model.type.Date', formatOptions:{pattern: 'dd/MM/yyyy'}, formatter: '.formatter.handleNull'  }">
+				<layoutData>
+					<l:GridData/>
+				</layoutData>
+			</Text>
+		</f:content>
+	</f:SimpleForm>
+	<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="5" labelSpanS="12"
+		adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+		singleContainerFullSize="false">
+		<f:content>
+			<CheckBox visible = "true" text="{i18n>newProjText}" enabled = "false" selected="{= ${detailModel>/NewProject} === 'X' ? 'true' : 'false'}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M12 S12" indentM="5"/>
+				</layoutData>
+			</CheckBox>
+			<Label text="{i18n>assetEquipTxt}"/>
+			<Text text="{detailModel>/AssetEquip}"/>
+			<Label text="{i18n>crTitleTxt}"/>
+			<Text text="{detailModel>/CrTitle}"/>
+			<core:Title text=""/>
+			<Label text="{i18n>raisedByTxt}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12"/>
+				</layoutData>
+			</Label>
+			<Text text="{detailModel>/FieldsDesc/RaisedByDesc}"></Text>
+			<Label text="{i18n>clientTxt}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" linebreak="true"/>
+				</layoutData>
+			</Label>
+			<Text text="{detailModel>/Client}"/>
+		</f:content>
+	</f:SimpleForm>
+	<HBox width = "100%" height = "100%">
+		<Label text="{i18n>descText}" class="marginBegin"></Label>
+		<TextArea class="sapUiSmallMarginBegin"
+			editable = "false"
+			enabled = "false"
+			value="{detailModel>/Description}" rows = "5"
+			width="35rem"></TextArea>
+	</HBox>
+	<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="5" labelSpanS="12"
+		adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+		singleContainerFullSize="false">
+		<f:content>
+			<core:Title text=""/>
+			<Label text="{i18n>pjtManager}"/>
+			<Text text="{detailModel>/FieldsDesc/ProjManagerDesc}"/>
+			<Label text="{i18n>modLead}"/>
+			<Text text="{detailModel>/FieldsDesc/ModLeadDesc}"/>
+			<Label text="{i18n>ProjectTechAuthority}"/>
+			<Text text="{detailModel>/ProjTechAuth}"/>
+			<Label text="{i18n>empPiorityTxt}"/>
+			<Text text="{detailModel>/EmpPriority}"/>
+			<Label text="{i18n>fundStreamTxt}"/>
+			<Text text="{detailModel>/FundingStream}"/>
+			<Label text="{i18n>legacyProjTxt}"/>
+			<Text text="{detailModel>/LegacyProjectNum}"/>
+			<Label text="{i18n>legacyActTxt}"/>
+			<Text text="{detailModel>/LegacyActivityNum}"/>
+			<Label text="{i18n>apprTempTxt}"/>
+			<Text text="{detailModel>/FieldsDesc/ApprovalTempDesc}"/>
+			<core:Title text=""/>
+			<Label text="{i18n>pgmMangeTxt}">
+			<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" indentL="0" />
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/FieldsDesc/ProgManagerDesc} === '' ? '-' : ${detailModel>/FieldsDesc/ProgManagerDesc}}">
+				<layoutData>
+					<l:GridData span="XL4 L3 M3 S6"/>
+				</layoutData>
+			</Text>
+			<Label text="{i18n>ProjectEngLead}">
+			<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" indentL="0" />
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/ProjEngLead} === '' ? '-' : ${detailModel>/ProjEngLead}}">
+				<layoutData>
+					<l:GridData span="XL4 L3 M3 S6"/>
+				</layoutData>
+			</Text>
+			<Label text="{i18n>DesignRevChair}">
+			<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" indentL="0" />
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/DesignRevChair} === '' ? '-' : ${detailModel>/DesignRevChair}}">
+				<layoutData>
+					<l:GridData span="XL4 L3 M3 S6"/>
+				</layoutData>
+			</Text>
+			<Label text="{i18n>plannedModYearTxt}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M5 S12" indentL="0" linebreak="true"/>
+				</layoutData>
+			</Label>
+			<Text  text="{= ${detailModel>/PlannedModYear} === '' || ${detailModel>/PlannedModYear} === undefined ? '-' : ${detailModel>/PlannedModYear}}"/>
+		
+		</f:content>
+	</f:SimpleForm>
+
+	</VBox>
+</core:FragmentDefinition>
